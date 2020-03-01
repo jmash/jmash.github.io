@@ -13,7 +13,7 @@ const Header = () => {
                 <Navbar.Brand>
                     <img className={ styles.profilePic } src={ profilePicUrl } alt="Jared M Ashcraft"/>
                 </Navbar.Brand>
-                <Nav>
+                <Nav className={ styles.navTabs }>
                     <LinkContainer to="/">
                         <NavItem>Home</NavItem>
                     </LinkContainer>
