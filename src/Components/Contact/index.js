@@ -12,6 +12,7 @@ const Contact = () => {
                 <h1 className="display-6">Jared M Ashcraft</h1>
                 <hr />
                 <FontAwesomeIcon icon={ faEnvelope } />
+                
             </Container>
         </Jumbotron>
     );
