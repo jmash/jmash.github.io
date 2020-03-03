@@ -2,6 +2,7 @@ import React from 'react';
 import profilePicUrl from '../../assets/img/jaredprofile.jpg';
 import styles from './Header.module.css';
 import globalStyles from '../../assets/global-styles/bootstrap.module.css';
+import { LinkContainer } from 'react-router-bootstrap';
 import cx from 'classnames';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
