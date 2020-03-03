@@ -1,27 +1,27 @@
 import React from 'react';
 import profilePicUrl from '../../assets/img/jaredprofile.jpg';
 import styles from './Header.module.css';
+import globalStyles from '../../assets/global-styles/bootstrap.module.css';
+import cx from 'classnames';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import NavItem from 'react-bootstrap/NavItem';
-import { LinkContainer } from 'react-router-bootstrap';
 
 const Header = () => {
     return (
         <div>
-            <Navbar>
+            <Navbar bg="light" variant="light">
                 <Navbar.Brand>
                     <img className={ styles.profilePic } src={ profilePicUrl } alt="Jared M Ashcraft"/>
                 </Navbar.Brand>
-                <Nav className={ styles.navTabs }>
+                <Nav className={cx(styles.navTabs, globalStyles['container-fluid']) }>
                     <LinkContainer to="/">
-                        <NavItem>Home</NavItem>
+                        <Nav.Item className="ml-auto">Home</Nav.Item>
                     </LinkContainer>
                     <LinkContainer to="/contact">
-                        <NavItem>Contact</NavItem>
+                        <Nav.Item>Contact</Nav.Item>
                     </LinkContainer>
                     <LinkContainer to="/portfolio">
-                        <NavItem>Portfolio</NavItem>
+                        <Nav.Item >Portfolio</Nav.Item>
                     </LinkContainer>
                 </Nav>
             </Navbar>
