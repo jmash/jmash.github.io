@@ -9,6 +9,7 @@
     text-align: center;
     cursor: pointer;
     padding: 1em;
+    background-color: white;
     border-right: 1px solid grey;
     border-bottom: 1px solid grey;
     border-top: 1px solid lightgrey;
@@ -27,4 +28,14 @@
 
 .navTabs > div:hover {
     background-color: lightgrey;
+}
+
+.navBar::after {
+    content: "";
+    display: block;
+    position: absolute;
+    background-color: black;
+    height: 2px;
+    width: 100%;
+    bottom: 0px;
 }

@@ -13,8 +13,7 @@ import { faTwitter, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-ic
 
 const Header = () => {
     return (
-        <div>
-            <Navbar bg="light" variant="light">
+            <Navbar className={ cx(styles.navBar, bsStyles['px-0'])} bg="light" variant="light">
                 <Navbar.Brand>
                     <img className={ styles.profilePic } src={ profilePicUrl } alt="Jared M Ashcraft"/>
                 </Navbar.Brand>
@@ -47,7 +46,6 @@ const Header = () => {
                     </LinkContainer>
                 </Nav>
             </Navbar>
-        </div>
     );
 };
 
