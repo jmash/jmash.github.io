@@ -25,12 +25,12 @@ const Header = () => {
                         </a>
                     </NavItem>
                     <NavItem>
-                        <a href="https://twitter.com/jaredmashcraft">
+                        <a href="https://github.com/jmash">
                             <FontAwesomeIcon className={ cx(bsStyles['mx-2'], faStyles['fa-3x']) } icon={ faGithub } />
                         </a>
                     </NavItem>
                     <NavItem>
-                        <a href="https://twitter.com/jaredmashcraft">
+                        <a href="https://www.linkedin.com/in/jared-ashcraft-2985b939/">
                             <FontAwesomeIcon className={ cx(bsStyles['mx-2'], faStyles['fa-3x']) } icon={ faLinkedin } />
                         </a>
                     </NavItem>
