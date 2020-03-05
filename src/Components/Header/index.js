@@ -1,6 +1,6 @@
 import React from 'react';
 import profilePicUrl from '../../assets/img/jaredprofile.jpg';
-import styles from './Header.module.css';
+import headerStyles from './Header.module.css';
 import bsStyles from '../../assets/global-styles/bootstrap.module.css';
 import faStyles from '../../assets/global-styles/fontawesome.module.css';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -13,9 +13,9 @@ import { faTwitter, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-ic
 
 const Header = () => {
     return (
-            <Navbar className={ cx(styles.navBar, bsStyles['px-0'])} bg="light" variant="light">
+            <Navbar className={ cx(headerStyles.navBar, bsStyles['px-0'])} bg="light" variant="light">
                 <Navbar.Brand>
-                    <img className={ styles.profilePic } src={ profilePicUrl } alt="Jared M Ashcraft"/>
+                    <img className={ headerStyles.profilePic } src={ profilePicUrl } alt="Jared M Ashcraft"/>
                 </Navbar.Brand>
                 <Navbar.Collapse>
                     <NavItem>
@@ -34,7 +34,7 @@ const Header = () => {
                         </a>
                     </NavItem>
                 </Navbar.Collapse>
-                <Nav className={ cx(styles.navTabs, bsStyles['container-fluid']) }>
+                <Nav className={ cx(headerStyles.navTabs, bsStyles['container-fluid']) }>
                     <LinkContainer to="/">
                         <NavItem className="ml-auto">Home</NavItem>
                     </LinkContainer>
