@@ -1,8 +1,10 @@
 import React from 'react';
+import About from '../About';
 import Contact from '../Contact';
 import Portfolio from '../Portfolio';
 import { 
-    Switch, 
+    Switch,
+    Redirect,
     Route 
 } from 'react-router-dom';
 
@@ -10,6 +12,12 @@ const MainScreen = () => {
     return (
         <div>
             <Switch>
+                <Route exact path="/">
+                    <Redirect to="/about" />
+                </Route>
+                <Route path="/about">
+                    <About />
+                </Route>
                 <Route path="/contact">
                     <Contact />
                 </Route>

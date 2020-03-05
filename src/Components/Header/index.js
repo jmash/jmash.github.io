@@ -35,8 +35,8 @@ const Header = () => {
                     </NavItem>
                 </Navbar.Collapse>
                 <Nav className={ cx(headerStyles.navTabs, bsStyles['container-fluid']) }>
-                    <LinkContainer to="/">
-                        <NavItem className="ml-auto">Home</NavItem>
+                    <LinkContainer to="/about">
+                        <NavItem className="ml-auto">About</NavItem>
                     </LinkContainer>
                     <LinkContainer to="/contact">
                         <NavItem>Contact</NavItem>
