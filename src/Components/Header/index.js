@@ -15,7 +15,7 @@ const Header = () => {
     return (
             <Navbar className={ cx(headerStyles.navBar, bsStyles['px-0'])} bg="light" variant="light">
                 <Navbar.Brand>
-                    <img className={ headerStyles.profilePic } src={ profilePicUrl } alt="Jared M Ashcraft"/>
+                    <img className={ cx(headerStyles.profilePic, bsStyles['ml-3']) } src={ profilePicUrl } alt="Jared M Ashcraft"/>
                 </Navbar.Brand>
                 <Navbar.Collapse>
                     <NavItem>
