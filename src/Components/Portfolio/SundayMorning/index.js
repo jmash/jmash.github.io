@@ -5,11 +5,25 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { Subject } from 'rxjs';
+
+const fizzbuzz = new FizzBuzz();
+const fizzbuzzSubj = new Subject();
 
 class SundayMorning extends Component {
     constructor() {
         super();
-        const fizzbuzz = new FizzBuzz();
+
+        this.state = {
+            fbDisplay: ""
+        }
+    }
+
+    componentDidMount() {    
+        fizzbuzzSubj.subscribe({
+            next: () => this.setState({fbDisplay: fizzbuzz.generateFB()})
+        })
     }
 
     render() {
@@ -27,7 +41,13 @@ class SundayMorning extends Component {
                             <Card.Title>Fizzbuzz</Card.Title>
                             <Card.Subtitle>The classic Fizzbuzz</Card.Subtitle>
                             <Card.Body>
-                                <Button variant="primary">Activate the Buzz</Button>
+                                <Form.Group>
+                                    <Form.Label>Enter Limit (max 9999)</Form.Label>
+                                    <Form.Control type="text" placeholder="15"></Form.Control>
+                                    <Form.Text>Default 15</Form.Text>
+                                    <Button onClick={() => fizzbuzzSubj.next() } variant="primary">Activate the Buzz</Button>
+                                    <Form.Control readOnly value={this.fbDisplay} as="textarea" rows={3} />
+                                </Form.Group>
                             </Card.Body>
                         </Card>
                     </Col>
