@@ -16,14 +16,21 @@ class SundayMorning extends Component {
         super();
 
         this.state = {
+            fbInput: "15",
             fbDisplay: ""
         }
     }
 
-    componentDidMount() {    
+    componentDidMount() {
         fizzbuzzSubj.subscribe({
-            next: () => this.setState({fbDisplay: fizzbuzz.generateFB()})
+            next: () => this.setState({fbDisplay: fizzbuzz.generateFB(parseInt(this.state.fbInput))})
         })
+    }
+
+    handleFBInputChange = (e) => {
+        this.setState({
+            fbInput: e.target.value
+        });
     }
 
     render() {
@@ -43,10 +50,10 @@ class SundayMorning extends Component {
                             <Card.Body>
                                 <Form.Group>
                                     <Form.Label>Enter Limit (max 9999)</Form.Label>
-                                    <Form.Control type="text" placeholder="15"></Form.Control>
+                                    <Form.Control type="text" placeholder="15" onChange={this.handleFBInputChange}></Form.Control>
                                     <Form.Text>Default 15</Form.Text>
                                     <Button onClick={() => fizzbuzzSubj.next() } variant="primary">Activate the Buzz</Button>
-                                    <Form.Control readOnly value={this.fbDisplay} as="textarea" rows={3} />
+                                    <Form.Control readOnly value={this.state.fbDisplay} as="textarea" rows={3} />
                                 </Form.Group>
                             </Card.Body>
                         </Card>
