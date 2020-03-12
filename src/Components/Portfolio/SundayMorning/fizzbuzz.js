@@ -4,7 +4,6 @@ export default class FizzBuzz {
     }
 
     generateFB(limit=15) {
-        console.log(limit);
         if(limit > 9999) limit = 9999;
         if(limit <= 0) limit = 1;
 

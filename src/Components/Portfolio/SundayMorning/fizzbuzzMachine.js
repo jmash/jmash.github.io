@@ -1,7 +1,11 @@
 import { Machine } from 'xstate';
 
 const inputValid = (context, event) => {
-    return event.query <= 9999 && event.query > 0;
+    if(event.input.length === 0) return true;
+    const validRE = /^\d+$/g;
+    let noLetters = validRE.test(event.input);
+    let inputNum = parseInt(event.input);
+    return noLetters && inputNum > 0 && inputNum <= 9999;
 }
 
 export const fizzbuzzMachine = Machine({

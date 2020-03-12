@@ -25,14 +25,18 @@ class SundayMorning extends Component {
         this.state = {
             fbInput: "15",
             fbDisplay: "",
-            fbInputAllowed: fizzbuzzMachine.initialState
+            current: fizzbuzzMachine.initialState,
         }
     }
 
     componentDidMount() {
         this.fizzbuzzService.start();
         fizzbuzzSubj.subscribe({
-            next: () => this.setState({fbDisplay: fizzbuzz.generateFB(parseInt(this.state.fbInput))})
+            next: () => {
+                let inputVal;
+                this.state.fbInput.length === 0 ? inputVal = "15" : inputVal = this.state.fbInput;
+                this.setState({fbDisplay: fizzbuzz.generateFB(parseInt(inputVal))});
+            }
         })
     }
 
@@ -43,7 +47,11 @@ class SundayMorning extends Component {
     handleFBInputChange = (e) => {
         this.setState({
             fbInput: e.target.value
+        }, () => {
+            this.fizzbuzzService.send({ type: 'CHANGE', input: this.state.fbInput });
+            console.log(this.fizzbuzzService._state);
         });
+        
     }
 
     render() {
@@ -65,7 +73,7 @@ class SundayMorning extends Component {
                                     <Form.Label>Enter Limit (max 9999)</Form.Label>
                                     <Form.Control type="text" placeholder="15" onChange={this.handleFBInputChange}></Form.Control>
                                     <Form.Text>Default 15</Form.Text>
-                                    <Button onClick={() => fizzbuzzSubj.next() } variant="primary">Activate the Buzz</Button>
+                                    <Button disabled={this.state.current.matches('execDisallowed')} onClick={() => fizzbuzzSubj.next() } variant="primary">Activate the Buzz</Button>
                                     <Form.Control readOnly value={this.state.fbDisplay} as="textarea" rows={3} />
                                 </Form.Group>
                             </Card.Body>
