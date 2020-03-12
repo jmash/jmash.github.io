@@ -6,26 +6,38 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Machine } from 'xstate';
+import { interpret } from 'xstate';
+import { fizzbuzzMachine } from './fizzbuzzMachine';
 import { Subject } from 'rxjs';
 
 const fizzbuzz = new FizzBuzz();
 const fizzbuzzSubj = new Subject();
 
+
 class SundayMorning extends Component {
     constructor() {
         super();
 
+        this.fizzbuzzService = interpret(fizzbuzzMachine).onTransition(current =>
+            this.setState({ current })
+        );
+
         this.state = {
             fbInput: "15",
-            fbDisplay: ""
+            fbDisplay: "",
+            fbInputAllowed: fizzbuzzMachine.initialState
         }
     }
 
     componentDidMount() {
+        this.fizzbuzzService.start();
         fizzbuzzSubj.subscribe({
             next: () => this.setState({fbDisplay: fizzbuzz.generateFB(parseInt(this.state.fbInput))})
         })
+    }
+
+    componentWillUnmount() {
+        this.fizzbuzzService.stop();
     }
 
     handleFBInputChange = (e) => {
