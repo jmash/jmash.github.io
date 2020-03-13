@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import sundaymorningStyles from './SundayMorning.module.css';
+import cx from 'classnames';
 import { interpret } from 'xstate';
 import { fizzbuzzMachine } from './fizzbuzzMachine';
 import { Subject } from 'rxjs';
@@ -72,11 +74,20 @@ class SundayMorning extends Component {
                                 <Form.Group>
                                     <Form.Label>Enter Limit (max 9999)</Form.Label>
                                     <Form.Control type="text" placeholder="15" onChange={this.handleFBInputChange}></Form.Control>
-                                    <Form.Text>Default 15</Form.Text>
+                                    { this.state.current.matches('execAllowed') && <Form.Text>Default 15</Form.Text> }
+                                    { this.state.current.matches('execDisallowed') && <Form.Text className={cx(sundaymorningStyles['input-error'])}>Input must be a number between 1 and 9999</Form.Text> }
                                     <Button disabled={this.state.current.matches('execDisallowed')} onClick={() => fizzbuzzSubj.next() } variant="primary">Activate the Buzz</Button>
                                     <Form.Control readOnly value={this.state.fbDisplay} as="textarea" rows={3} />
                                 </Form.Group>
                             </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Card>
+                            <Card.Title>Palindrome Checker</Card.Title>
+                            <Card.Subtitle>Checks if a word is a palindrome!</Card.Subtitle>
                         </Card>
                     </Col>
                 </Row>
