@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import FizzBuzz from './fizzbuzz.js';
+import PalindromeChecker from './palindrome.js';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -14,20 +15,22 @@ import { Subject } from 'rxjs';
 
 const fizzbuzz = new FizzBuzz();
 const fizzbuzzSubj = new Subject();
+const palindromeChecker = new PalindromeChecker();
+const palindromeCheckerSubj = new Subject();
 
 
 class SundayMorning extends Component {
     constructor() {
         super();
 
-        this.fizzbuzzService = interpret(fizzbuzzMachine).onTransition(current =>
-            this.setState({ current })
+        this.fizzbuzzService = interpret(fizzbuzzMachine).onTransition(fbCurrent =>
+            this.setState({ fbCurrent })
         );
 
         this.state = {
             fbInput: "15",
             fbDisplay: "",
-            current: fizzbuzzMachine.initialState,
+            fbCurrent: fizzbuzzMachine.initialState
         }
     }
 
@@ -74,9 +77,9 @@ class SundayMorning extends Component {
                                 <Form.Group>
                                     <Form.Label>Enter Limit (max 9999)</Form.Label>
                                     <Form.Control type="text" placeholder="15" onChange={this.handleFBInputChange}></Form.Control>
-                                    { this.state.current.matches('execAllowed') && <Form.Text>Default 15</Form.Text> }
-                                    { this.state.current.matches('execDisallowed') && <Form.Text className={cx(sundaymorningStyles['input-error'])}>Input must be a number between 1 and 9999</Form.Text> }
-                                    <Button disabled={this.state.current.matches('execDisallowed')} onClick={() => fizzbuzzSubj.next() } variant="primary">Activate the Buzz</Button>
+                                    { this.state.fbCurrent.matches('execAllowed') && <Form.Text>Default 15</Form.Text> }
+                                    { this.state.fbCurrent.matches('execDisallowed') && <Form.Text className={cx(sundaymorningStyles['input-error'])}>Input must be a number between 1 and 9999</Form.Text> }
+                                    <Button disabled={this.state.fbCurrent.matches('execDisallowed')} onClick={() => fizzbuzzSubj.next() } variant="primary">Activate the Buzz</Button>
                                     <Form.Control readOnly value={this.state.fbDisplay} as="textarea" rows={3} />
                                 </Form.Group>
                             </Card.Body>
@@ -88,6 +91,14 @@ class SundayMorning extends Component {
                         <Card>
                             <Card.Title>Palindrome Checker</Card.Title>
                             <Card.Subtitle>Checks if a word is a palindrome!</Card.Subtitle>
+                            <Card.Body>
+                                <Form.Group>
+                                    <Form.Label>Enter Word to Check</Form.Label>
+                                    <Form.Control type="text" placeholder="Word" onChange={this.handleFBInputChange}></Form.Control>
+                                    <Button>Check for Palindromicity</Button>
+                                    <Form.Control readOnly value={this.state.fbDisplay} as="textarea" rows={3} />
+                                </Form.Group>
+                            </Card.Body>
                         </Card>
                     </Col>
                 </Row>
