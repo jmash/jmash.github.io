@@ -1,3 +1,7 @@
 .input-error {
     color: red;
 }
+
+.no-resize {
+    resize: none;
+}

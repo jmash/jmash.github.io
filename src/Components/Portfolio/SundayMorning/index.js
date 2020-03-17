@@ -34,6 +34,7 @@ class SundayMorning extends Component {
 
         this.state = {
             fbInput: "15",
+            palInput: "",
             fbDisplay: "",
             palDisplay: "",
             fbCurrent: fizzbuzzMachine.initialState,
@@ -105,7 +106,7 @@ class SundayMorning extends Component {
                                     { this.state.fbCurrent.matches('execAllowed') && <Form.Text>Default 15</Form.Text> }
                                     { this.state.fbCurrent.matches('execDisallowed') && <Form.Text className={cx(sundaymorningStyles['input-error'])}>Input must be a number between 1 and 9999</Form.Text> }
                                     <Button disabled={this.state.fbCurrent.matches('execDisallowed')} onClick={() => fizzbuzzSubj.next() } variant="primary">Activate the Buzz</Button>
-                                    <Form.Control readOnly value={this.state.fbDisplay} as="textarea" rows={3} />
+                                    <Form.Control className={cx(sundaymorningStyles['no-resize'])} readOnly value={this.state.fbDisplay} as="textarea" rows={3} />
                                 </Form.Group>
                             </Card.Body>
                         </Card>
@@ -115,15 +116,15 @@ class SundayMorning extends Component {
                     <Col>
                         <Card>
                             <Card.Title>Palindrome Checker</Card.Title>
-                            <Card.Subtitle>Checks if a word or sentece is a palindrome!</Card.Subtitle>
+                            <Card.Subtitle>Checks if a word or sentence is a palindrome!</Card.Subtitle>
                             <Card.Body>
                                 <Form.Group>
                                     <Form.Label>Enter Word or Sentence to Check</Form.Label>
                                     <Form.Control type="text" placeholder="Word/Sentence" onChange={this.handlePalInputChange}></Form.Control>
-                                    { this.state.palCurrent.matches('execAllowed') && <Form.Text>Only letters or numbers allowed (no special characters)</Form.Text>}
-                                    { this.state.palCurrent.matches('execDisallowed') && <Form.Text className={cx(sundaymorningStyles['input-error'])}>Only letters or numbers allowed (no special characters) &gt;_&lt;</Form.Text>}
+                                    { this.state.palCurrent.matches('execAllowed') && <Form.Text>Only letters or numbers allowed (no special characters or punctuation)</Form.Text>}
+                                    { this.state.palCurrent.matches('execDisallowed') && <Form.Text className={cx(sundaymorningStyles['input-error'])}>Only letters or numbers allowed (no special characters or punctuation) &gt;_&lt;</Form.Text>}
                                     <Button disabled={this.state.palCurrent.matches('execDisallowed')} onClick={() => palindromeCheckerSubj.next() }>Check for Palindromicity</Button>
-                                    <Form.Control readOnly value={this.state.palDisplay} as="textarea" rows={1} />
+                                    <Form.Control className={cx(sundaymorningStyles['no-resize'])} readOnly value={this.state.palDisplay} as="textarea" rows={1} />
                                 </Form.Group>
                             </Card.Body>
                         </Card>
