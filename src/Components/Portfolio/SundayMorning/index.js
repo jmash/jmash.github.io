@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FizzBuzz from './fizzbuzz.js';
 import PalindromeChecker from './palindrome.js';
+import RandomQuote from './randomQuote.js';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -12,12 +13,15 @@ import cx from 'classnames';
 import { interpret } from 'xstate';
 import { fizzbuzzMachine } from './fizzbuzzMachine';
 import { palindromeMachine } from './palindromeMachine';
+import { randomQuoteMachine } from './randomQuoteMachine';
 import { Subject } from 'rxjs';
 
 const fizzbuzz = new FizzBuzz();
 const fizzbuzzSubj = new Subject();
 const palindromeChecker = new PalindromeChecker();
 const palindromeCheckerSubj = new Subject();
+const randomQuote = new RandomQuote();
+const randomQuoteSubj = new Subject();
 
 
 class SundayMorning extends Component {
@@ -30,6 +34,10 @@ class SundayMorning extends Component {
 
         this.palindromeService = interpret(palindromeMachine).onTransition(palCurrent =>
             this.setState({ palCurrent })
+        );
+
+        this.palindromeService = interpret(randomQuoteMachine).onTransition(rqCurrent =>
+            this.setState({ rqCurrent })
         );
 
         this.state = {
@@ -45,6 +53,7 @@ class SundayMorning extends Component {
     componentDidMount() {
         this.fizzbuzzService.start();
         this.palindromeService.start();
+
         fizzbuzzSubj.subscribe({
             next: () => {
                 let inputVal;
@@ -125,6 +134,19 @@ class SundayMorning extends Component {
                                     { this.state.palCurrent.matches('execDisallowed') && <Form.Text className={cx(sundaymorningStyles['input-error'])}>Only letters or numbers allowed (no special characters or punctuation) &gt;_&lt;</Form.Text>}
                                     <Button disabled={this.state.palCurrent.matches('execDisallowed')} onClick={() => palindromeCheckerSubj.next() }>Check for Palindromicity</Button>
                                     <Form.Control className={cx(sundaymorningStyles['no-resize'])} readOnly value={this.state.palDisplay} as="textarea" rows={1} />
+                                </Form.Group>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Card>
+                            <Card.Title>Random Quote Machine</Card.Title>
+                            <Card.Subtitle>Press the button, get a random quote!</Card.Subtitle>
+                            <Card.Body>
+                                <Form.Group>
+                                    <Button>Click for Quote</Button>
                                 </Form.Group>
                             </Card.Body>
                         </Card>
