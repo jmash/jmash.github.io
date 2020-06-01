@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FizzBuzz from './fizzbuzz.js';
 import PalindromeChecker from './palindrome.js';
 import RandomQuote from './randomQuote.js';
+// import LetterAnalyzer from './letterAnalyzer.js';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -14,6 +15,7 @@ import { interpret } from 'xstate';
 import { fizzbuzzMachine } from './fizzbuzzMachine';
 import { palindromeMachine } from './palindromeMachine';
 import { randomQuoteMachine } from './randomQuoteMachine';
+import { letterAnalyzerMachine } from './letterAnalyzerMachine';
 import { Subject } from 'rxjs';
 
 const fizzbuzz = new FizzBuzz();
@@ -22,6 +24,8 @@ const palindromeChecker = new PalindromeChecker();
 const palindromeCheckerSubj = new Subject();
 const randomQuote = new RandomQuote();
 const randomQuoteSubj = new Subject();
+// const letterAnalyzer = new LetterAnalyzer();
+const letterAnalyzerSubj = new Subject();
 
 
 class SundayMorning extends Component {
@@ -36,23 +40,39 @@ class SundayMorning extends Component {
             this.setState({ palCurrent })
         );
 
-        this.palindromeService = interpret(randomQuoteMachine).onTransition(rqCurrent =>
+        this.randomQuoteService = interpret(randomQuoteMachine).onTransition(rqCurrent =>
             this.setState({ rqCurrent })
         );
+
+        this.letterAnalyzerService = interpret(letterAnalyzerMachine).onTransition(laCurrent =>
+            this.setState({ laCurrent })
+        );
+
+        this.canvasRef = React.createRef();
 
         this.state = {
             fbInput: "15",
             palInput: "",
             fbDisplay: "",
             palDisplay: "",
+            rqDisplayQuote: "",
+            rqDisplayAuthor: "",
+            rqDisplayFull: "",
+            laCharMax: 10000,
+            laCharCount: 0,
+            laInput: "",
             fbCurrent: fizzbuzzMachine.initialState,
             palCurrent: palindromeMachine.initialState,
+            rqCurrent: randomQuoteMachine.initialState,
+            laCurrent: letterAnalyzerMachine.initialState
         }
     }
 
     componentDidMount() {
         this.fizzbuzzService.start();
         this.palindromeService.start();
+        this.randomQuoteService.start();
+        this.letterAnalyzerService.start();
 
         fizzbuzzSubj.subscribe({
             next: () => {
@@ -69,11 +89,23 @@ class SundayMorning extends Component {
                     this.setState({palDisplay: "It's not palindromic."})
             }
         });
+        randomQuoteSubj.subscribe({
+            next: () => {
+                this.handleRQActivate();
+            }
+        });
+        letterAnalyzerSubj.subscribe({
+            next: () => {
+                
+            }
+        });
     }
 
     componentWillUnmount() {
         this.fizzbuzzService.stop();
         this.palindromeService.stop();
+        this.randomQuoteService.stop();
+        this.letterAnalyzerService.stop();
     }
 
     handleFBInputChange = (e) => {
@@ -90,7 +122,34 @@ class SundayMorning extends Component {
             palInput: e.target.value
         }, () => {
             this.palindromeService.send({ type: 'CHANGE', input: this.state.palInput });
-            console.log(this.palindromeService._state);
+        });
+    }
+
+    handleRQActivate = (e) => {
+        if(this.state.rqCurrent.matches('idle')) {
+            this.randomQuoteService.send({ type: 'ACTIVATE' });
+        }
+        let randomQuoteRes = randomQuote.getRandomQuote();
+        randomQuoteRes.then((res) => {
+            this.randomQuoteService.send({ type: 'RESPONSE', status: res.status });
+            
+            return res.json();
+        }).then(resj => {
+            this.setState({
+                rqDisplayQuote: resj.content,
+                rqDisplayAuthor: resj.author,
+                rqDisplayFull: resj.content + "\n\n- " + resj.author
+            })
+        });
+    }
+
+    handleLAInputChange = (e) => {
+        this.setState({
+            laCharCount: e.target.value.length,
+            laInput: e.target.value
+        }, () => {
+            this.letterAnalyzerService.send({ type: 'CHANGE', length: this.state.laCharCount });
+            console.log(this.state.laCharCount);
         });
     }
 
@@ -146,8 +205,30 @@ class SundayMorning extends Component {
                             <Card.Subtitle>Press the button, get a random quote!</Card.Subtitle>
                             <Card.Body>
                                 <Form.Group>
-                                    <Button>Click for Quote</Button>
+                                    <Button disabled={this.state.rqCurrent.matches('loading')} onClick={() => randomQuoteSubj.next()}>{this.state.rqCurrent.matches('loading') ? 'Loading' : 'Click for Quote'}</Button>
+                                    <Form.Control className={cx(sundaymorningStyles['no-resize'])} readOnly value={this.state.rqDisplayFull} as="textarea" rows={3} />
                                 </Form.Group>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Card>
+                            <Card.Title>Letter Analyzer</Card.Title>
+                            <Card.Subtitle>Enter some text and get a breakdown of how many of each letter was used</Card.Subtitle>
+                            <Card.Body>
+                                <Form.Group>
+                                    <Form.Control className={cx(sundaymorningStyles['no-resize'])} as="textarea" rows={5} onChange={this.handleLAInputChange} />
+                                        <Form.Text>Limit of 10000 characters - {this.state.laCharCount}/{this.state.laCharMax} characters left</Form.Text>
+                                    <Button 
+                                        disabled={this.state.laCurrent.matches('error') ||
+                                                  this.state.laCurrent.matches('start') } 
+                                        onClick={() => letterAnalyzerSubj.next() }>
+                                            Generate Letter Analysis
+                                    </Button>
+                                </Form.Group>
+                                <canvas ref={this.canvasRef} id="letterAnalyzerChart" width="400" height="0"/>
                             </Card.Body>
                         </Card>
                     </Col>

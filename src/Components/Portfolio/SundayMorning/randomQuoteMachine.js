@@ -1,7 +1,8 @@
 import { Machine } from 'xstate';
 
 const checkQuoteResponse = (context, event) => {
-    
+    if (event.status === 200) return true;
+    return false;
 }
 
 export const randomQuoteMachine = Machine({
