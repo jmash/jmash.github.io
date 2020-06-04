@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FizzBuzz from './fizzbuzz.js';
 import PalindromeChecker from './palindrome.js';
 import RandomQuote from './randomQuote.js';
-// import LetterAnalyzer from './letterAnalyzer.js';
+import LetterAnalyzer from './letterAnalyzer.js';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -24,7 +24,6 @@ const palindromeChecker = new PalindromeChecker();
 const palindromeCheckerSubj = new Subject();
 const randomQuote = new RandomQuote();
 const randomQuoteSubj = new Subject();
-// const letterAnalyzer = new LetterAnalyzer();
 const letterAnalyzerSubj = new Subject();
 
 
@@ -96,6 +95,26 @@ class SundayMorning extends Component {
         });
         letterAnalyzerSubj.subscribe({
             next: () => {
+                let letterBreakdown = {};
+                let characters = this.state.laInput.split('');
+                for(let char in characters) {
+                    // console.log(characters[char]);
+                    if(letterBreakdown[characters[char]]) {
+                        letterBreakdown[characters[char]]++;
+                    } else {
+                        letterBreakdown[characters[char]] = 1;
+                    }
+                }
+                let xs = [];
+                let ys = [];
+                for(let l in letterBreakdown) {
+                    xs.push(l);
+                    ys.push(letterBreakdown[l]);
+                }
+
+                console.log(xs);
+                console.log(ys);
+                const letterAnalyzer = new LetterAnalyzer(xs, ys, this.canvasRef).createGraph();
                 
             }
         });
