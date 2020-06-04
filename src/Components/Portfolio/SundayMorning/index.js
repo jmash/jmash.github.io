@@ -93,6 +93,7 @@ class SundayMorning extends Component {
                 this.handleRQActivate();
             }
         });
+
         letterAnalyzerSubj.subscribe({
             next: () => {
                 let letterBreakdown = {};
@@ -114,7 +115,8 @@ class SundayMorning extends Component {
 
                 console.log(xs);
                 console.log(ys);
-                const letterAnalyzer = new LetterAnalyzer(xs, ys, this.canvasRef).createGraph();
+                const letterAnalyzer = new LetterAnalyzer(xs, ys, this.canvasRef.current);
+                letterAnalyzer.createGraph();
                 
             }
         });
@@ -247,7 +249,7 @@ class SundayMorning extends Component {
                                             Generate Letter Analysis
                                     </Button>
                                 </Form.Group>
-                                <canvas ref={this.canvasRef} id="letterAnalyzerChart" width="400" height="0"/>
+                                <canvas ref={this.canvasRef} id="letterAnalyzerChart" width="400" height="400"/>
                             </Card.Body>
                         </Card>
                     </Col>

@@ -12,10 +12,11 @@ export default class LetterAnalyzer {
         const letterAnalysis = new Chart(this.cxt, {
             type: 'bar',
             data: {
-                labels: xs,
+                labels: this.xs,
                 datasets: [{
                     label: 'Letter Analysis',
-                    
+                    data: this.ys,
+                    backgroundColor: '#112233'
                 }]
             }
         })
