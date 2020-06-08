@@ -59,6 +59,7 @@ class SundayMorning extends Component {
             rqDisplayFull: "",
             laCharMax: 10000,
             laCharCount: 0,
+            laUpdateCount: 0,
             laInput: "",
             fbCurrent: fizzbuzzMachine.initialState,
             palCurrent: palindromeMachine.initialState,
@@ -72,6 +73,7 @@ class SundayMorning extends Component {
         this.palindromeService.start();
         this.randomQuoteService.start();
         this.letterAnalyzerService.start();
+        let letterAnalyzerGraph = LetterAnalyzer.createGraph(this.canvasRef.current, [], []);
 
         fizzbuzzSubj.subscribe({
             next: () => {
@@ -98,12 +100,16 @@ class SundayMorning extends Component {
             next: () => {
                 let letterBreakdown = {};
                 let characters = this.state.laInput.split('');
+                characters = characters.map(c => c.toLowerCase());
+                characters = characters.sort();
+                
                 for(let char in characters) {
-                    // console.log(characters[char]);
                     if(letterBreakdown[characters[char]]) {
-                        letterBreakdown[characters[char]]++;
+                        if(characters[char].toUpperCase() !== characters[char].toLowerCase())
+                            letterBreakdown[characters[char]]++;
                     } else {
-                        letterBreakdown[characters[char]] = 1;
+                        if(characters[char].toUpperCase() !== characters[char].toLowerCase())
+                            letterBreakdown[characters[char]] = 1;
                     }
                 }
                 let xs = [];
@@ -115,9 +121,9 @@ class SundayMorning extends Component {
 
                 console.log(xs);
                 console.log(ys);
-                const letterAnalyzer = new LetterAnalyzer(xs, ys, this.canvasRef.current);
-                letterAnalyzer.createGraph();
-                
+
+                LetterAnalyzer.dumpGraph(letterAnalyzerGraph);
+                LetterAnalyzer.updateGraph(xs, ys, letterAnalyzerGraph);                
             }
         });
     }
