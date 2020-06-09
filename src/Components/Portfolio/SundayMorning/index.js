@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FizzBuzz from './fizzbuzz.js';
+import FizzBuzz from './FizzBuzz';
 import PalindromeChecker from './palindrome.js';
 import RandomQuote from './randomQuote.js';
 import LetterAnalyzer from './letterAnalyzer.js';
@@ -12,14 +12,11 @@ import Form from 'react-bootstrap/Form';
 import sundaymorningStyles from './SundayMorning.module.css';
 import cx from 'classnames';
 import { interpret } from 'xstate';
-import { fizzbuzzMachine } from './fizzbuzzMachine';
 import { palindromeMachine } from './palindromeMachine';
 import { randomQuoteMachine } from './randomQuoteMachine';
 import { letterAnalyzerMachine } from './letterAnalyzerMachine';
 import { Subject } from 'rxjs';
 
-const fizzbuzz = new FizzBuzz();
-const fizzbuzzSubj = new Subject();
 const palindromeChecker = new PalindromeChecker();
 const palindromeCheckerSubj = new Subject();
 const randomQuote = new RandomQuote();
@@ -30,10 +27,6 @@ const letterAnalyzerSubj = new Subject();
 class SundayMorning extends Component {
     constructor() {
         super();
-
-        this.fizzbuzzService = interpret(fizzbuzzMachine).onTransition(fbCurrent =>
-            this.setState({ fbCurrent })
-        );
 
         this.palindromeService = interpret(palindromeMachine).onTransition(palCurrent =>
             this.setState({ palCurrent })
@@ -50,7 +43,6 @@ class SundayMorning extends Component {
         this.canvasRef = React.createRef();
 
         this.state = {
-            fbInput: "15",
             palInput: "",
             fbDisplay: "",
             palDisplay: "",
@@ -61,7 +53,6 @@ class SundayMorning extends Component {
             laCharCount: 0,
             laUpdateCount: 0,
             laInput: "",
-            fbCurrent: fizzbuzzMachine.initialState,
             palCurrent: palindromeMachine.initialState,
             rqCurrent: randomQuoteMachine.initialState,
             laCurrent: letterAnalyzerMachine.initialState
@@ -69,19 +60,13 @@ class SundayMorning extends Component {
     }
 
     componentDidMount() {
-        this.fizzbuzzService.start();
+        
         this.palindromeService.start();
         this.randomQuoteService.start();
         this.letterAnalyzerService.start();
         let letterAnalyzerGraph = LetterAnalyzer.createGraph(this.canvasRef.current, [], []);
 
-        fizzbuzzSubj.subscribe({
-            next: () => {
-                let inputVal;
-                this.state.fbInput.length === 0 ? inputVal = "15" : inputVal = this.state.fbInput;
-                this.setState({fbDisplay: fizzbuzz.generateFB(parseInt(inputVal))});
-            }
-        });
+        
         palindromeCheckerSubj.subscribe({
             next: () => {
                 if(palindromeChecker.checkPalindrome(this.state.palInput))
@@ -129,7 +114,6 @@ class SundayMorning extends Component {
     }
 
     componentWillUnmount() {
-        this.fizzbuzzService.stop();
         this.palindromeService.stop();
         this.randomQuoteService.stop();
         this.letterAnalyzerService.stop();
@@ -189,24 +173,7 @@ class SundayMorning extends Component {
                         <h2>Easy like a smooth cup o' joe on a breezy Sunday morning</h2>
                     </Col>
                 </Row>
-                <Row>
-                    <Col>
-                        <Card>
-                            <Card.Title>Fizzbuzz</Card.Title>
-                            <Card.Subtitle>The classic Fizzbuzz</Card.Subtitle>
-                            <Card.Body>
-                                <Form.Group>
-                                    <Form.Label>Enter Limit (min 1, max 9999)</Form.Label>
-                                    <Form.Control type="text" placeholder="15" onChange={this.handleFBInputChange}></Form.Control>
-                                    { this.state.fbCurrent.matches('execAllowed') && <Form.Text>Default 15</Form.Text> }
-                                    { this.state.fbCurrent.matches('execDisallowed') && <Form.Text className={cx(sundaymorningStyles['input-error'])}>Input must be a number between 1 and 9999</Form.Text> }
-                                    <Button disabled={this.state.fbCurrent.matches('execDisallowed')} onClick={() => fizzbuzzSubj.next() } variant="primary">Activate the Buzz</Button>
-                                    <Form.Control className={cx(sundaymorningStyles['no-resize'])} readOnly value={this.state.fbDisplay} as="textarea" rows={3} />
-                                </Form.Group>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
+                <FizzBuzz />
                 <Row>
                     <Col>
                         <Card>
