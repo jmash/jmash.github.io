@@ -10,7 +10,7 @@ import { interpret } from 'xstate';
 import { palindromeMachine } from './palindromeMachine';
 import { Subject } from 'rxjs';
 
-class PalindromeChecker {
+class PalindromeLogic {
     checkPalindrome(input) {
         let inputStr = input.toString();
         inputStr = inputStr.toUpperCase().replace(/\s/g, "");
@@ -21,8 +21,8 @@ class PalindromeChecker {
     }
 }
 
-const palindromeChecker = new PalindromeChecker();
-const palindromeCheckerSubj = new Subject();
+const palindromeLogic = new PalindromeLogic();
+const palindromeSubj = new Subject();
 
 export default class Palindrome extends Component {
     constructor() {
@@ -42,9 +42,9 @@ export default class Palindrome extends Component {
     componentDidMount() {
         this.palindromeService.start();
 
-        palindromeCheckerSubj.subscribe({
+        palindromeSubj.subscribe({
             next: () => {
-                if(palindromeChecker.checkPalindrome(this.state.palInput))
+                if(palindromeLogic.checkPalindrome(this.state.palInput))
                     this.setState({palDisplay: "It's palindromic!"});
                 else 
                     this.setState({palDisplay: "It's not palindromic."})
@@ -77,7 +77,7 @@ export default class Palindrome extends Component {
                                 <Form.Control type="text" placeholder="Word/Sentence" onChange={this.handlePalInputChange}></Form.Control>
                                 { this.state.palCurrent.matches('execAllowed') && <Form.Text>Only letters or numbers allowed (no special characters or punctuation)</Form.Text>}
                                 { this.state.palCurrent.matches('execDisallowed') && <Form.Text className={cx(palindromeStyles['input-error'])}>Only letters or numbers allowed (no special characters or punctuation) &gt;_&lt;</Form.Text>}
-                                <Button disabled={this.state.palCurrent.matches('execDisallowed')} onClick={() => palindromeCheckerSubj.next() }>Check for Palindromicity</Button>
+                                <Button disabled={this.state.palCurrent.matches('execDisallowed')} onClick={() => palindromeSubj.next() }>Check for Palindromicity</Button>
                                 <Form.Control className={cx(palindromeStyles['no-resize'])} readOnly value={this.state.palDisplay} as="textarea" rows={1} />
                             </Form.Group>
                         </Card.Body>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FizzBuzz from './FizzBuzz';
 import Palindrome from './Palindrome';
-import RandomQuote from './randomQuote.js';
+import RandomQuote from './RandomQuote';
 import LetterAnalyzer from './letterAnalyzer.js';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -12,22 +12,17 @@ import Form from 'react-bootstrap/Form';
 import sundaymorningStyles from './SundayMorning.module.css';
 import cx from 'classnames';
 import { interpret } from 'xstate';
-import { randomQuoteMachine } from './randomQuoteMachine';
 import { letterAnalyzerMachine } from './letterAnalyzerMachine';
 import { Subject } from 'rxjs';
 
-const randomQuote = new RandomQuote();
-const randomQuoteSubj = new Subject();
+
+
 const letterAnalyzerSubj = new Subject();
 
 
 class SundayMorning extends Component {
     constructor() {
         super();
-
-        this.randomQuoteService = interpret(randomQuoteMachine).onTransition(rqCurrent =>
-            this.setState({ rqCurrent })
-        );
 
         this.letterAnalyzerService = interpret(letterAnalyzerMachine).onTransition(laCurrent =>
             this.setState({ laCurrent })
@@ -36,29 +31,18 @@ class SundayMorning extends Component {
         this.canvasRef = React.createRef();
 
         this.state = {
-            fbDisplay: "",
-            rqDisplayQuote: "",
-            rqDisplayAuthor: "",
-            rqDisplayFull: "",
+            
             laCharMax: 10000,
             laCharCount: 0,
             laUpdateCount: 0,
             laInput: "",
-            rqCurrent: randomQuoteMachine.initialState,
+            
             laCurrent: letterAnalyzerMachine.initialState
         }
     }
 
     componentDidMount() { 
-        this.randomQuoteService.start();
-        this.letterAnalyzerService.start();
         let letterAnalyzerGraph = LetterAnalyzer.createGraph(this.canvasRef.current, [], []);
-        
-        randomQuoteSubj.subscribe({
-            next: () => {
-                this.handleRQActivate();
-            }
-        });
 
         letterAnalyzerSubj.subscribe({
             next: () => {
@@ -93,36 +77,11 @@ class SundayMorning extends Component {
     }
 
     componentWillUnmount() {
-        this.randomQuoteService.stop();
+        
         this.letterAnalyzerService.stop();
     }
 
-    handleFBInputChange = (e) => {
-        this.setState({
-            fbInput: e.target.value
-        }, () => {
-            this.fizzbuzzService.send({ type: 'CHANGE', input: this.state.fbInput });
-            console.log(this.fizzbuzzService._state);
-        });
-    }
-
-    handleRQActivate = (e) => {
-        if(this.state.rqCurrent.matches('idle')) {
-            this.randomQuoteService.send({ type: 'ACTIVATE' });
-        }
-        let randomQuoteRes = randomQuote.getRandomQuote();
-        randomQuoteRes.then((res) => {
-            this.randomQuoteService.send({ type: 'RESPONSE', status: res.status });
-            
-            return res.json();
-        }).then(resj => {
-            this.setState({
-                rqDisplayQuote: resj.content,
-                rqDisplayAuthor: resj.author,
-                rqDisplayFull: resj.content + "\n\n- " + resj.author
-            })
-        });
-    }
+    
 
     handleLAInputChange = (e) => {
         this.setState({
@@ -145,20 +104,7 @@ class SundayMorning extends Component {
                 </Row>
                 <FizzBuzz />
                 <Palindrome />
-                <Row>
-                    <Col>
-                        <Card>
-                            <Card.Title>Random Quote Machine</Card.Title>
-                            <Card.Subtitle>Press the button, get a random quote!</Card.Subtitle>
-                            <Card.Body>
-                                <Form.Group>
-                                    <Button disabled={this.state.rqCurrent.matches('loading')} onClick={() => randomQuoteSubj.next()}>{this.state.rqCurrent.matches('loading') ? 'Loading' : 'Click for Quote'}</Button>
-                                    <Form.Control className={cx(sundaymorningStyles['no-resize'])} readOnly value={this.state.rqDisplayFull} as="textarea" rows={3} />
-                                </Form.Group>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
+                <RandomQuote />
                 <Row>
                     <Col>
                         <Card>
