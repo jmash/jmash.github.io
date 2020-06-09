@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import FizzBuzz from './FizzBuzz';
-import PalindromeChecker from './palindrome.js';
+import Palindrome from './Palindrome';
 import RandomQuote from './randomQuote.js';
 import LetterAnalyzer from './letterAnalyzer.js';
 import Container from 'react-bootstrap/Container';
@@ -12,13 +12,10 @@ import Form from 'react-bootstrap/Form';
 import sundaymorningStyles from './SundayMorning.module.css';
 import cx from 'classnames';
 import { interpret } from 'xstate';
-import { palindromeMachine } from './palindromeMachine';
 import { randomQuoteMachine } from './randomQuoteMachine';
 import { letterAnalyzerMachine } from './letterAnalyzerMachine';
 import { Subject } from 'rxjs';
 
-const palindromeChecker = new PalindromeChecker();
-const palindromeCheckerSubj = new Subject();
 const randomQuote = new RandomQuote();
 const randomQuoteSubj = new Subject();
 const letterAnalyzerSubj = new Subject();
@@ -27,10 +24,6 @@ const letterAnalyzerSubj = new Subject();
 class SundayMorning extends Component {
     constructor() {
         super();
-
-        this.palindromeService = interpret(palindromeMachine).onTransition(palCurrent =>
-            this.setState({ palCurrent })
-        );
 
         this.randomQuoteService = interpret(randomQuoteMachine).onTransition(rqCurrent =>
             this.setState({ rqCurrent })
@@ -43,9 +36,7 @@ class SundayMorning extends Component {
         this.canvasRef = React.createRef();
 
         this.state = {
-            palInput: "",
             fbDisplay: "",
-            palDisplay: "",
             rqDisplayQuote: "",
             rqDisplayAuthor: "",
             rqDisplayFull: "",
@@ -53,28 +44,16 @@ class SundayMorning extends Component {
             laCharCount: 0,
             laUpdateCount: 0,
             laInput: "",
-            palCurrent: palindromeMachine.initialState,
             rqCurrent: randomQuoteMachine.initialState,
             laCurrent: letterAnalyzerMachine.initialState
         }
     }
 
-    componentDidMount() {
-        
-        this.palindromeService.start();
+    componentDidMount() { 
         this.randomQuoteService.start();
         this.letterAnalyzerService.start();
         let letterAnalyzerGraph = LetterAnalyzer.createGraph(this.canvasRef.current, [], []);
-
         
-        palindromeCheckerSubj.subscribe({
-            next: () => {
-                if(palindromeChecker.checkPalindrome(this.state.palInput))
-                    this.setState({palDisplay: "It's palindromic!"});
-                else 
-                    this.setState({palDisplay: "It's not palindromic."})
-            }
-        });
         randomQuoteSubj.subscribe({
             next: () => {
                 this.handleRQActivate();
@@ -114,7 +93,6 @@ class SundayMorning extends Component {
     }
 
     componentWillUnmount() {
-        this.palindromeService.stop();
         this.randomQuoteService.stop();
         this.letterAnalyzerService.stop();
     }
@@ -125,14 +103,6 @@ class SundayMorning extends Component {
         }, () => {
             this.fizzbuzzService.send({ type: 'CHANGE', input: this.state.fbInput });
             console.log(this.fizzbuzzService._state);
-        });
-    }
-
-    handlePalInputChange = (e) => {
-        this.setState({
-            palInput: e.target.value
-        }, () => {
-            this.palindromeService.send({ type: 'CHANGE', input: this.state.palInput });
         });
     }
 
@@ -174,24 +144,7 @@ class SundayMorning extends Component {
                     </Col>
                 </Row>
                 <FizzBuzz />
-                <Row>
-                    <Col>
-                        <Card>
-                            <Card.Title>Palindrome Checker</Card.Title>
-                            <Card.Subtitle>Checks if a word or sentence is a palindrome!</Card.Subtitle>
-                            <Card.Body>
-                                <Form.Group>
-                                    <Form.Label>Enter Word or Sentence to Check</Form.Label>
-                                    <Form.Control type="text" placeholder="Word/Sentence" onChange={this.handlePalInputChange}></Form.Control>
-                                    { this.state.palCurrent.matches('execAllowed') && <Form.Text>Only letters or numbers allowed (no special characters or punctuation)</Form.Text>}
-                                    { this.state.palCurrent.matches('execDisallowed') && <Form.Text className={cx(sundaymorningStyles['input-error'])}>Only letters or numbers allowed (no special characters or punctuation) &gt;_&lt;</Form.Text>}
-                                    <Button disabled={this.state.palCurrent.matches('execDisallowed')} onClick={() => palindromeCheckerSubj.next() }>Check for Palindromicity</Button>
-                                    <Form.Control className={cx(sundaymorningStyles['no-resize'])} readOnly value={this.state.palDisplay} as="textarea" rows={1} />
-                                </Form.Group>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
+                <Palindrome />
                 <Row>
                     <Col>
                         <Card>
