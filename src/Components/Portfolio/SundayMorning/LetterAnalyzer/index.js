@@ -27,6 +27,8 @@ class LetterAnalyzerLogic {
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -142,7 +144,9 @@ export default class LetterAnalyzer extends Component {
                                         Generate Letter Analysis
                                 </Button>
                             </Form.Group>
-                            <canvas ref={this.canvasRef} id="letterAnalyzerChart" width="400" height="400"/>
+                            <div className={cx(letterAnalyzerStyles['letterAnalyzer'])}>
+                                <canvas ref={this.canvasRef} id="letterAnalyzerChart" width="200" height="200"/>
+                            </div>
                         </Card.Body>
                     </Card>
                 </Col>

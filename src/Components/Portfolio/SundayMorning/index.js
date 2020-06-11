@@ -3,6 +3,7 @@ import FizzBuzz from './FizzBuzz';
 import Palindrome from './Palindrome';
 import RandomQuote from './RandomQuote';
 import LetterAnalyzer from './LetterAnalyzer';
+import TicTacToe from './TicTacToe';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -21,6 +22,7 @@ class SundayMorning extends Component {
                 <Palindrome />
                 <RandomQuote />
                 <LetterAnalyzer />
+                <TicTacToe />
             </Container>
         );
     }
