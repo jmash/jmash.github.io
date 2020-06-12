@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import Cell from './Cell';
 import tictactoeStyles from './TicTacToe.module.css';
 import cx from 'classnames';
 import { interpret } from 'xstate';
@@ -22,21 +22,21 @@ export default class TicTacToe extends Component {
                     <Card>
                         <Card.Title>TicTacToe</Card.Title>
                         <Card.Subtitle>The Classic Game of TicTacToe!</Card.Subtitle>
-                        <Card.Body>
+                        <Card.Body className={cx(tictactoeStyles['tttBoard'])}>
                             <Row>
-                                <Col>1</Col>
-                                <Col>2</Col>
-                                <Col>3</Col>
+                                <Col><Cell props={"ey"}/></Col>
+                                <Col><Cell /></Col>
+                                <Col><Cell /></Col>
                             </Row>
                             <Row>
-                                <Col>4</Col>
-                                <Col>5</Col>
-                                <Col>6</Col>
+                                <Col><Cell /></Col>
+                                <Col><Cell /></Col>
+                                <Col><Cell /></Col>
                             </Row>
                             <Row>
-                                <Col>7</Col>
-                                <Col>8</Col>
-                                <Col>9</Col>
+                                <Col><Cell /></Col>
+                                <Col><Cell /></Col>
+                                <Col><Cell /></Col>
                             </Row>
                         </Card.Body>
                     </Card>
