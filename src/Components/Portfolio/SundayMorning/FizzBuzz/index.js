@@ -75,8 +75,15 @@ export default class FizzBuzz extends Component {
         return (
             <Row>
                 <Col>
-                    <Card>
-                        <Card.Title>Fizzbuzz</Card.Title>
+                    <Card className={cx(fizzbuzzStyles['fizzbuzzCard'])}>
+                        <Card.Title className={cx(fizzbuzzStyles['fizzbuzzTitle'])}>
+                            <div>
+                                Fizzbuzz
+                            </div>
+                            <div>
+                                <Button className={cx(fizzbuzzStyles['showCodeButton'])}><i class="fas fa-code"></i></Button>
+                            </div>
+                        </Card.Title>
                         <Card.Subtitle>The classic Fizzbuzz</Card.Subtitle>
                         <Card.Body>
                             <Form.Group>

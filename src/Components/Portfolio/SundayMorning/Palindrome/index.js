@@ -68,8 +68,11 @@ export default class Palindrome extends Component {
         return (
             <Row>
                 <Col>
-                    <Card>
-                        <Card.Title>Palindrome Checker</Card.Title>
+                    <Card className={cx(palindromeStyles['palindromeCard'])}>
+                        <Card.Title className={cx(palindromeStyles['palindromeStyles'])}>Palindrome Checker</Card.Title>
+                        <div>
+                            <Button className={cx(palindromeStyles['showCodeButton'])}></Button>
+                        </div>
                         <Card.Subtitle>Checks if a word or sentence is a palindrome!</Card.Subtitle>
                         <Card.Body>
                             <Form.Group>

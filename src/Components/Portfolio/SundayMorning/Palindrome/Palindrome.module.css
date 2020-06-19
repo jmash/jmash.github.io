@@ -5,3 +5,17 @@
 .no-resize {
     resize: none;
 }
+
+.palindromeCard {
+    width: 50%;
+}
+
+.palindromeTitle {
+    position: relative;
+}
+
+.showCodeButton {
+    position: absolute;
+    right: 0;
+    top: 0;
+}

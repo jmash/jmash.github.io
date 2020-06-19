@@ -55,7 +55,6 @@ export default class RandomQuote extends Component {
         let randomQuoteRes = randomQuote.getRandomQuote();
         randomQuoteRes.then((res) => {
             this.randomQuoteService.send({ type: 'RESPONSE', status: res.status });
-            
             return res.json();
         }).then(resj => {
             this.setState({
@@ -70,7 +69,7 @@ export default class RandomQuote extends Component {
         return(
             <Row>
                 <Col>
-                    <Card>
+                    <Card className={cx(randomquoteStyles['randomquoteCard'])}>
                         <Card.Title>Random Quote Machine</Card.Title>
                         <Card.Subtitle>Press the button, get a random quote!</Card.Subtitle>
                         <Card.Body>
