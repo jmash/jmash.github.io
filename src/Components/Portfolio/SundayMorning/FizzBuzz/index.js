@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import ShowCodeButton from '../ShowCodeButton';
 import fizzbuzzStyles from './FizzBuzz.module.css';
 import cx from 'classnames';
 import { interpret } from 'xstate';
@@ -80,9 +81,7 @@ export default class FizzBuzz extends Component {
                             <div>
                                 Fizzbuzz
                             </div>
-                            <div>
-                                <Button className={cx(fizzbuzzStyles['showCodeButton'])}><i class="fas fa-code"></i></Button>
-                            </div>
+                            <ShowCodeButton position='side' />
                         </Card.Title>
                         <Card.Subtitle>The classic Fizzbuzz</Card.Subtitle>
                         <Card.Body>

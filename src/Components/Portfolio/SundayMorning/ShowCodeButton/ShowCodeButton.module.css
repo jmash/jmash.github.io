@@ -1,0 +1,16 @@
+.orstyling {
+    background-color: white !important;
+    color: green;
+}
+
+.side {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.bottom {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
