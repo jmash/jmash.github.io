@@ -7,7 +7,7 @@ const ShowCodeButton = (props) => {
     console.log(showCodeButtonStyles);
     return (
         <div className={cx(showCodeButtonStyles[props.position], )}>
-            <Button><i className={showCodeButtonStyles['orstyling']} className="fas fa-code"></i></Button>
+            <Button><i className="fas fa-code"></i></Button>
         </div>
     );
 };
