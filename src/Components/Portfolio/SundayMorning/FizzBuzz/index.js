@@ -96,6 +96,9 @@ export default class FizzBuzz extends Component {
                         </Card.Body>
                     </Card>
                 </Col>
+                <Col>
+                    <p>Show Code Goes here</p>
+                </Col>
             </Row>
         )
     }

@@ -6,16 +6,10 @@
     resize: none;
 }
 
-.fizzbuzzCard {
+/* .fizzbuzzCard {
     width: 50%;
-}
+} */
 
 .fizzbuzzTitle {
     position: relative;
-}
-
-.showCodeButton {
-    position: absolute;
-    right: 0;
-    top: 0;
 }
