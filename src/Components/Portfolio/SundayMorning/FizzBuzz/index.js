@@ -5,6 +5,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import ShowCodeButton from '../ShowCodeButton';
+import ShowCodePanel from '../ShowCodePanel';
 import fizzbuzzStyles from './FizzBuzz.module.css';
 import cx from 'classnames';
 import { interpret } from 'xstate';
@@ -97,7 +98,7 @@ export default class FizzBuzz extends Component {
                     </Card>
                 </Col>
                 <Col>
-                    <p>Show Code Goes here</p>
+                    <ShowCodePanel />
                 </Col>
             </Row>
         )

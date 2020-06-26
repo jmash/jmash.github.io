@@ -2,14 +2,17 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import cx from 'classnames';
 import showCodeButtonStyles from './ShowCodeButton.module.css';
 
 const ShowCodeButton = (props) => {
-    console.log(showCodeButtonStyles);
     return (
         <div className={cx(showCodeButtonStyles[props.position])}>
-            <Button className={cx(showCodeButtonStyles['orstyling'])}><FontAwesomeIcon icon={faCode} color="green" /></Button>
+            <Button className={cx(showCodeButtonStyles['orstyling'])}>
+                <FontAwesomeIcon icon={faCode} color="green" />
+                <FontAwesomeIcon className={cx(showCodeButtonStyles['showcodearrow'])} icon={ faCaretRight } color="green" />
+            </Button>
         </div>
     );
 };
