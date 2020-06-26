@@ -1,24 +1,32 @@
 import React from 'react';
 import cx from 'classnames';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import FizzBuzzRaw from '!!raw-loader!../FizzBuzz/index.js';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import LetterAnalyzerRaw from '!!raw-loader!../LetterAnalyzer/index.js'
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import PalindromeRaw from '!!raw-loader!../Palindrome/index.js'
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import RandomQuoteRaw from '!!raw-loader!../RandomQuote/index.js'
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import TicTacToeRaw from '!!raw-loader!../RandomQuote/index.js'
 import showCodePanelStyles from './ShowCodePanel.module.css';
 
 const ShowCodePanel = (props) => {
-    console.log(showCodePanelStyles);
-    let codeText = readFileFromJS("./ShowCodePanel.module.css");
+    let showRawComp;
+    switch(props.showComp) {
+        case "FizzBuzz": showRawComp = FizzBuzzRaw; break;
+        case "Palindrome": showRawComp = PalindromeRaw; break;
+        case "LetterAnalyzer": showRawComp = LetterAnalyzerRaw; break;
+        case "RandomQuote": showRawComp = RandomQuoteRaw; break;
+        case "TicTacToe": showRawComp = TicTacToeRaw; break;
+        default: showRawComp = FizzBuzzRaw; break;
+    }
     return (
         <div>
-            <code className={cx(showCodePanelStyles['codeDisplay'])}>{ codeText }</code>
+            <code className={cx(showCodePanelStyles['codeDisplay'])}>{ showRawComp }</code>
         </div>
     );
 };
-
-function readFileFromJS (fileName) {
-    let codeText = "blah";
-    // fetch(showCodePanelStyles)
-    //     .then(res => res.text())
-    //     .then(text => console.log(text));
-    // console.log(codeText);
-    return codeText;
-}
 
 export default ShowCodePanel;
