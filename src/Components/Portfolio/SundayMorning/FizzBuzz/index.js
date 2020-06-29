@@ -46,10 +46,22 @@ export default class FizzBuzz extends Component {
         this.state = {
             fbInput: "15",
             fbCurrent: fizzbuzzMachine.initialState,
+            fbDisplayHeight: 0,
+            fbDisplayWidth: 0,
+            fbShowCodeActive: false
         }
+
+        this.fbRef = React.createRef();
     }
     componentDidMount() {
         this.fizzbuzzService.start();
+        
+        this.setState({
+            fbDisplayHeight: this.fbRef.current.clientHeight,
+            fbDisplayWidth: this.fbRef.current.clientWidth
+        }, () => {
+            console.log(this.state.fbDisplayHeight);
+        })
 
         fizzbuzzSubj.subscribe({
             next: () => {
@@ -73,16 +85,23 @@ export default class FizzBuzz extends Component {
         });
     }
 
+    handleShowCodeButtonClick = (e) => {
+        console.log('clicked');
+        this.setState(prevState => ({
+            fbShowCodeActive: !prevState.fbShowCodeActive
+        }));
+    }
+
     render() {
         return (
             <Row>
-                <Col>
-                    <Card className={cx(fizzbuzzStyles['fizzbuzzCard'])}>
+                <Col className={cx(fizzbuzzStyles['paddingor'])}>
+                    <Card ref={this.fbRef} className={cx(fizzbuzzStyles['fizzbuzzCard'], fizzbuzzStyles['topRightor'])}>
                         <Card.Title className={cx(fizzbuzzStyles['fizzbuzzTitle'])}>
                             <div>
                                 Fizzbuzz
                             </div>
-                            <ShowCodeButton position='side' />
+                            <ShowCodeButton onClick={this.handleShowCodeButtonClick} position='side' />
                         </Card.Title>
                         <Card.Subtitle>The classic Fizzbuzz</Card.Subtitle>
                         <Card.Body>
@@ -97,9 +116,12 @@ export default class FizzBuzz extends Component {
                         </Card.Body>
                     </Card>
                 </Col>
-                <Col>
-                    <ShowCodePanel />
-                </Col>
+                <ShowCodePanel className={cx(fizzbuzzStyles['paddingor'])}
+                    showComp="FizzBuzz" 
+                    panelHeight={ this.state.fbDisplayHeight }
+                    panelWidth={ this.state.fbDisplayWidth }
+                    showCodeActive={ this.state.fbShowCodeActive }
+                />
             </Row>
         )
     }

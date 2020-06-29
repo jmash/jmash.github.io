@@ -9,7 +9,7 @@ import showCodeButtonStyles from './ShowCodeButton.module.css';
 const ShowCodeButton = (props) => {
     return (
         <div className={cx(showCodeButtonStyles[props.position])}>
-            <Button className={cx(showCodeButtonStyles['orstyling'])}>
+            <Button onClick={props.onClick} className={cx(showCodeButtonStyles['orstyling'])}>
                 <FontAwesomeIcon icon={faCode} color="green" />
                 <FontAwesomeIcon className={cx(showCodeButtonStyles['showcodearrow'])} icon={ faCaretRight } color="green" />
             </Button>
@@ -18,6 +18,3 @@ const ShowCodeButton = (props) => {
 };
 
 export default ShowCodeButton;
-//<div>
-// <Button className={cx(fizzbuzzStyles['showCodeButton'])}><i class="fas fa-code"></i></Button>
-// </div>

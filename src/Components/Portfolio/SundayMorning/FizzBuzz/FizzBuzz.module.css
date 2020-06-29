@@ -6,9 +6,13 @@
     resize: none;
 }
 
-/* .fizzbuzzCard {
-    width: 50%;
-} */
+.paddingor {
+    padding: 0 !important;
+}
+
+.topRightor {
+    border-top-right-radius: 0px !important;
+}
 
 .fizzbuzzTitle {
     position: relative;

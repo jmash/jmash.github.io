@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import ShowCodePanel from '../ShowCodePanel';
 import letterAnalyzerStyles from './LetterAnalyzer.module.css';
 import cx from 'classnames';
 import { interpret } from 'xstate';
@@ -149,6 +150,9 @@ export default class LetterAnalyzer extends Component {
                             </div>
                         </Card.Body>
                     </Card>
+                </Col>
+                <Col>
+                    <ShowCodePanel showComp="LetterAnalyzer" />
                 </Col>
             </Row>
         )
