@@ -3,6 +3,14 @@
     color: green;
     border-color: transparent !important;
     padding: 2px !important;
+    
+}
+
+.orstyling:focus {
+    outline: none !important;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
 }
 
 .orstyling .orstyling--active  {
