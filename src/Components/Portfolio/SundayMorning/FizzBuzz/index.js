@@ -120,7 +120,7 @@ export default class FizzBuzz extends Component {
                     showComp="FizzBuzz" 
                     panelHeight={ this.state.fbDisplayHeight }
                     panelWidth={ this.state.fbDisplayWidth }
-                    showCodeActive={ this.state.fbShowCodeActive }
+                    active={ this.state.fbShowCodeActive }
                 />
             </Row>
         )

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Col from 'react-bootstrap/Col';
 import gsap from 'gsap';
 import cx from 'classnames';
@@ -16,13 +16,33 @@ import showCodePanelStyles from './ShowCodePanel.module.css';
 
 const ShowCodePanel = (props) => {
     let showRawComp;
-    console.log(props);
     
-    const displayRef = useRef(null);
-    
-    if(displayRef) {
-        animateShowCode(props, displayRef);
+    let displayRef = useRef(null);
+
+    const [panelAnimation, setPanelAnimation] = useState(null);
+    const [panelActive, setPanelActive] = useState(false);
+
+    if(props.active !== panelActive) {
+        setPanelActive((prevState) => !prevState);
+        console.log(props.active);
+        panelAnimation.play();
+        // props.active ? panelAnimation.play() : panelAnimation.reverse();
+        
     }
+
+    
+    useEffect(() => {
+        if(panelActive) {
+            setPanelAnimation(
+                gsap.to(displayRef.current, {duration: 0.5, width: '100%'})
+            )
+        } else {
+            setPanelAnimation(
+                gsap.to(displayRef.current, {duration: 0.5, width: '0'})
+            )
+        }
+    }, [panelActive]);
+
     switch(props.showComp) {
         case "FizzBuzz": showRawComp = FizzBuzzRaw; break;
         case "Palindrome": showRawComp = PalindromeRaw; break;
@@ -42,14 +62,5 @@ const ShowCodePanel = (props) => {
         </Col>
     );
 };
-
-
-function animateShowCode(props, ref) {
-    if(props.showCodeActive) {
-        gsap.to(ref.current, {duration: 1, width: '100%'});
-    } else {
-        gsap.to(ref.current, {duration: 1, width: 0});
-    }
-}
 
 export default ShowCodePanel;

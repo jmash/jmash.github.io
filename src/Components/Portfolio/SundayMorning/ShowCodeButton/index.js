@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import gsap from 'gsap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,42 +8,38 @@ import cx from 'classnames';
 import showCodeButtonStyles from './ShowCodeButton.module.css';
 
 const ShowCodeButton = (props) => {
-    const arrowRef = useRef(null);
-    const symbolRef = useRef(null);
+    let arrowRef = useRef(null);
+    let symbolRef = useRef(null);
 
-    if(arrowRef) {
-        if(props.active) {
-            console.log("animateToActive");
-            animateToActive(props, arrowRef.current, symbolRef.current);
-        } else {
-            animateFromActive(props, arrowRef.current, symbolRef.current);
-        }
-    }
+    const [arrowAnimation, setArrowAnimation] = useState(null);
+    const [symbolAnimation, setSymbolAnimation] = useState(null);
+
+    useEffect(() => {
+        setArrowAnimation(
+            gsap.to(arrowRef, {duration: 0.3, scaleX: -1}).pause()
+        );
+        setSymbolAnimation(
+            gsap.timeline().to(symbolRef, {duration: 0.15, scale: 0.8}).to(symbolRef, {duration: 0.15, scale: 1}).pause()
+        );
+    }, []);
 
     return (
         <div className={cx(showCodeButtonStyles[props.position])}>
-            <Button onClick={props.onClick} className={cx(showCodeButtonStyles['orstyling'])}>
-                <div ref={ symbolRef } style={{display: 'inline-block'}}>
+            <Button onClick={function() { 
+                    !props.active ? arrowAnimation.play() : arrowAnimation.reverse();
+                    symbolAnimation.restart().play();
+                    props.onClick();
+                }} 
+                className={cx(showCodeButtonStyles['orstyling'])}>
+                <div ref={el => {symbolRef = el;}} style={{display: 'inline-block'}}>
                     <FontAwesomeIcon icon={faCode} color="green" />
                 </div>
-                <div ref={ arrowRef } style={{display: 'inline-block' }}>
+                <div ref={el => {arrowRef = el;}} style={{display: 'inline-block' }}>
                     <FontAwesomeIcon className={cx(showCodeButtonStyles['showcodearrow'])} icon={ faCaretRight } color="green" />
                 </div>
             </Button>
         </div>
     );
 };
-
-function animateToActive(props, arrowRef, symbolRef) {
-    const tlArrow = gsap.timeline();
-    tlArrow.to(arrowRef, {duration: 0.3, x:-10, y: 15, rotate: 90, ease: 'circ.in'})
-        .to(arrowRef, {duration: 0.3, x:-20, y: 0, rotate: 180, ease: 'circ.out'});
-    gsap.to(symbolRef, {x: 10});
-}
-
-function animateFromActive(props, arrowRef, symbolRef) {
-    gsap.to(arrowRef, {x:0, rotate: 0});
-    gsap.to(symbolRef, {x: 0});
-}
 
 export default ShowCodeButton;
