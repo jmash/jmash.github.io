@@ -48,7 +48,6 @@ export default class Palindrome extends Component {
     componentDidMount() {
         this.palindromeService.start();
 
-        // window.addEventListener("resize", this.updateDisplayDims);
 
         this.setState({
             palDisplayHeight: this.palRef.current.clientHeight,
@@ -66,7 +65,6 @@ export default class Palindrome extends Component {
     }
 
     componentWillUnmount() {
-        // window.removeEventListener("resize");
         this.palindromeService.stop();
     }
     
@@ -82,16 +80,6 @@ export default class Palindrome extends Component {
         this.setState(prevState => ({
             palShowCodeActive: !prevState.palShowCodeActive
         }));
-    }
-
-    updateDisplayDims = () => {
-        this.setState({
-            palDisplayHeight: this.palRef.current.clientHeight,
-            palDisplayWidth: this.palRef.current.clientWidth
-        }, () => {
-            console.log("update successful");
-            console.log(this.state.palDisplayHeight, this.state.palDisplayWidth);
-        });
     }
 
     render() {

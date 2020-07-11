@@ -21,6 +21,7 @@ const ShowCodePanel = (props) => {
 
     const [panelAnimation, setPanelAnimation] = useState(null);
     const [panelActive, setPanelActive] = useState(false);
+    const [panelHeight, setPanelHeight] = useState(props.panelHeight);
 
     if(props.active !== panelActive) {
         setPanelActive((prevState) => !prevState);
@@ -32,14 +33,17 @@ const ShowCodePanel = (props) => {
     useEffect(() => {
         if(panelActive) {
             setPanelAnimation(
-                gsap.to(displayRef.current, {duration: 0.5, width: '100%'})
+                gsap.timeline()
+                    .to(displayRef.current, {duration: 0.25, width: '100%' })
+                    .to(displayRef.current, {duration: 0.25, height: '500px', opacity: 1})
+                            
             )
         } else {
             setPanelAnimation(
-                gsap.to(displayRef.current, {duration: 0.5, width: '0'})
+                gsap.to(displayRef.current, {duration: 0.5, width: '0', height: panelHeight, opacity: 0})
             )
         }
-    }, [panelActive]);
+    }, [panelActive, panelHeight]);
 
     switch(props.showComp) {
         case "FizzBuzz": showRawComp = FizzBuzzRaw; break;
