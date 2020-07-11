@@ -4,6 +4,8 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import ShowCodePanel from '../ShowCodePanel';
+import ShowCodeButton from '../ShowCodeButton';
 import randomquoteStyles from './RandomQuote.module.css';
 import cx from 'classnames';
 import { interpret } from 'xstate';
@@ -26,16 +28,26 @@ export default class RandomQuote extends Component {
             this.setState({ rqCurrent })
         );
 
+        this.rqRef = React.createRef();
+
         this.state = {
             rqDisplayQuote: "",
             rqDisplayAuthor: "",
             rqDisplayFull: "",
             rqCurrent: randomQuoteMachine.initialState,
+            rqDisplayHeight: 0,
+            rqDisplayWidth: 0,
+            rqShowCodeActive: false
         }
     }
 
     componentDidMount() {
         this.randomQuoteService.start();
+
+        this.setState({
+            rqDisplayHeight: this.rqRef.current.clientHeight,
+            rqDisplayWidth: this.rqRef.current.clientWidth
+        });
 
         randomQuoteSubj.subscribe({
             next: () => {
@@ -65,12 +77,23 @@ export default class RandomQuote extends Component {
         });
     }
     
+    handleShowCodeButtonClick = (e) => {
+        this.setState(prevState => ({
+            rqShowCodeActive: !prevState.rqShowCodeActive
+        }));
+    }
+
     render() {
         return(
-            <Row>
-                <Col>
-                    <Card className={cx(randomquoteStyles['randomquoteCard'])}>
-                        <Card.Title>Random Quote Machine</Card.Title>
+            <Row className={cx(randomquoteStyles['rowSpacing'])}>
+                <Col className={cx(randomquoteStyles['paddingor'])}>
+                    <Card ref={this.rqRef} className={cx(randomquoteStyles['topRightor'])}>
+                        <Card.Title>
+                            <div>
+                                Random Quote Machine
+                            </div>
+                            <ShowCodeButton onClick={this.handleShowCodeButtonClick} position='side' active={this.state.rqShowCodeActive} />
+                            </Card.Title>
                         <Card.Subtitle>Press the button, get a random quote!</Card.Subtitle>
                         <Card.Body>
                             <Form.Group>
@@ -80,6 +103,12 @@ export default class RandomQuote extends Component {
                         </Card.Body>
                     </Card>
                 </Col>
+                <ShowCodePanel className={cx(randomquoteStyles['paddingor'])}
+                    showComp="LetterAnalyzer" 
+                    panelHeight={ this.state.rqDisplayHeight }
+                    panelWidth={ this.state.rqDisplayWidth }
+                    active={ this.state.rqShowCodeActive }
+                />
             </Row>
         );
     }

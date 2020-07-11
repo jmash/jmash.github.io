@@ -1,3 +1,11 @@
-.randomquoteCard {
-    width: 50%;
+.paddingor {
+    padding: 0 !important;
+}
+
+.rowSpacing {
+    margin-bottom: 10px;
+}
+
+.topRightor {
+    border-top-right-radius: 0px !important;
 }

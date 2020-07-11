@@ -2,3 +2,19 @@
     width: 100%;
     height: 200px;
 }
+
+.input-error {
+    color: red;
+}
+
+.no-resize {
+    resize: none;
+}
+
+.paddingor {
+    padding: 0 !important;
+}
+
+.topRightor {
+    border-top-right-radius: 0px !important;
+}

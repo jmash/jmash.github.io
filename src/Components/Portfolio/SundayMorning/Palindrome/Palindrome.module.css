@@ -6,16 +6,18 @@
     resize: none;
 }
 
-.palindromeCard {
-    width: 50%;
-}
-
 .palindromeTitle {
     position: relative;
 }
 
-.showCodeButton {
-    position: absolute;
-    right: 0;
-    top: 0;
+.rowSpacing {
+    margin-bottom: 10px;
+}
+
+.paddingor {
+    padding: 0 !important;
+}
+
+.topRightor {
+    border-top-right-radius: 0px !important;
 }

@@ -5,7 +5,8 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-// import ShowCodePanel from '../ShowCodePanel';
+import ShowCodePanel from '../ShowCodePanel';
+import ShowCodeButton from '../ShowCodeButton';
 import letterAnalyzerStyles from './LetterAnalyzer.module.css';
 import cx from 'classnames';
 import { interpret } from 'xstate';
@@ -68,6 +69,7 @@ export default class LetterAnalyzer extends Component {
             this.setState({ laCurrent })
         );
 
+        this.laRef = React.createRef();
         this.canvasRef = React.createRef();
 
         this.state = {
@@ -75,7 +77,10 @@ export default class LetterAnalyzer extends Component {
             laCharCount: 0,
             laUpdateCount: 0,
             laInput: "",
-            laCurrent: letterAnalyzerMachine.initialState
+            laCurrent: letterAnalyzerMachine.initialState,
+            laDisplayHeight: 0,
+            laDisplayWidth: 0,
+            laShowCodeActive: false
         }
     }
 
@@ -83,6 +88,13 @@ export default class LetterAnalyzer extends Component {
         let letterAnalyzerGraph = LetterAnalyzerLogic.createGraph(this.canvasRef.current, [], []);
 
         this.letterAnalyzerService.start();
+
+        this.setState({
+            laDisplayHeight: this.laRef.current.clientHeight,
+            laDisplayWidth: this.laRef.current.clientWidth
+        }, () => {
+            console.log(this.state.laDisplayHeight);
+        })
 
         letterAnalyzerSubj.subscribe({
             next: () => {
@@ -127,12 +139,23 @@ export default class LetterAnalyzer extends Component {
         });
     }
 
+    handleShowCodeButtonClick = (e) => {
+        this.setState(prevState => ({
+            laShowCodeActive: !prevState.laShowCodeActive
+        }));
+    }
+
     render() {
         return (
             <Row>
-                <Col>
-                    <Card>
-                        <Card.Title>Letter Analyzer</Card.Title>
+                <Col className={cx(letterAnalyzerStyles['paddingor'])}>
+                    <Card ref={this.laRef} className={cx(letterAnalyzerStyles['topRightor'])}>
+                        <Card.Title className={cx(letterAnalyzerStyles['letterAnalyzerTitle'])}>
+                            <div>
+                                Letter Analzyer
+                            </div>
+                            <ShowCodeButton onClick={this.handleShowCodeButtonClick} position='side' active={this.state.laShowCodeActive} />
+                        </Card.Title>
                         <Card.Subtitle>Enter some text and get a breakdown of how many of each letter was used</Card.Subtitle>
                         <Card.Body>
                             <Form.Group>
@@ -151,9 +174,13 @@ export default class LetterAnalyzer extends Component {
                         </Card.Body>
                     </Card>
                 </Col>
-                <Col>
-                    {/* <ShowCodePanel showComp="LetterAnalyzer" /> */}
-                </Col>
+                <ShowCodePanel className={cx(letterAnalyzerStyles['paddingor'])}
+                    showComp="LetterAnalyzer" 
+                    panelHeight={ this.state.laDisplayHeight }
+                    panelWidth={ this.state.laDisplayWidth }
+                    active={ this.state.laShowCodeActive }
+                />
+                
             </Row>
         )
     }

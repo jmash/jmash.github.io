@@ -16,3 +16,7 @@
 .turnActive {
     font-weight: bold;
 }
+
+.paddingor {
+    padding: 0 !important;
+}

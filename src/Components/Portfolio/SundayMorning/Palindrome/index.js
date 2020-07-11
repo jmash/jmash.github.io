@@ -4,6 +4,8 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import ShowCodeButton from '../ShowCodeButton';
+import ShowCodePanel from '../ShowCodePanel';
 import palindromeStyles from './Palindrome.module.css';
 import cx from 'classnames';
 import { interpret } from 'xstate';
@@ -15,7 +17,6 @@ class PalindromeLogic {
         let inputStr = input.toString();
         inputStr = inputStr.toUpperCase().replace(/\s/g, "");
         let inputStrRev = inputStr.split('').reverse().join('');
-        console.log(inputStr, inputStrRev);
         if(inputStr === inputStrRev) return true;
         else return false;
     }
@@ -32,15 +33,27 @@ export default class Palindrome extends Component {
             this.setState({ palCurrent })
         );
 
+        this.palRef = React.createRef();
+
         this.state = {
             palInput: "",
             palDisplay: "",
             palCurrent: palindromeMachine.initialState,
+            palDisplayHeight: 0,
+            palDisplayWidth: 0,
+            palShowCodeActive: false,
         }
     }
 
     componentDidMount() {
         this.palindromeService.start();
+
+        window.addEventListener("resize", this.updateDisplayDims);
+
+        this.setState({
+            palDisplayHeight: this.palRef.current.clientHeight,
+            palDisplayWidth: this.palRef.current.clientWidth
+        });
 
         palindromeSubj.subscribe({
             next: () => {
@@ -53,6 +66,7 @@ export default class Palindrome extends Component {
     }
 
     componentWillUnmount() {
+        window.removeEventListener("resize");
         this.palindromeService.stop();
     }
     
@@ -64,15 +78,34 @@ export default class Palindrome extends Component {
         });
     }
 
+    handleShowCodeButtonClick = (e) => {
+        this.setState(prevState => ({
+            palShowCodeActive: !prevState.palShowCodeActive
+        }));
+    }
+
+    updateDisplayDims = () => {
+        this.setState({
+            palDisplayHeight: this.palRef.current.clientHeight,
+            palDisplayWidth: this.palRef.current.clientWidth
+        }, () => {
+            console.log("update successful");
+            console.log(this.state.palDisplayHeight, this.state.palDisplayWidth);
+        });
+    }
+
     render() {
         return (
-            <Row>
-                <Col>
-                    <Card className={cx(palindromeStyles['palindromeCard'])}>
-                        <Card.Title className={cx(palindromeStyles['palindromeStyles'])}>Palindrome Checker</Card.Title>
+            <Row ref={this.palRef} className={cx(palindromeStyles['rowSpacing'])}>
+                <Col  className={cx(palindromeStyles['paddingor'])}>
+                    <Card className={cx(palindromeStyles['topRightor'])}>
+                        <Card.Title className={cx(palindromeStyles['palindromeStyles'])}>
                         <div>
-                            <Button className={cx(palindromeStyles['showCodeButton'])}></Button>
+                            Palindrome Checker
                         </div>
+                        <ShowCodeButton onClick={this.handleShowCodeButtonClick} position='side' active={this.state.palShowCodeActive} />
+                        </Card.Title>
+                        
                         <Card.Subtitle>Checks if a word or sentence is a palindrome!</Card.Subtitle>
                         <Card.Body>
                             <Form.Group>
@@ -86,6 +119,12 @@ export default class Palindrome extends Component {
                         </Card.Body>
                     </Card>
                 </Col>
+                <ShowCodePanel className={cx(palindromeStyles['paddingor'])}
+                    showComp="Palindrome" 
+                    panelHeight={ this.state.palDisplayHeight }
+                    panelWidth={ this.state.palDisplayWidth }
+                    active={ this.state.palShowCodeActive }
+                />
             </Row>
         );
     }

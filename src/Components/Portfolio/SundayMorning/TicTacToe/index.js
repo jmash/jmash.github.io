@@ -4,11 +4,12 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Cell from './Cell';
+import ShowCodeButton from '../ShowCodeButton';
+import ShowCodePanel from '../ShowCodePanel';
 import tictactoeStyles from './TicTacToe.module.css';
 import cx from 'classnames';
 import { interpret } from 'xstate';
 import { tictactoeMachine } from './tictactoeMachine';
-// import { Subject } from 'rxjs';
 
 export default class TicTacToe extends Component {
     constructor() {
@@ -19,13 +20,24 @@ export default class TicTacToe extends Component {
 
         this.state = {
             tttDisplay: [['', '', ''], ['', '', ''], ['', '', '']],
-            tttCurrent: tictactoeMachine.initialState
+            tttCurrent: tictactoeMachine.initialState,
+            tttShowCodeActive: false,
+            tttDisplayHeight: 0,
+            tttDisplayWidth: 0,
         }
+
+        this.tttRef = React.createRef();
 
     }
 
     componentDidMount() {
         this.tictactoeService.start();
+
+        this.setState({
+            tttDisplayHeight: this.tttRef.current.clientHeight,
+            tttDisplayWidth: this.tttRef.current.clientWidth,
+            tttShowCodeActive: false
+        });
     }
 
     componentWillUnmount() {
@@ -67,6 +79,12 @@ export default class TicTacToe extends Component {
         }  
     }
 
+    handleShowCodeButtonClick = (e) => {
+        this.setState(prevState => ({
+            tttShowCodeActive: !prevState.tttShowCodeActive
+        }));
+    }
+
     render() {
         let startButtonText;
         if(!this.state.tttCurrent.matches('reset')) {
@@ -87,12 +105,17 @@ export default class TicTacToe extends Component {
         } else {
             gameStatusText = "Game in Progress";
         }
-
+  
         return(
             <Row>
-                <Col>
-                    <Card>
-                        <Card.Title>TicTacToe</Card.Title>
+                <Col ref={this.tttRef} className={cx(tictactoeStyles['paddingor'])}>
+                    <Card >
+                        <Card.Title>
+                            <div>
+                                TicTacToe
+                            </div>
+                            <ShowCodeButton onClick={this.handleShowCodeButtonClick} position='side' active={this.state.tttShowCodeActive} />
+                        </Card.Title>
                         <Card.Subtitle>The Classic Game of TicTacToe!</Card.Subtitle>
                         <Card.Header>{gameStatusText}</Card.Header>
                         <Card.Body className={cx(tictactoeStyles['tttBoard'])}>
@@ -187,6 +210,11 @@ export default class TicTacToe extends Component {
                         </Card.Footer>
                     </Card>
                 </Col>
+                <ShowCodePanel className={cx(tictactoeStyles['paddingor'])}
+                    showComp="TicTacToe" 
+                    panelHeight={ this.state.tttDisplayHeight }
+                    panelWidth={ this.state.tttDisplayWidth }
+                    active={ this.state.tttShowCodeActive }/>
             </Row>
         )
     }

@@ -53,15 +53,14 @@ export default class FizzBuzz extends Component {
 
         this.fbRef = React.createRef();
     }
+
     componentDidMount() {
         this.fizzbuzzService.start();
         
         this.setState({
             fbDisplayHeight: this.fbRef.current.clientHeight,
             fbDisplayWidth: this.fbRef.current.clientWidth
-        }, () => {
-            console.log(this.state.fbDisplayHeight);
-        })
+        });
 
         fizzbuzzSubj.subscribe({
             next: () => {
@@ -81,12 +80,10 @@ export default class FizzBuzz extends Component {
             fbInput: e.target.value
         }, () => {
             this.fizzbuzzService.send({ type: 'CHANGE', input: this.state.fbInput });
-            console.log(this.fizzbuzzService._state);
         });
     }
 
     handleShowCodeButtonClick = (e) => {
-        console.log('clicked');
         this.setState(prevState => ({
             fbShowCodeActive: !prevState.fbShowCodeActive
         }));
@@ -94,9 +91,9 @@ export default class FizzBuzz extends Component {
 
     render() {
         return (
-            <Row>
+            <Row className={cx(fizzbuzzStyles['rowSpacing'])}>
                 <Col className={cx(fizzbuzzStyles['paddingor'])}>
-                    <Card ref={this.fbRef} className={cx(fizzbuzzStyles['fizzbuzzCard'], fizzbuzzStyles['topRightor'])}>
+                    <Card ref={this.fbRef} className={cx(fizzbuzzStyles['topRightor'])}>
                         <Card.Title className={cx(fizzbuzzStyles['fizzbuzzTitle'])}>
                             <div>
                                 Fizzbuzz
@@ -121,6 +118,7 @@ export default class FizzBuzz extends Component {
                     panelHeight={ this.state.fbDisplayHeight }
                     panelWidth={ this.state.fbDisplayWidth }
                     active={ this.state.fbShowCodeActive }
+                    position="bottom"
                 />
             </Row>
         )

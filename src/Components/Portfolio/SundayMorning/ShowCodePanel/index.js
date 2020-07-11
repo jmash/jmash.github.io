@@ -25,9 +25,7 @@ const ShowCodePanel = (props) => {
     if(props.active !== panelActive) {
         setPanelActive((prevState) => !prevState);
         console.log(props.active);
-        panelAnimation.play();
-        // props.active ? panelAnimation.play() : panelAnimation.reverse();
-        
+        panelAnimation.play();        
     }
 
     
@@ -54,7 +52,7 @@ const ShowCodePanel = (props) => {
 
     return (
         <Col className={cx(showCodePanelStyles['paddingor'])}>
-            <div ref={displayRef} style={{width: 0, height: props.panelHeight}} className={cx(showCodePanelStyles['panelDisplay'])}>
+            <div ref={displayRef} style={{width: 0, height: props.panelHeight}} className={cx(showCodePanelStyles['panelDisplaySide'])}>
                 <code>
                     <p className={cx(showCodePanelStyles['codeDisplay'])}>{ showRawComp }</p>
                 </code>
