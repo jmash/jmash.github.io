@@ -20,3 +20,11 @@
 .paddingor {
     padding: 0 !important;
 }
+
+.topRightor {
+    border-top-right-radius: 0px !important;
+}
+
+.rowSpacing {
+    margin-bottom: 10px;
+}

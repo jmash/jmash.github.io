@@ -107,9 +107,9 @@ export default class TicTacToe extends Component {
         }
   
         return(
-            <Row>
+            <Row className={cx(tictactoeStyles['rowSpacing'])}>
                 <Col ref={this.tttRef} className={cx(tictactoeStyles['paddingor'])}>
-                    <Card >
+                    <Card className={cx(tictactoeStyles['topRightor'])}>
                         <Card.Title>
                             <div>
                                 TicTacToe

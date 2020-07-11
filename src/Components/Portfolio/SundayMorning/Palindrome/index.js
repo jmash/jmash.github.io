@@ -48,7 +48,7 @@ export default class Palindrome extends Component {
     componentDidMount() {
         this.palindromeService.start();
 
-        window.addEventListener("resize", this.updateDisplayDims);
+        // window.addEventListener("resize", this.updateDisplayDims);
 
         this.setState({
             palDisplayHeight: this.palRef.current.clientHeight,
@@ -66,7 +66,7 @@ export default class Palindrome extends Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize");
+        // window.removeEventListener("resize");
         this.palindromeService.stop();
     }
     

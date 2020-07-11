@@ -147,7 +147,7 @@ export default class LetterAnalyzer extends Component {
 
     render() {
         return (
-            <Row>
+            <Row className={cx(letterAnalyzerStyles['rowSpacing'])}>
                 <Col className={cx(letterAnalyzerStyles['paddingor'])}>
                     <Card ref={this.laRef} className={cx(letterAnalyzerStyles['topRightor'])}>
                         <Card.Title className={cx(letterAnalyzerStyles['letterAnalyzerTitle'])}>
