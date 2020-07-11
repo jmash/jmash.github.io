@@ -34,7 +34,7 @@ const ShowCodePanel = (props) => {
         if(panelActive) {
             setPanelAnimation(
                 gsap.timeline()
-                    .to(displayRef.current, {duration: 0.25, width: '100%' })
+                    .to(displayRef.current, {duration: 0.25, width: '100%', opacity: 0.75 })
                     .to(displayRef.current, {duration: 0.25, height: '500px', opacity: 1})
                             
             )
