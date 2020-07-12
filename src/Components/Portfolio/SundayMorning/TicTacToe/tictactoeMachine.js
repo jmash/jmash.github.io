@@ -71,6 +71,13 @@ export const tictactoeMachine = Machine({
                 ]
             }
         },
+        resetAnim: {
+            on: {
+                ANIM_FINISH: {
+                    target: 'reset'
+                }
+            }
+        },
         playerOneTurn: {
             on: { 
                 TURN_TAKEN: [
@@ -88,7 +95,7 @@ export const tictactoeMachine = Machine({
                 ],
                 RESET: [
                     {
-                        target: 'reset'
+                        target: 'resetAnim'
                     }
                 ]
             }
@@ -110,7 +117,7 @@ export const tictactoeMachine = Machine({
                 ],
                 RESET: [
                     {
-                        target: 'reset'
+                        target: 'resetAnim'
                     }
                 ]
             }
@@ -119,7 +126,7 @@ export const tictactoeMachine = Machine({
             on: {
                 RESET: [
                     {
-                        target: 'reset'
+                        target: 'resetAnim'
                     }
                 ]
             }
@@ -128,7 +135,7 @@ export const tictactoeMachine = Machine({
             on: {
                 RESET: [
                     {
-                        target: 'reset'
+                        target: 'resetAnim'
                     }
                 ]
             }
@@ -137,7 +144,7 @@ export const tictactoeMachine = Machine({
             on: {
                 RESET: [
                     {
-                        target: 'reset'
+                        target: 'resetAnim'
                     }
                 ]
             }
