@@ -8,6 +8,7 @@ import ShowCodeButton from '../ShowCodeButton';
 import ShowCodePanel from '../ShowCodePanel';
 import tictactoeStyles from './TicTacToe.module.css';
 import cx from 'classnames';
+import gsap from 'gsap';
 import { interpret } from 'xstate';
 import { tictactoeMachine } from './tictactoeMachine';
 
@@ -27,7 +28,8 @@ export default class TicTacToe extends Component {
         }
 
         this.tttRef = React.createRef();
-
+        this.testRef = React.createRef();
+        this.cellRefs = [];
     }
 
     componentDidMount() {
@@ -45,10 +47,26 @@ export default class TicTacToe extends Component {
     }
 
     resetDisplay = () => {
+        this.tictactoeService.send({type: 'ANIM_FINISH'});
+        gsap.set(this.cellRefs, {scale: 1});
         let resetDisplay = [['', '', ''], ['', '', ''], ['', '', '']];
         this.setState({
             tttDisplay: resetDisplay
         });
+    }
+
+    resetAnim = () => {
+        gsap.to(this.cellRefs, 
+            { duration: 0.3, 
+              scale: 0, 
+              stagger: {
+                  each: 0.1,
+                  from: 'start',
+                  grid: 'auto',
+                  ease: 'power2.bounce'
+              }, 
+              onComplete: this.resetDisplay 
+            });
     }
 
     handleStartClick = (event) => {
@@ -56,7 +74,7 @@ export default class TicTacToe extends Component {
             this.tictactoeService.send({type: 'START_GAME'})
         } else {
             this.tictactoeService.send({type: 'RESET'})
-            this.resetDisplay();
+            this.resetAnim();
         }
     }
 
@@ -122,18 +140,23 @@ export default class TicTacToe extends Component {
                             <Row>
                                 <Col className={cx(tictactoeStyles['tttCol'])}>
                                     <Cell
+                                        ref={(ref) => { this.cellRefs[0] = ref }} 
                                         onClick={this.handleCellClick}
                                         dataPos="0_0"
                                         gridPos="topLeft"
                                         cellDisplay={this.state.tttDisplay[0][0]} />
                                 </Col>
-                                <Col className={cx(tictactoeStyles['tttCol'])}><Cell
+                                <Col className={cx(tictactoeStyles['tttCol'])}>
+                                    <Cell
+                                        ref={(ref) => { this.cellRefs[1] = ref }} 
                                         onClick={this.handleCellClick}
                                         dataPos="0_1"
                                         gridPos="top"
                                         cellDisplay={this.state.tttDisplay[0][1]}/>
                                 </Col>
-                                <Col className={cx(tictactoeStyles['tttCol'])}><Cell
+                                <Col className={cx(tictactoeStyles['tttCol'])}>
+                                    <Cell
+                                        ref={(ref) => { this.cellRefs[2] = ref }}
                                         onClick={this.handleCellClick}
                                         dataPos="0_2"
                                         gridPos="topRight"
@@ -141,19 +164,25 @@ export default class TicTacToe extends Component {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col className={cx(tictactoeStyles['tttCol'])}><Cell
+                                <Col className={cx(tictactoeStyles['tttCol'])}>
+                                    <Cell
+                                        ref={(ref) => { this.cellRefs[3] = ref }}
                                         onClick={this.handleCellClick}
                                         dataPos="1_0"
                                         gridPos="left"
                                         cellDisplay={this.state.tttDisplay[1][0]}/>
                                 </Col>
-                                <Col className={cx(tictactoeStyles['tttCol'])}><Cell
+                                <Col className={cx(tictactoeStyles['tttCol'])}>
+                                    <Cell
+                                        ref={(ref) => { this.cellRefs[4] = ref }}
                                         onClick={this.handleCellClick}
                                         dataPos="1_1"
                                         gridPos=""
                                         cellDisplay={this.state.tttDisplay[1][1]}/>
                                 </Col>
-                                <Col className={cx(tictactoeStyles['tttCol'])}><Cell
+                                <Col className={cx(tictactoeStyles['tttCol'])}>
+                                    <Cell
+                                        ref={(ref) => { this.cellRefs[5] = ref }}
                                         onClick={this.handleCellClick}
                                         dataPos="1_2"
                                         gridPos="right"
@@ -161,19 +190,25 @@ export default class TicTacToe extends Component {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col className={cx(tictactoeStyles['tttCol'])}><Cell
+                                <Col className={cx(tictactoeStyles['tttCol'])}>
+                                    <Cell
+                                        ref={(ref) => { this.cellRefs[6] = ref }}
                                         onClick={this.handleCellClick}
                                         dataPos="2_0"
                                         gridPos="bottomLeft"
                                         cellDisplay={this.state.tttDisplay[2][0]}/>
                                 </Col>
-                                <Col className={cx(tictactoeStyles['tttCol'])}><Cell
+                                <Col className={cx(tictactoeStyles['tttCol'])}>
+                                    <Cell
+                                        ref={(ref) => { this.cellRefs[7] = ref }}                                       
                                         onClick={this.handleCellClick}
                                         dataPos="2_1"
                                         gridPos="bottom"
                                         cellDisplay={this.state.tttDisplay[2][1]}/>
                                 </Col>
-                                <Col className={cx(tictactoeStyles['tttCol'])}><Cell
+                                <Col className={cx(tictactoeStyles['tttCol'])}>
+                                    <Cell
+                                        ref={(ref) => { this.cellRefs[8] = ref }}
                                         onClick={this.handleCellClick}
                                         dataPos="2_2" 
                                         gridPos="bottomRight"
