@@ -10,7 +10,8 @@
     color: #143217;
     padding:5px;
     background-color: #deffec;
-    word-wrap:none;
+    /* word-wrap:none; */
+    overflow-x: scroll;
 }
 
 .paddingor {
