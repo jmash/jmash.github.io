@@ -15,7 +15,7 @@ class SundayMorning extends Component {
                 <Row>
                     <Col>
                         <h1>Sunday Morning Programming Projects</h1>
-                        <h2>Easy like a smooth cup o' joe on a breezy Sunday morning ☕</h2>
+                        <h2>Easy like a smooth cup o' joe on a breezy Sunday morning <span role="img" aria-label="coffee">☕</span></h2>
                     </Col>
                 </Row>
                 <FizzBuzz />
