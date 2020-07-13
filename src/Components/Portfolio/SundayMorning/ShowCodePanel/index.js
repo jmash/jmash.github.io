@@ -2,6 +2,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import Col from 'react-bootstrap/Col';
 import gsap from 'gsap';
 import cx from 'classnames';
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+import 'highlight.js/styles/github.css';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import FizzBuzzRaw from '!!raw-loader!../FizzBuzz/index.js';
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -17,7 +20,16 @@ import showCodePanelStyles from './ShowCodePanel.module.css';
 const ShowCodePanel = (props) => {
     let showRawComp;
     
+
     let displayRef = useRef(null);
+    const preRef = useRef(null);
+
+    useEffect(() => {
+        hljs.registerLanguage('javascript', javascript);
+        hljs.highlightBlock(preRef.current);
+    });
+    
+
 
     const [panelAnimation, setPanelAnimation] = useState(null);
     const [panelActive, setPanelActive] = useState(false);
@@ -57,9 +69,11 @@ const ShowCodePanel = (props) => {
     return (
         <Col className={cx(showCodePanelStyles['paddingor'])}>
             <div ref={displayRef} style={{width: 0, height: props.panelHeight}} className={cx(showCodePanelStyles['panelDisplaySide'])}>
-                <code>
-                    <p className={cx(showCodePanelStyles['codeDisplay'])}>{ showRawComp }</p>
-                </code>
+                <pre ref={preRef}>
+                    <code className="javascript">
+                        <p className={cx(showCodePanelStyles['codeDisplay'])}>{ showRawComp }</p>
+                    </code>
+                </pre>
             </div>
         </Col>
     );
