@@ -33,7 +33,6 @@ const ShowCodePanel = (props) => {
 
     const [panelAnimation, setPanelAnimation] = useState(null);
     const [panelActive, setPanelActive] = useState(false);
-    const [panelHeight, setPanelHeight] = useState(props.panelHeight);
 
     if(props.active !== panelActive) {
         setPanelActive((prevState) => !prevState);
@@ -52,10 +51,10 @@ const ShowCodePanel = (props) => {
             )
         } else {
             setPanelAnimation(
-                gsap.to(displayRef.current, {duration: 0.5, width: '0', height: panelHeight, opacity: 0})
+                gsap.to(displayRef.current, {duration: 0.5, width: '0', height: props.panelHeight, opacity: 0})
             )
         }
-    }, [panelActive, panelHeight]);
+    }, [panelActive, props.panelHeight]);
 
     switch(props.showComp) {
         case "FizzBuzz": showRawComp = FizzBuzzRaw; break;
@@ -68,9 +67,9 @@ const ShowCodePanel = (props) => {
 
     return (
         <Col className={cx(showCodePanelStyles['paddingor'])}>
-            <div ref={displayRef} style={{width: 0, height: props.panelHeight}} className={cx(showCodePanelStyles['panelDisplaySide'])}>
-                <pre ref={preRef}>
-                    <code className="javascript">
+            <div ref={displayRef} style={{width: 0, height: props.panelHeight}} className={cx(showCodePanelStyles['panelDisplaySide'], "javascript")}>
+                <pre  ref={preRef}>
+                    <code >
                         <p className={cx(showCodePanelStyles['codeDisplay'])}>{ showRawComp }</p>
                     </code>
                 </pre>
