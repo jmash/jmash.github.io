@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
+import V4Cell from './V4Cell';
 
 
-const Vierbindungen = (props) => {
+export const Vierbindungen = (props) => {
     const [gridWidth, setGridWidth] = useState(7);
     const [gridHeight, setGridHeight] = useState(6);
     const [gameState, setGameState] = useState(0);
@@ -11,7 +12,7 @@ const Vierbindungen = (props) => {
     for(let i = 0; i < gridWidth; i++) {
         let row = [];
         for(let j = 0; j < gridHeight; j++) {
-            row.push(<K4Cell x={i} y={j} />);
+            row.push(<V4Cell x={i} y={j} />);
         }
         rows.push(row);
     }
@@ -19,7 +20,10 @@ const Vierbindungen = (props) => {
     
     return(
         <div class="">
+            <p>Vierbindungen</p>
             {grid}
         </div>
     );
 }
+
+export default Vierbindungen;
