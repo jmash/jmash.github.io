@@ -1,15 +1,17 @@
 import React from 'react';
-import Navbar from 'react-bootstrap/Navbar';
-import NavItem from 'react-bootstrap/NavItem';
+import Nav from 'react-bootstrap/Nav';
 import { LinkContainer } from 'react-router-bootstrap';
 
 const PortfolioHeader = () => {
     return (
-        <Navbar>
+        <Nav variant="pills">
             <LinkContainer to="/portfolio/sundaymorning">
-                <NavItem>Sunday Morning</NavItem>
+                <Nav.Item>Sunday Morning</Nav.Item>
             </LinkContainer>
-        </Navbar>
+            <LinkContainer to="/portfolio/vierbindungen">
+                <Nav.Item>Vierbindungen</Nav.Item>
+            </LinkContainer>
+        </Nav>
     );
 };
 
