@@ -1,3 +1,11 @@
 .v4container {
-    border: 1px solid lightblue;
+    margin-top: 50px;
+}
+
+.v4playerIndicOn {
+    color: lightgrey;
+}
+
+.v4playerIndicOff {
+    color: lightgrey;
 }
