@@ -2,10 +2,10 @@ import React from 'react';
 import cx from 'classnames';
 import v4Styles from './V4Cell.module.css';
 
-const K4Cell = (props) => {
+const V4Cell = (props) => {
     return(
-        <div className={cx(v4Styles['cell'], "mx-0", "px-0")}>
-            <svg class="cutout" xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <div key={props.key} className={cx(v4Styles['cell'], "mx-0", "px-0")}>
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
                 <defs>
                     <mask id="hollow">
                         <rect width="48" height="48" fill="white" />         
@@ -18,4 +18,4 @@ const K4Cell = (props) => {
     );
 }
 
-export default K4Cell;
+export default V4Cell;
