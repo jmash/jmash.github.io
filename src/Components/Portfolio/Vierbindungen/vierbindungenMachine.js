@@ -1,8 +1,10 @@
+import { Machine } from 'xstate';
+
 const checkVictory = (context, event) => {
     return true;
   }
 
-const K4Machine =
+export const V4Machine =
   Machine({
     id: "K4Machine",
     initial: 'gameOff',
