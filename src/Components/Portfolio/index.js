@@ -12,19 +12,17 @@ import {
 const Portfolio = () => {
     let { path } = useRouteMatch();
     return (
-        <div>
-            <Router>
-                <PortfolioHeader />
-                <Switch>
-                    <Route path={`${path}/sundaymorning`}>
-                        <SundayMorning />
-                    </Route>
-                    <Route path={`${path}/vierbindungen`}>
-                        <Vierbindungen />
-                    </Route>
-                </Switch>
-            </Router>
-        </div>
+        <Router>
+            <PortfolioHeader />
+            <Switch>
+                <Route path={`${path}/sundaymorning`}>
+                    <SundayMorning />
+                </Route>
+                <Route path={`${path}/vierbindungen`}>
+                    <Vierbindungen />
+                </Route>
+            </Switch>
+        </Router>
     );
 };
 
