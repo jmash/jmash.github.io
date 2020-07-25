@@ -4,7 +4,7 @@ import v4Styles from './V4Cell.module.css';
 
 const V4Cell = (props) => {
     return(
-        <div key={props.key} className={cx(v4Styles['cell'], "mx-0", "px-0")}>
+        <div className={cx(v4Styles['cell'], "mx-0", "px-0")}>
             <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
                 <defs>
                     <mask id="hollow">
@@ -15,6 +15,7 @@ const V4Cell = (props) => {
                 <rect width="48" height="48" fill="grey" mask="url(#hollow)"/>
             </svg>
         </div>
+        
     );
 }
 
