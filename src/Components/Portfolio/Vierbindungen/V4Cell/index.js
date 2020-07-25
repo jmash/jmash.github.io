@@ -12,7 +12,7 @@ const V4Cell = (props) => {
                         <circle r="20" cx="24" cy="24" fill="black" />
                     </mask>
                 </defs>
-                <rect width="48" height="48" fill="grey" mask="url(#hollow)"/>
+                <rect width="48" height="48" fill="grey" mask="url(#hollow)" z-index="1"/>
             </svg>
         </div>
         

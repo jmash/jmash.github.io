@@ -1,5 +1,10 @@
 .v4container {
     margin-top: 50px;
+    z-index: 2;
+}
+
+.v4button {
+    z-index: 3;
 }
 
 .v4playerIndicOn {
