@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Button from 'react-bootstrap/Button';
 import vierStyles from './Vierbindungen.module.css';
 import cx from 'classnames';
@@ -9,44 +9,46 @@ import { V4Machine } from './vierbindungenMachine.js';
 
 
 export const Vierbindungen = (props) => {
-    const [gridWidth, setGridWidth] = useState(7);
-    const [gridHeight, setGridHeight] = useState(6);
+    const [gridWidth] = useState(7);
+    const [gridHeight] = useState(6);
+    const [grid, setGrid] = useState([]);
     const [v4Current, v4Send] = useMachine(V4Machine);
-
-    // setup board -------
+    
+    function handleColumnHover() {
+        console.log("column hovering handled");
+    }
+    // setup board
     let rows = [];
     let key = 0;
-
+    // array to store the refs to the board columns (so I can position the preview
+    // disc over them)
+    let colRefs = [];
     for(let i = 0; i < gridWidth; i++) {
         let row = [];
         for(let j = 0; j < gridHeight; j++) {
             key++;
             row.push(<V4Cell key={i + "_" + j} x={i} y={j} />);
         }
-        rows.push(<div key={key}>{row}</div>);
+        rows.push(<div ref={(ref) => {colRefs.push(ref)}} onMouseEnter={handleColumnHover()} key={key}>{row}</div>);
     }
-
-    let grid =  <div className={cx("d-flex", "justify-content-center", vierStyles['v4container'])}>
-                    {rows}
-                </div>
-    // end setup board -------
+    setGrid(<div className={cx("d-flex", "justify-content-center", vierStyles['v4container'])}>
+                {rows}
+            </div>);
     
+    // end setup board -------
     // send START signal to machine when start button is clicked
     function handleStartClick() {
         v4Send('START');
         console.log(v4Current);
     }
 
-    // 
-    function createDisc() {
-        console.log("createDisc");
-    }
 
     return(
         <div className={cx("d-flex", "justify-content-center", "flex-column", "align-items-center")}>
-            <div className={cx("position-absolute")}>
-                <V4Disc />
+            <div style={{top:"0"}} className={cx("position-absolute")}>
+                <V4Disc color="red" />
             </div>
+
             {grid}
             
             <div className={cx("mt-4", vierStyles['v4button'])}>
@@ -55,7 +57,7 @@ export const Vierbindungen = (props) => {
                 <span className={cx("ml-4", vierStyles['v4playerIndicOff'])}>Player 2</span>
             </div>
             
-            <Button className={cx(vierStyles['v4button'])} onClick={createDisc}>Create Disc</Button>
+            {/* <Button className={cx(vierStyles['v4button'])} onClick={createDisc}>Create Disc</Button> */}
         </div>
     );
 }
