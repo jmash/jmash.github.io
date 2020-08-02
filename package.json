@@ -51,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "eslint-plugin-react-hooks": "^4.0.8",
     "raw-loader": "^4.0.1"
   }
 }
