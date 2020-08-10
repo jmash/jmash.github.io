@@ -38,9 +38,10 @@ const checkVictory = (context, event) => {
         if(sameCount === 2) return true;
     }
     return false;
-    // check if draw
+    
 }
 
+// check if draw
 const checkDraw = (context, event) => {
     let drawCount = 0;
     for(let i = 0; i <= 2; i++) {
@@ -53,10 +54,6 @@ const checkDraw = (context, event) => {
     if(drawCount === 9) return true;
     return false;
 }
-// const checkResetGame = (context, event) => {
-//     if(event.resetFlag) return true;
-//     return false;
-// }
 
 export const tictactoeMachine = Machine({
     id: 'tictactoe',
