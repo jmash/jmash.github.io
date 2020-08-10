@@ -13,7 +13,7 @@ import PalindromeRaw from '!!raw-loader!../Palindrome/index.js'
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import RandomQuoteRaw from '!!raw-loader!../RandomQuote/index.js'
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import TicTacToeRaw from '!!raw-loader!../RandomQuote/index.js'
+import TicTacToeRaw from '!!raw-loader!../TicTacToe/index.js'
 import showCodePanelStyles from './ShowCodePanel.module.css';
 
 const ShowCodePanel = (props) => {
