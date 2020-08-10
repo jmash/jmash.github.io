@@ -44,9 +44,7 @@ const checkVictory = (_, event) => {
   }
 
   // ---------------- Check Forward Diagonals --------------------
-  victoryCount = 0; // reset adjacent disc count
-  console.log("check forward diagonals");
-  for(let i = 0; )
+  
 
 export const V4Machine =
   Machine({
