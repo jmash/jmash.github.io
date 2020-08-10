@@ -104,7 +104,7 @@ export default class RandomQuote extends Component {
                     </Card>
                 </Col>
                 <ShowCodePanel className={cx(randomquoteStyles['paddingor'])}
-                    showComp="LetterAnalyzer" 
+                    showComp="RandomQuote" 
                     panelHeight={ this.state.rqDisplayHeight }
                     panelWidth={ this.state.rqDisplayWidth }
                     active={ this.state.rqShowCodeActive }
