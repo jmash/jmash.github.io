@@ -107,6 +107,32 @@ export const Vierbindungen = () => {
         setGrid(defaultGridState);
     }
 
+    /**
+     * @desc For dev only; fills test grid to test certain conditions
+     * @return void
+     */
+    function fillTestGrid() {
+        let testGrid = new Array(42).fill("");
+        testGrid[4] = "red";
+        testGrid[12] = "red";
+        testGrid[20] = "red";
+        testGrid[28] = "red";
+        testGrid[36] = "red";
+        testGrid[11] = "blue";
+        testGrid[19] = "blue";
+        testGrid[27] = "blue";
+        testGrid[18] = "blue";
+        testGrid[26] = "blue";
+        testGrid[34] = "blue";
+        testGrid[25] = "red";
+        testGrid[32] = "red";
+        testGrid[39] = "red";
+        testGrid[33] = "red";
+        testGrid[40] = "red";
+        testGrid[41] = "red";
+        setGrid(testGrid);
+    }
+
     let startText = v4Current.matches("gameOff") ? "Start Game" : "Reset";
     // let activePlayerStyle = vierStyles['v4playerActiveOn'];
 
@@ -125,6 +151,7 @@ export const Vierbindungen = () => {
                 <div className={cx("mt-4", "mx-auto", vierStyles['v4button'])}>
                     <span className={cx("mr-4", vierStyles['v4playerIndicOff'])}>Player 1</span>
                     <Button onClick={handleStartClick}>{ startText }</Button>
+                    <Button onClick={fillTestGrid}>Test</Button>
                     <span className={cx("ml-4", vierStyles['v4playerIndicOff'])}>Player 2</span>
                 </div>
                 
