@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import vierStyles from './Vierbindungen.module.css';
 import cx from 'classnames';
 import { useMachine } from '@xstate/react';
 import V4Cell from './V4Cell';
-// import V4Disc from './V4Disc';
+import V4Disc from './V4Disc';
+import gsap from 'gsap';
 import { V4Machine } from './vierbindungenMachine.js';
 
 
@@ -12,7 +13,8 @@ export const Vierbindungen = () => {
     const defaultGridState = new Array(42).fill("");
     const [grid, setGrid] = useState(defaultGridState);
     const [v4Current, v4Send, v4Service] = useMachine(V4Machine);
-    let j = -1;
+    const ghostDiscRef = useRef(null);
+    const gameGridRef = useRef(null);
     
     /**
      * @desc send START signal to machine when start button is clicked
@@ -44,6 +46,8 @@ export const Vierbindungen = () => {
         }
     }
 
+   
+
     /**
      * @desc Hook that logs most recent state (temporary)
      */
@@ -56,7 +60,6 @@ export const Vierbindungen = () => {
     }, [v4Service]);
 
     useEffect(() => {
-        console.log(grid);
         v4Send({type: 'NEXT_TURN', gameGrid: grid});
     }, [grid, v4Send]);
 
@@ -65,22 +68,34 @@ export const Vierbindungen = () => {
      * @param {Number} cellXVal
      * @return void
      */
-    function handleCellClick(cellXVal) {
+    function handleCellClick(cellXVal, cellYVal) {
+        console.log(cellYVal);
+        if(v4Current.matches("playerOneTurn") || v4Current.matches("playerTwoTurn")){
+            v4Send({type: 'START_ANIM'});
+            gsap.to(ghostDiscRef.current, {
+                y: 305 - (5-cellYVal)*50,
+                duration: 0.3,
+                ease:"power1.in",
+                onComplete: () => {
+                    lockInCell(cellXVal);
+                    gsap.to(ghostDiscRef.current, {
+                        y: 0,
+                        duration: 0,
+                        onComplete: () => {
+                            v4Send({type: 'FINISH'});
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    function lockInCell(cellXVal) {
         // check that the game is not off or finished first before letting the click do anything.
         if(!v4Current.matches('gameOff')  
         && !v4Current.matches('playerOneVictory') 
         && !v4Current.matches('playerTwoVictory')) {
-            // set the cell we're going to check equal to the clicked cell's x value
-            let checkedCell = cellXVal;
-            // we want to check all the cells down to the last column. since every
-            // row is 7 cells long, if we add 7 to the cell index we're checking,
-            // we'll be at the next column down.
-            while(checkedCell < 35) {
-                // check one row ahead to see if it's occupied. if it is, don't keep going.
-                if(grid[checkedCell+7]) break;
-                // if not, go down one space in the column.
-                if(!grid[checkedCell]) {checkedCell += 7;}
-            }
+            let checkedCell = findYPos(cellXVal);
             const newGrid = grid.map((cell, index) => {
                 if (index === checkedCell) {
                     // this is temporary until the disc animations are implemented
@@ -93,9 +108,51 @@ export const Vierbindungen = () => {
             // do nothing.
             if(!grid[cellXVal]) { 
                 setGrid(newGrid);
-                
             }
         }    
+    }
+
+    /**
+     * @desc Find the Y position of a cell in the game grid.
+     * @return {Number} checkedCell 
+     */
+    function findYPos(cellXVal) {
+        // set the cell we're going to check equal to the clicked cell's x value
+        let yPos = cellXVal;
+        // we want to check all the cells down to the last column. since every
+        // row is 7 cells long, if we add 7 to the cell index we're checking,
+        // we'll be at the next column down.
+        while(yPos < 35) {
+            // check one row ahead to see if it's occupied. if it is, don't keep going.
+            if(grid[yPos+7]) break;
+            // if not, go down one space in the column.
+            if(!grid[yPos]) {yPos += 7;}
+        }
+        return yPos;
+    }
+
+    /**
+     * @desc Handles the event where the user hovers over a column on the game grid
+     * @return void
+     */
+    function handleCellHover(cellXVal) {
+        ghostDiscRef.current.style.visibility = "visible";
+        // get cell bounds
+        const gameGridLeft = gameGridRef.current.getBoundingClientRect().x + 5;
+        const gameGridTop = gameGridRef.current.getBoundingClientRect().y;
+        const gameCellWidth = 50;
+        const ghostDiscXPos = gameGridLeft + (gameCellWidth * cellXVal);
+        ghostDiscRef.current.style.left = ghostDiscXPos + "px";
+        ghostDiscRef.current.style.top = gameGridTop - 50 + "px";
+    }
+
+    /**
+     * @desc Handles the event where the user stops hovering over a column on the game grid
+     * @return void
+     */
+    function handleCellLeave() {
+        // console.log('Leaving cell')
+        ghostDiscRef.current.style.visibility = "hidden";
     }
 
     /**
@@ -107,51 +164,31 @@ export const Vierbindungen = () => {
         setGrid(defaultGridState);
     }
 
-    /**
-     * @desc For dev only; fills test grid to test certain conditions
-     * @return void
-     */
-    function fillTestGrid() {
-        let testGrid = new Array(42).fill("");
-        testGrid[4] = "red";
-        testGrid[12] = "red";
-        testGrid[20] = "red";
-        testGrid[28] = "red";
-        testGrid[36] = "red";
-        testGrid[11] = "blue";
-        testGrid[19] = "blue";
-        testGrid[27] = "blue";
-        testGrid[18] = "blue";
-        testGrid[26] = "blue";
-        testGrid[34] = "blue";
-        testGrid[25] = "red";
-        testGrid[32] = "red";
-        testGrid[39] = "red";
-        testGrid[33] = "red";
-        testGrid[40] = "red";
-        testGrid[41] = "red";
-        setGrid(testGrid);
-    }
-
     let startText = v4Current.matches("gameOff") ? "Start Game" : "Reset";
     // let activePlayerStyle = vierStyles['v4playerActiveOn'];
 
     return(
-        <div style={{display: "flex", justifyContent: "center"}}>
-            <div style={{width: "350px", display: "flex", flexWrap: "wrap"}}>
+        <div style={{display: "flex", justifyContent: "center", marginTop:"50px"}}>
+            <div ref={ gameGridRef } style={{width: "350px", display: "flex", flexWrap: "wrap"}}>
                 { grid.map((cell, i) => {
                     // the modulus (%) is giving me the remainder of the division by 7.
                     // since the width of the rows never changes, I can always know the
                     // x value of the cell I clicked by finding the remainder of the index's
                     // division by 7 (the length of the row).
-                    if (i % 7 === 0) j++;
-                    return <V4Cell x={i % 7} y={j} color={cell} onClick={ () => handleCellClick(i % 7) } key={i} />
+                    return <V4Cell 
+                                color={cell} 
+                                onClick={ () => handleCellClick(i % 7, Math.floor(findYPos(i % 7) / 7)) }
+                                onMouseEnter={ () => handleCellHover(i % 7) }
+                                onMouseLeave={ () => handleCellLeave(i % 7) } 
+                                key={i} 
+                            />
                 })}
+
+                <V4Disc ref={ ghostDiscRef } color={v4Current.context.ghostDiscColor} />
                 
                 <div className={cx("mt-4", "mx-auto", vierStyles['v4button'])}>
                     <span className={cx("mr-4", vierStyles['v4playerIndicOff'])}>Player 1</span>
                     <Button onClick={handleStartClick}>{ startText }</Button>
-                    <Button onClick={fillTestGrid}>Test</Button>
                     <span className={cx("ml-4", vierStyles['v4playerIndicOff'])}>Player 2</span>
                 </div>
                 

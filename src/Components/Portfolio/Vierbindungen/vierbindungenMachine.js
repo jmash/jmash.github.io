@@ -25,14 +25,13 @@ const checkVictory = (_, event) => {
 
     // ---------------- Check Verticals --------------------
     victoryCount = 0; // reset adjacent disc count
-    console.log("check verticals");
     for(let i = 0; i < 7; i++) {
       let j = i; // column position
       // the limit is set to 42+7 [one row ahead] - (7-i)[to correct for the column position]
       // this is done because the column counter increments by 7 each time, so in order to account
       // for the bottom row, the limit must be increased by one row ahead.
       while(j < 49-(7-i)) {
-        console.log(j + ": " + grid[j])
+        // console.log(j + ": " + grid[j])
         // if the grid contains something
         if(grid[j]) {
           // and if there are two adjacent, like discs vertically
@@ -47,7 +46,6 @@ const checkVictory = (_, event) => {
 
     // ---------------- Check Backward Diagonals (\) --------------------
   victoryCount = 0; // reset adjacent disc count
-  console.log("Check backward diagonals (\\)");
   // Check the diagonals that start at row 1 up to row 3. Rows 4-6 are pointless to check because
   // they don't have four possible spaces for discs anyway.
   for(let i = 0; i < 15; i += 7) {
@@ -88,7 +86,6 @@ const checkVictory = (_, event) => {
   }
   // ---------------- Check Forward Diagonals (/) --------------------
   victoryCount = 0; // reset adjacent disc count
-  console.log("Check forward diagonals (/)");
   // Check the forward diagonals starting from column 4 up to column 7. Column 1-3 diagonals are pointless
   // to check because they don't contain at least four spaces.
   for(let i = 3; i < 7; i++) {
@@ -132,17 +129,30 @@ const checkVictory = (_, event) => {
   return false;
 }
 
-  
+const isPlayerOneTurn = (context) => {
+  if(context.playerTurn === 0) return true;
+  return false;
+}
+
+const isPlayerTwoTurn = (context) => {
+  if(context.playerTurn === 1) return true;
+  return false;
+}
 
 export const V4Machine =
   Machine({
     id: "V4Machine",
+    context: {
+      playerTurn: 0,
+      ghostDiscColor: "red"
+    },
     initial: 'gameOff',
     states: {
       gameOff: {
         on: {
           START: {
-            target: 'playerOneTurn'
+            target: 'playerOneTurn',
+            actions: 'resetPlayers'
           }
         }
       },
@@ -151,13 +161,17 @@ export const V4Machine =
           OFF: {
             target: 'gameOff'
           },
+          START_ANIM: {
+            target: 'discDropAnim'
+          },
           NEXT_TURN: [
             {
               target: 'playerOneVictory',
-              cond: checkVictory
+              cond: checkVictory,
             },
             {
-              target: 'playerTwoTurn'
+              target: 'playerTwoTurn',
+              actions: 'switchPlayers'
             }
           ],
         }
@@ -167,13 +181,17 @@ export const V4Machine =
           OFF: {
             target: 'gameOff'
           },
+          START_ANIM: {
+            target: 'discDropAnim'
+          },
           NEXT_TURN: [
             {
               target: 'playerTwoVictory',
               cond: checkVictory
             },
             {
-              target: 'playerOneTurn'
+              target: 'playerOneTurn',
+              actions: 'switchPlayers'
             }
           ]
         }
@@ -181,20 +199,55 @@ export const V4Machine =
       playerOneVictory: {
         on: {
           RESET: [
-              {
-                  target: 'gameOff'
-              }
+            {
+              target: 'gameOff',
+            }
           ]
         }
       },
       playerTwoVictory: {
         on: {
           RESET: [
-              {
-                  target: 'gameOff'
-              }
+            {
+              target: 'gameOff',
+            }
           ]
         }
       },
+      discDropAnim: {
+        on: {
+          FINISH: [
+            {
+              target: 'playerOneTurn',
+              cond: isPlayerOneTurn
+            },
+            {
+              target: 'playerTwoTurn',
+              cond: isPlayerTwoTurn
+            }
+          ]
+        }
+      }
     },
+  }, 
+  {
+  actions: 
+    {
+      switchPlayers: (context) => {
+        if(context.playerTurn === 0) {
+          context.playerTurn = 1;
+          context.ghostDiscColor = "blue";
+        }
+        else {
+          context.playerTurn = 0;
+          context.ghostDiscColor = "red";
+        }
+        console.log(context.playerTurn);
+      },
+      resetPlayers: (context) => {
+        context.playerTurn = 0;
+        context.ghostDiscColor = "red";
+        console.log(context.playerTurn);
+      }
+    }
   });
