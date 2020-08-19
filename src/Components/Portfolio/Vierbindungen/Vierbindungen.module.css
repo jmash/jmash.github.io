@@ -7,10 +7,22 @@
     z-index: 3;
 }
 
-.v4playerIndicOn {
+.v4playerText {
     color: lightgrey;
+    position: relative;
+    display: inline-block;
+    font-weight: bold;
 }
 
-.v4playerIndicOff {
-    color: lightgrey;
+.winHalo {
+    width:120%;
+    background-color:lightblue;
+    height:50px;
+    position:absolute;
+    top:-10px;
+    left:-5px;
+    z-index:-1;
+    border-radius:50%;
+    opacity: 0;
+
 }

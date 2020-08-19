@@ -15,6 +15,10 @@ export const Vierbindungen = () => {
     const [v4Current, v4Send, v4Service] = useMachine(V4Machine);
     const ghostDiscRef = useRef(null);
     const gameGridRef = useRef(null);
+    const player1Text = useRef(null);
+    const player2Text = useRef(null);
+    const player1WinHalo = useRef(null);
+    const player2WinHalo = useRef(null);
     
     /**
      * @desc send START signal to machine when start button is clicked
@@ -53,11 +57,33 @@ export const Vierbindungen = () => {
      */
     useEffect(() => {
         const subscription = v4Service.subscribe(state => {
-            console.log(state.event);
+            console.log(state.context.playerTurn);
         });
 
         return subscription.unsubscribe;
     }, [v4Service]);
+
+    /**
+     * @desc Hook that updates player turn text animations
+     */
+    useEffect(() => {
+        if(v4Current.matches('playerOneTurn')) {
+            gsap.to(player1Text.current, {y: -10, color:"black"});
+            gsap.to(player2Text.current, {y: 0, color:"lightgrey"});
+        } else
+        if(v4Current.matches('playerTwoTurn')) {
+            gsap.to(player1Text.current, {y: 0, color:"lightgrey"});
+            gsap.to(player2Text.current, {y: -10, color:"black"});
+        } else {
+            gsap.to(player1Text.current, {y: 0, color:"lightgrey"});
+            gsap.to(player2Text.current, {y: 0, color:"lightgrey"});
+        }
+        if(v4Current.matches('playerOneVictory')) {
+            // gsap.to(player1Text.current, {y: -10, color:"black", duration: 0.1});
+            gsap.timeline({ease:"bounce.in"}).to(player1WinHalo.current, {scale: 0, opacity: 0})
+                           .to(player1WinHalo.current, {scale: 1.2, opacity: 1});
+        }
+    }, [v4Current]);
 
     useEffect(() => {
         v4Send({type: 'NEXT_TURN', gameGrid: grid});
@@ -69,7 +95,6 @@ export const Vierbindungen = () => {
      * @return void
      */
     function handleCellClick(cellXVal, cellYVal) {
-        console.log(cellYVal);
         if(v4Current.matches("playerOneTurn") || v4Current.matches("playerTwoTurn")){
             v4Send({type: 'START_ANIM'});
             gsap.to(ghostDiscRef.current, {
@@ -187,9 +212,12 @@ export const Vierbindungen = () => {
                 <V4Disc ref={ ghostDiscRef } color={v4Current.context.ghostDiscColor} />
                 
                 <div className={cx("mt-4", "mx-auto", vierStyles['v4button'])}>
-                    <span className={cx("mr-4", vierStyles['v4playerIndicOff'])}>Player 1</span>
+                    <div ref={player1Text} className={cx("mr-4", vierStyles['v4playerText'])}>
+                        <div ref={player1WinHalo} className={cx(vierStyles['winHalo'])}></div>
+                        Player 1
+                    </div>
                     <Button onClick={handleStartClick}>{ startText }</Button>
-                    <span className={cx("ml-4", vierStyles['v4playerIndicOff'])}>Player 2</span>
+                    <div ref={player2Text} className={cx("ml-4", vierStyles['v4playerText'])}>Player 2</div>
                 </div>
                 
             </div>
@@ -198,12 +226,3 @@ export const Vierbindungen = () => {
 }
 
 export default Vierbindungen;
-/* <V4Cell color={"red"} /> */
-/* <div style={{top:"200", zIndex:"1"}} className={cx("position-absolute")}>
-                {/* <V4Disc color="red" /> */
-            // </div> */}
-
-// setGrid(<div className={cx("d-flex", "justify-content-center", vierStyles['v4container'])}>
-//                 {rows}
-//             </div>);
-// className={cx("d-flex", "justify-content-center", "flex-column", "align-items-center")}

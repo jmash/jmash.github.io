@@ -242,12 +242,10 @@ export const V4Machine =
           context.playerTurn = 0;
           context.ghostDiscColor = "red";
         }
-        console.log(context.playerTurn);
       },
       resetPlayers: (context) => {
         context.playerTurn = 0;
         context.ghostDiscColor = "red";
-        console.log(context.playerTurn);
       }
     }
   });
