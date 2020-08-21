@@ -9,6 +9,7 @@ const checkVictory = (_, event) => {
     const grid = event.gameGrid
 
     // ---------------- Check Horizontals --------------------
+    console.log("horizontals");
     // limit hardcoded as 42 because 7*6=42; the dimensions never change.
     let victoryCount = 0; // number of adjacent discs of same color per row
     for(let i = 0; i < 42; i++) {
@@ -17,13 +18,17 @@ const checkVictory = (_, event) => {
       // if the grid contains something
       if(grid[i]) {
         // and if there are two adjacent, like discs horizontally
-        if(grid[i] === grid[i+1]) victoryCount++; // increase the count of adjacent discs
+        // (it also has to check and make sure the next disc isn't on the next line)
+        if((grid[i] === grid[i+1]) && ((i+1) % 7 !== 0)) { 
+          victoryCount++; console.log(victoryCount); 
+          if(victoryCount === 3) return true; // 1 means two adjacent discs, so 3 means four adjacent
+        } // increase the count of adjacent discs
         else victoryCount = 0; // if there is a disc of another color inbetween, reset to 0
       } else victoryCount = 0; // if there is a gap, reset adjacent disc count to 0
-      if(victoryCount === 3) return true; // 1 means two adjacent discs, so 3 means four adjacent
     }
 
     // ---------------- Check Verticals --------------------
+    console.log("verticals");
     victoryCount = 0; // reset adjacent disc count
     for(let i = 0; i < 7; i++) {
       let j = i; // column position
@@ -36,7 +41,7 @@ const checkVictory = (_, event) => {
         if(grid[j]) {
           // and if there are two adjacent, like discs vertically
           if(grid[j] === grid[j+7]) { 
-            victoryCount++; // increase the count of adjacent discs
+            victoryCount++; console.log(victoryCount);// increase the count of adjacent discs
             if(victoryCount === 3) return true; // 1 means two adjacent discs, so 3 means four adjacent
           } else victoryCount = 0; // if there is a disc of another color inbetween, reset to 0
         } else victoryCount = 0; // if there is a gap, reset adjacent disc count to 0
@@ -45,6 +50,7 @@ const checkVictory = (_, event) => {
     }
 
     // ---------------- Check Backward Diagonals (\) --------------------
+    console.log("backward diags");
   victoryCount = 0; // reset adjacent disc count
   // Check the diagonals that start at row 1 up to row 3. Rows 4-6 are pointless to check because
   // they don't have four possible spaces for discs anyway.
@@ -57,7 +63,7 @@ const checkVictory = (_, event) => {
         // getting to the same column on the row would be an increase of 7, so an increase of 8 would get
         // to the next row but one column over.)
         if(grid[j] === grid[j+8]) {
-          victoryCount++; // increase the count of adjacent discs
+          victoryCount++; console.log(victoryCount); // increase the count of adjacent discs
           if(victoryCount === 3) return true; // 1 means two adjacent discs, so 3 means four adjacent
         } else victoryCount = 0; // if there is a disc of another color inbetween, reset to 0
       } else victoryCount = 0; // if there is a gap, reset adjacent disc count to 0
@@ -77,7 +83,7 @@ const checkVictory = (_, event) => {
       // if the grid contains something
       if(grid[j]) {
         if(grid[j] === grid[j+8]) {
-          victoryCount++; // increase the count of adjacent discs
+          victoryCount++; console.log(victoryCount); // increase the count of adjacent discs
           if(victoryCount === 3) return true; // 1 means two adjacent discs, so 3 means four adjacent
         } else victoryCount = 0; // if there is a disc of another color inbetween, reset to 0
       } else victoryCount = 0; // if there is a gap, reset adjacent disc count to 0
@@ -85,6 +91,7 @@ const checkVictory = (_, event) => {
     }
   }
   // ---------------- Check Forward Diagonals (/) --------------------
+  console.log("forward diags");
   victoryCount = 0; // reset adjacent disc count
   // Check the forward diagonals starting from column 4 up to column 7. Column 1-3 diagonals are pointless
   // to check because they don't contain at least four spaces.
