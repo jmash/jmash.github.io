@@ -64,7 +64,7 @@ export const Vierbindungen = () => {
      */
     useEffect(() => {
         const subscription = v4Service.subscribe(state => {
-            console.log(state.context.playerTurn);
+            // console.log(state.context.playerTurn);
         });
 
         return subscription.unsubscribe;
@@ -121,14 +121,20 @@ export const Vierbindungen = () => {
      * @return void
      */
     function handleCellClick(cellXVal, cellYVal) {
+        // the game has to actually be in progress for anything to happen.
         if(v4Current.matches("playerOneTurn") || v4Current.matches("playerTwoTurn")){
+            // send the signal to start the animation
             v4Send({type: 'START_ANIM'});
             gsap.to(ghostDiscRef.current, {
+                // set the end position of the drop to 5-(y position) cells from the bottom
                 y: 305 - (5-cellYVal)*50,
                 duration: 0.3,
                 ease:"power1.in",
+                // once the animation is done, lock the cell in place
                 onComplete: () => {
                     lockInCell(cellXVal);
+                    // reset the preview disc position, and once finished, signal
+                    // the end of the animation to resume player control
                     gsap.to(ghostDiscRef.current, {
                         y: 0,
                         duration: 0,
@@ -141,12 +147,21 @@ export const Vierbindungen = () => {
         }
     }
 
+    /**
+     * @desc Once the falling disc animation is complete, call this function to lock the disc in place.
+     *       Creates the illusion that a new disc now occupies the space (it's really just colored in
+     *       the same).
+     * @param {Number} cellXVal
+     * @return void
+     */
     function lockInCell(cellXVal) {
         // check that the game is not off or finished first before letting the click do anything.
         if(!v4Current.matches('gameOff')  
         && !v4Current.matches('playerOneVictory') 
         && !v4Current.matches('playerTwoVictory')) {
+            // the checked cell is the earliest empty cell that can be found vertically
             let checkedCell = findYPos(cellXVal);
+            // prep the new grid to replace the previous one
             const newGrid = grid.map((cell, index) => {
                 if (index === checkedCell) {
                     if(v4Current.matches('playerOneTurn')) return "red";
@@ -208,7 +223,7 @@ export const Vierbindungen = () => {
      * @return void
      */
     function handleCellLeave() {
-        // console.log('Leaving cell')
+        // don't show the preview disc if the user isn't hovering over the game grid
         ghostDiscRef.current.style.visibility = "hidden";
     }
 
@@ -222,7 +237,6 @@ export const Vierbindungen = () => {
     }
 
     let startText = v4Current.matches("gameOff") ? "Start Game" : "Reset";
-    // let activePlayerStyle = vierStyles['v4playerActiveOn'];
 
     return(
         <div style={{display: "flex", justifyContent: "center", marginTop:"50px"}}>
