@@ -80,7 +80,7 @@ export const Vierbindungen = () => {
         }
         if(v4Current.matches('playerOneVictory')) {
             // gsap.to(player1Text.current, {y: -10, color:"black", duration: 0.1});
-            gsap.timeline({ease:"bounce.in"}).to(player1WinHalo.current, {scale: 0, opacity: 0})
+            gsap.timeline().to(player1WinHalo.current, {ease: "bounce.in", scale: 0, opacity: 0})
                            .to(player1WinHalo.current, {scale: 1.2, opacity: 1});
         }
     }, [v4Current]);
@@ -161,14 +161,29 @@ export const Vierbindungen = () => {
      * @return void
      */
     function handleCellHover(cellXVal) {
-        ghostDiscRef.current.style.visibility = "visible";
+        switch(v4Current.value) {
+            case 'playerOneTurn':
+                ghostDiscRef.current.style.visibility = "visible";
+                break;
+            case 'playerTwoTurn':
+                ghostDiscRef.current.style.visibility = "visible";
+                break;
+            case 'discDropAnim':
+                ghostDiscRef.current.style.visibility = "visible";
+                break;
+            default:
+                ghostDiscRef.current.style.visibility = "hidden";
+        }
+        
         // get cell bounds
+        
         const gameGridLeft = gameGridRef.current.getBoundingClientRect().x + 5;
         const gameGridTop = gameGridRef.current.getBoundingClientRect().y;
         const gameCellWidth = 50;
         const ghostDiscXPos = gameGridLeft + (gameCellWidth * cellXVal);
         ghostDiscRef.current.style.left = ghostDiscXPos + "px";
         ghostDiscRef.current.style.top = gameGridTop - 50 + "px";
+        
     }
 
     /**
@@ -217,7 +232,10 @@ export const Vierbindungen = () => {
                         Player 1
                     </div>
                     <Button onClick={handleStartClick}>{ startText }</Button>
-                    <div ref={player2Text} className={cx("ml-4", vierStyles['v4playerText'])}>Player 2</div>
+                    <div ref={player2Text} className={cx("ml-4", vierStyles['v4playerText'])}>
+                        <div ref={player2WinHalo} className={cx(vierStyles['winHalo'])}></div>
+                        Player 2
+                    </div>
                 </div>
                 
             </div>
