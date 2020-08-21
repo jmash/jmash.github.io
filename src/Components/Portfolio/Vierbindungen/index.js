@@ -12,6 +12,7 @@ import { V4Machine } from './vierbindungenMachine.js';
 export const Vierbindungen = () => {
     const defaultGridState = new Array(42).fill("");
     const [grid, setGrid] = useState(defaultGridState);
+    const [hoveredCol, setHoveredCol] = useState(0);
     const [v4Current, v4Send, v4Service] = useMachine(V4Machine);
     const ghostDiscRef = useRef(null);
     const gameGridRef = useRef(null);
@@ -38,10 +39,16 @@ export const Vierbindungen = () => {
                 v4Send('OFF');
                 break;
             case 'playerOneVictory':
+                gsap.timeline()
+                    .to(player1Text.current, {color:"lightgrey", duration: 1.0})
+                    .to(player1WinHalo.current, {scale: 0, opacity: 0}, "-=1");
                 resetGrid();
                 v4Send('RESET');
                 break;
             case 'playerTwoVictory':
+                gsap.timeline()
+                    .to(player2Text.current, {color:"lightgrey", duration: 1.0})
+                    .to(player2WinHalo.current, {scale: 0, opacity: 0}, "-=1");
                 resetGrid();
                 v4Send('RESET');
                 break;
@@ -79,11 +86,30 @@ export const Vierbindungen = () => {
             gsap.to(player2Text.current, {y: 0, color:"lightgrey"});
         }
         if(v4Current.matches('playerOneVictory')) {
-            // gsap.to(player1Text.current, {y: -10, color:"black", duration: 0.1});
-            gsap.timeline().to(player1WinHalo.current, {ease: "bounce.in", scale: 0, opacity: 0})
-                           .to(player1WinHalo.current, {scale: 1.2, opacity: 1});
+            gsap.timeline()
+                .to(player1Text.current, {color:"black", duration: 1.0})
+                .to(player1WinHalo.current, {ease: "bounce.out", scale: 1.2, opacity: .8}, "-=1");
+        }
+        if(v4Current.matches('playerTwoVictory')) {
+            gsap.timeline()
+                .to(player2Text.current, {color:"black", duration: 1.0})
+                .to(player2WinHalo.current, {ease: "bounce.out", scale: 1.2, opacity: .8}, "-=1");
         }
     }, [v4Current]);
+
+    /**
+     * @desc Hook to track when the hovered column value changes
+     */
+    useEffect(() => {
+        if(!v4Current.matches('discDropAnim')) {
+            const gameGridLeft = gameGridRef.current.getBoundingClientRect().x + 5;
+            const gameGridTop = gameGridRef.current.getBoundingClientRect().y;
+            const gameCellWidth = 50;
+            const ghostDiscXPos = gameGridLeft + (gameCellWidth * hoveredCol);
+            ghostDiscRef.current.style.left = ghostDiscXPos + "px";
+            ghostDiscRef.current.style.top = gameGridTop - 50 + "px";
+        }
+    }, [hoveredCol, v4Current]);
 
     useEffect(() => {
         v4Send({type: 'NEXT_TURN', gameGrid: grid});
@@ -123,7 +149,6 @@ export const Vierbindungen = () => {
             let checkedCell = findYPos(cellXVal);
             const newGrid = grid.map((cell, index) => {
                 if (index === checkedCell) {
-                    // this is temporary until the disc animations are implemented
                     if(v4Current.matches('playerOneTurn')) return "red";
                     else if(v4Current.matches('playerTwoTurn')) return "blue";
                 }
@@ -175,15 +200,7 @@ export const Vierbindungen = () => {
                 ghostDiscRef.current.style.visibility = "hidden";
         }
         
-        // get cell bounds
-        
-        const gameGridLeft = gameGridRef.current.getBoundingClientRect().x + 5;
-        const gameGridTop = gameGridRef.current.getBoundingClientRect().y;
-        const gameCellWidth = 50;
-        const ghostDiscXPos = gameGridLeft + (gameCellWidth * cellXVal);
-        ghostDiscRef.current.style.left = ghostDiscXPos + "px";
-        ghostDiscRef.current.style.top = gameGridTop - 50 + "px";
-        
+        setHoveredCol(cellXVal);
     }
 
     /**
