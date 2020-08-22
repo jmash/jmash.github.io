@@ -128,7 +128,7 @@ export const Vierbindungen = () => {
             gsap.to(ghostDiscRef.current, {
                 // set the end position of the drop to 5-(y position) cells from the bottom
                 y: 305 - (5-cellYVal)*50,
-                duration: 0.3,
+                duration: 0.4,
                 ease:"power1.in",
                 // once the animation is done, lock the cell in place
                 onComplete: () => {
