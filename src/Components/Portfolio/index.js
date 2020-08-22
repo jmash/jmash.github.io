@@ -2,6 +2,7 @@ import React from 'react';
 import SundayMorning from './SundayMorning';
 import Vierbindungen from './Vierbindungen';
 import PortfolioHeader from './PortfolioHeader';
+import JSONGarbageChecker from './JSONGarbageChecker';
 import { 
     BrowserRouter as Router,
     Switch,
@@ -20,6 +21,9 @@ const Portfolio = () => {
                 </Route>
                 <Route path={`${path}/vierbindungen`}>
                     <Vierbindungen />
+                </Route>
+                <Route path={`${path}/jsongarbagechecker`}>
+                    <JSONGarbageChecker />
                 </Route>
             </Switch>
         </Router>

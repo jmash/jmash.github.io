@@ -11,6 +11,9 @@ const PortfolioHeader = () => {
             <LinkContainer to="/portfolio/vierbindungen">
                 <Nav.Item>Vierbindungen</Nav.Item>
             </LinkContainer>
+            <LinkContainer to="/portfolio/jsongarbagechecker">
+                <Nav.Item>JSON Garbage Checker</Nav.Item>
+            </LinkContainer>
         </Nav>
     );
 };
