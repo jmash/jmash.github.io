@@ -23,7 +23,6 @@ const randomQuoteSubj = new Subject();
 
 export default class RandomQuote extends Component {
     constructor() {
-        super();
         this.randomQuoteService = interpret(randomQuoteMachine).onTransition(rqCurrent =>
             this.setState({ rqCurrent })
         );
