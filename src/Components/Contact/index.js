@@ -11,7 +11,7 @@ import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 
 const Contact = () => {
     return (
-        <Jumbotron className="w-75 mx-auto mt-4">
+        <Jumbotron className="mx-auto col-xs-12 mt-4">
             <Container>
                 <h1 className="display-6">Jared M Ashcraft</h1>
                 <h3 className="pb-2">Web Developer</h3>
