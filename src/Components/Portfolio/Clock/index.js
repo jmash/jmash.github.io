@@ -1,8 +1,6 @@
 import React from 'react';
 import Sketch from 'react-p5';
 
-
-
 const Clock = () => {
     const maxWidth = 400;
     const maxHeight = 400;
@@ -37,6 +35,10 @@ const Clock = () => {
             p5.strokeCap(p5.PROJECT);
             p5.strokeWeight(1);
             if(i % 30 === 0) {
+                p5.push();
+                p5.textAlign(p5.CENTER, p5.CENTER);
+                p5.text((((i+60)/30)%12+1).toString(), 80*p5.cos(i), 80*p5.sin(i));
+                p5.pop();
               p5.strokeWeight(3);
             }
             if(i % 6 === 0) { 
@@ -69,11 +71,10 @@ const Clock = () => {
         drawSecondsHand(p5);
         drawMinutesHand(p5);
         drawHoursHand(p5);
-
     }
 
     const setup = (p5, canvasParentRef) => {
-        p5.createCanvas(500, 500).parent(canvasParentRef);
+        p5.createCanvas(maxWidth, maxHeight).parent(canvasParentRef);
         p5.angleMode(p5.DEGREES);
     }
 
