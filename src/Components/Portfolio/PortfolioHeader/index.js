@@ -10,7 +10,7 @@ const PortfolioHeader = () => {
     return (
         <Navbar variant='pills'>
             <Container>
-                <LinkContainer className={cx(portfolioHeaderStyles['']) to="/portfolio/sundaymorning">
+                <LinkContainer to="/portfolio/sundaymorning">
                     <Nav.Item>Sunday Morning</Nav.Item>
                 </LinkContainer>
                 <LinkContainer to="/portfolio/vierbindungen">
