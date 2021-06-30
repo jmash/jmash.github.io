@@ -11,10 +11,10 @@ import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 
 const Contact = () => {
     return (
-        <Jumbotron className="mx-auto col-xs-12 mt-4">
+        <Jumbotron className={cx(bsStyles['mx-auto'], bsStyles['col-xs-12'], bsStyles['mt-4'])}>
             <Container>
-                <h1 className="display-6">Jared M Ashcraft</h1>
-                <h3 className="pb-2">Web Developer</h3>
+                <h1 className={cx(bsStyles['display-6'])}>Jared M Ashcraft</h1>
+                <h3 className={cx(bsStyles['pb-2'])}>Web Developer</h3>
                 <hr />
                 <Row>
                     <FontAwesomeIcon className={cx(faStyles['fa-2x'])} icon={ faEnvelope } />
@@ -27,7 +27,7 @@ const Contact = () => {
                     />
                 </Row>
                 <Row>
-                    <FontAwesomeIcon className="fa-2x" icon= { faPhone } />
+                    <FontAwesomeIcon className={cx(bsStyles['fa-2x'])} icon= { faPhone } />
                     <Obfuscate className={
                             cx(bsStyles['ml-2'], bsStyles['mt-1'], bsStyles['font-weight-bold'])
                         } 
