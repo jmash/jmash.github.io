@@ -1,3 +1,7 @@
 .portfolioHeaderNavItem {
     margin: 0 5px 0 5px;
+    cursor: pointer;
+    border: 1px solid grey;
+    border-width: 1px;
+    border-radius: 4px;
 }
