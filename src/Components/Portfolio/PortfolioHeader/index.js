@@ -10,13 +10,13 @@ const PortfolioHeader = () => {
     return (
         <Navbar variant='pills'>
             <Container>
-                <LinkContainer to="/portfolio/sundaymorning">
+                <LinkContainer className={cx('px-2', portfolioHeaderStyles['portfolioHeaderNavItem'])} to="/portfolio/sundaymorning">
                     <Nav.Item>Sunday Morning</Nav.Item>
                 </LinkContainer>
-                <LinkContainer to="/portfolio/vierbindungen">
+                <LinkContainer className={cx(portfolioHeaderStyles['portfolioHeaderNavItem'])} to="/portfolio/vierbindungen">
                     <Nav.Item>Vierbindungen</Nav.Item>
                 </LinkContainer>
-                <LinkContainer to="/portfolio/clock">
+                <LinkContainer className={cx(portfolioHeaderStyles['portfolioHeaderNavItem'])} to="/portfolio/clock">
                     <Nav.Item>Clock</Nav.Item>
                 </LinkContainer>
             </Container>

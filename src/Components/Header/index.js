@@ -34,10 +34,23 @@ const Header = () => {
                             <FontAwesomeIcon className={ cx('mx-2', faStyles['fa-2x']) } icon={ faLinkedin } />
                     </Nav.Link>
                 </Nav>
-                <Form inline>
-                <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                <Button variant="outline-success">Search</Button>
-                </Form>
+                <Nav className={cx('ml-auto')}>
+                    <Nav.Link>
+                        <LinkContainer to="/about">
+                            <span>About</span>
+                        </LinkContainer>
+                    </Nav.Link>
+                    <Nav.Link>
+                        <LinkContainer to="/contact">
+                            <span>Contact</span>
+                        </LinkContainer>      
+                    </Nav.Link>
+                    <Nav.Link>
+                        <LinkContainer to="/portfolio">
+                            <span>Portfolio</span>
+                        </LinkContainer>  
+                    </Nav.Link>
+                </Nav>
             </Navbar.Collapse>
             </Navbar>
     );
