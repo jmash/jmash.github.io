@@ -8,18 +8,16 @@ import portfolioHeaderStyles from './PortfolioHeader.module.css';
 
 const PortfolioHeader = () => {
     return (
-        <Navbar variant='pills'>
-            <Container>
-                <LinkContainer className={cx('px-2', portfolioHeaderStyles['portfolioHeaderNavItem'])} to="/portfolio/sundaymorning">
-                    <Nav.Item>Sunday Morning</Nav.Item>
-                </LinkContainer>
-                <LinkContainer className={cx(portfolioHeaderStyles['portfolioHeaderNavItem'])} to="/portfolio/vierbindungen">
-                    <Nav.Item>Vierbindungen</Nav.Item>
-                </LinkContainer>
-                <LinkContainer className={cx(portfolioHeaderStyles['portfolioHeaderNavItem'])} to="/portfolio/clock">
-                    <Nav.Item>Clock</Nav.Item>
-                </LinkContainer>
-            </Container>
+        <Navbar className={cx('nav-pills')}>
+            <LinkContainer activeClassName={cx(portfolioHeaderStyles['activePortfolioNavLink'])} className={cx('px-2', portfolioHeaderStyles['portfolioHeaderNavItem'])} to="/portfolio/sundaymorning">
+                <Nav.Item>Sunday Morning</Nav.Item>
+            </LinkContainer>
+            <LinkContainer activeClassName={cx(portfolioHeaderStyles['activePortfolioNavLink'])} className={cx('px-2', portfolioHeaderStyles['portfolioHeaderNavItem'])} to="/portfolio/vierbindungen">
+                <Nav.Item>Vierbindungen</Nav.Item>
+            </LinkContainer>
+            <LinkContainer activeClassName={cx(portfolioHeaderStyles['activePortfolioNavLink'])} className={cx('px-2', portfolioHeaderStyles['portfolioHeaderNavItem'])} to="/portfolio/clock">
+                <Nav.Item>Clock</Nav.Item>
+            </LinkContainer>
         </Navbar>
     );
 };
