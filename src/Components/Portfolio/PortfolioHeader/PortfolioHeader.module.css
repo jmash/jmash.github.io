@@ -5,3 +5,8 @@
     border-width: 1px;
     border-radius: 4px;
 }
+
+.activePortfolioNavLink {
+    font-weight: bold;
+    background: teal;
+}
