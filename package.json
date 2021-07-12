@@ -16,7 +16,6 @@
     "classnames": "^2.2.6",
     "gsap": "^3.7.0",
     "highlight.js": "^10.1.1",
-    "prismjs": "^1.24.0",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-chartjs-2": "^2.9.0",
