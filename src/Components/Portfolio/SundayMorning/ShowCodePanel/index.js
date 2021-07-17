@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Col from 'react-bootstrap/Col';
 import gsap from 'gsap';
+import Highlight from 'react-highlight.js';
+import javascriptLang from 'highlight.js/lib/languages/javascript';
 import cx from 'classnames';
-import 'prismjs';
-import '../../../../assets/global-styles/prism.css';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import FizzBuzzRaw from '!!raw-loader!../FizzBuzz/index.js';
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -56,16 +56,25 @@ const ShowCodePanel = (props) => {
     }
     
     return (
-        <Col className={cx(showCodePanelStyles['paddingor'])}>
-            <div ref={displayRef} style={{width: 0, height: props.panelHeight, margin: 0}} className={cx(showCodePanelStyles['panelDisplaySide'], "javascript")}>
-                <pre ref={preRef} style={{height: props.panelHeight, margin: 0}}>
-                    <code className="language-javascript">
-                        <p className={cx(showCodePanelStyles['codeDisplay'])}>{ showRawComp }</p>
-                    </code>
-                </pre>
-            </div>
+        <Col ref={displayRef} style={{width: 0, height: props.panelHeight, margin: 0}}>
+            <Highlight ref={preRef} language={javascriptLang}>
+                { showRawComp }
+            </Highlight>
         </Col>
+
     );
 };
 
 export default ShowCodePanel;
+
+/*
+<Col className={cx(showCodePanelStyles['paddingor'])}>
+    <div ref={displayRef} style={{width: 0, height: props.panelHeight, margin: 0}} className={cx(showCodePanelStyles['panelDisplaySide'], "javascript")}>
+        <pre ref={preRef} style={{height: props.panelHeight, margin: 0}}>
+            <code>
+                <p className={cx(showCodePanelStyles['codeDisplay'])}>{ showRawComp }</p>
+            </code>
+        </pre>
+    </div>
+</Col>
+*/
