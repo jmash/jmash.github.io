@@ -1,21 +1,9 @@
-.panelDisplaySide {
-    border: 1px solid lightgrey;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    overflow:auto;
-    background-color: rgb(234, 255, 234);
-    overflow:hidden;
-}
-
 .codeDisplay {
     white-space: pre-wrap;
-    color: #143217;
-    padding:5px;
-    background-color: #deffec;
-    /* word-wrap:none; */
-    overflow-x: scroll;
+    overflow-x: visible;
+    max-height: 324px;
 }
 
-.paddingor {
-    padding: 0 !important;
+.codeDisplay > code {
+    border-radius: .25rem;
 }
