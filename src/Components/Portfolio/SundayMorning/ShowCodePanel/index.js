@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Col from 'react-bootstrap/Col';
-import gsap from 'gsap';
+import Card from 'react-bootstrap/Card';
 import Highlight from 'react-highlight.js';
 import javascriptLang from 'highlight.js/lib/languages/javascript';
 import cx from 'classnames';
@@ -19,33 +19,6 @@ import showCodePanelStyles from './ShowCodePanel.module.css';
 const ShowCodePanel = (props) => {
     let showRawComp;
 
-    let displayRef = useRef(null);
-    const preRef = useRef(null);
-
-    const [panelAnimation, setPanelAnimation] = useState(null);
-    const [panelActive, setPanelActive] = useState(false);
-
-    if(props.active !== panelActive) {
-        setPanelActive((prevState) => !prevState);
-        console.log(props.active);
-        panelAnimation.play();        
-    }
-
-    
-    useEffect(() => {
-        if(panelActive) {
-            setPanelAnimation(
-                gsap.timeline()
-                    .to([displayRef.current, preRef.current], {duration: 0.25, width: '100%', opacity: 0.75 })
-                    .to([displayRef.current, preRef.current], {duration: 0.25, height: '500px', opacity: 1})
-            )
-        } else {
-            setPanelAnimation(
-                gsap.to(displayRef.current, {duration: 0.5, width: '0', height: props.panelHeight, opacity: 0})
-            )
-        }
-    }, [panelActive, props.panelHeight]);
-
     switch(props.showComp) {
         case "FizzBuzz": showRawComp = FizzBuzzRaw; break;
         case "Palindrome": showRawComp = PalindromeRaw; break;
@@ -56,11 +29,11 @@ const ShowCodePanel = (props) => {
     }
     
     return (
-        <Col ref={displayRef} style={{width: 0, height: props.panelHeight, margin: 0}}>
-            <Highlight ref={preRef} language={javascriptLang}>
+        <Card style={{position: 'absolute', minWidth: props.displayWidth, width: props.displayWidth, height: props.displayHeight, margin: 0, padding: 0}}>
+            <Highlight style={{maxHeight: props.displayHeight}} className={cx(showCodePanelStyles['codeDisplay'])} language={'javascript'}>
                 { showRawComp }
             </Highlight>
-        </Col>
+        </Card>
 
     );
 };
