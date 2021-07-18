@@ -19,10 +19,10 @@ class SundayMorning extends Component {
                     </Col>
                 </Row>
                 <FizzBuzz />
-                <Palindrome />
+                {/* <Palindrome />
                 <RandomQuote />
                 <LetterAnalyzer />
-                <TicTacToe />
+                <TicTacToe /> */}
             </Container>
         );
     }
