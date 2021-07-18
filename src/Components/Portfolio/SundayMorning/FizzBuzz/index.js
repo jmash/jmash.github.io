@@ -8,6 +8,7 @@ import ShowCodeButton from '../ShowCodeButton';
 import ShowCodePanel from '../ShowCodePanel';
 import fizzbuzzStyles from './FizzBuzz.module.css';
 import cx from 'classnames';
+import gsap from 'gsap';
 import { interpret } from 'xstate';
 import { Subject } from 'rxjs';
 import { fizzbuzzMachine } from './fizzbuzzMachine';
@@ -34,6 +35,7 @@ class FizzBuzzLogic {
 
 const fizzbuzzLogic = new FizzBuzzLogic();
 const fizzbuzzSubj = new Subject();
+const tl = gsap.timeline();
 
 export default class FizzBuzz extends Component {
     constructor() {
@@ -56,10 +58,12 @@ export default class FizzBuzz extends Component {
 
     componentDidMount() {
         this.fizzbuzzService.start();
+        tl.pause();
+
         
         this.setState({
-            fbDisplayHeight: this.fbRef.current.clientHeight,
-            fbDisplayWidth: this.fbRef.current.clientWidth
+            fbDisplayHeight: this.fbRef.current.offsetHeight,
+            fbDisplayWidth: this.fbRef.current.offsetWidth
         });
 
         fizzbuzzSubj.subscribe({
@@ -91,9 +95,9 @@ export default class FizzBuzz extends Component {
 
     render() {
         return (
-            <Row className={cx(fizzbuzzStyles['rowSpacing'])}>
-                <Col className={cx(fizzbuzzStyles['paddingor'])}>
-                    <Card ref={this.fbRef} className={cx(fizzbuzzStyles['topRightor'])}>
+            <Row>
+                <Col style={{perspective: 1100, transformStyle: "preserve-3d"}}>
+                    <Card style={{zIndex: 10, position:'absolute', minWidth: this.state.fbDisplayWidth }} ref={this.fbRef}>
                         <Card.Title className={cx(fizzbuzzStyles['fizzbuzzTitle'])}>
                             <div>
                                 Fizzbuzz
@@ -111,15 +115,15 @@ export default class FizzBuzz extends Component {
                                 <Form.Control className={cx(fizzbuzzStyles['no-resize'])} readOnly value={this.state.fbDisplay} as="textarea" rows={3} />
                             </Form.Group>
                         </Card.Body>
-                    </Card>
+                    </Card >
+                    <ShowCodePanel
+                        showComp="FizzBuzz" 
+                        displayHeight={ this.state.fbDisplayHeight }
+                        displayWidth={ this.state.fbDisplayWidth }
+                        active={ this.state.fbShowCodeActive }
+                    />
                 </Col>
-                <ShowCodePanel className={cx(fizzbuzzStyles['paddingor'])}
-                    showComp="FizzBuzz" 
-                    panelHeight={ this.state.fbDisplayHeight }
-                    panelWidth={ this.state.fbDisplayWidth }
-                    active={ this.state.fbShowCodeActive }
-                    position="bottom"
-                />
+                
             </Row>
         )
     }
