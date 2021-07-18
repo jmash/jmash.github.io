@@ -46,7 +46,7 @@ const Header = () => {
                     </Nav.Link>
                 </Nav>
             </Navbar.Collapse>
-            </Navbar>
+        </Navbar>
     );
 };
 
