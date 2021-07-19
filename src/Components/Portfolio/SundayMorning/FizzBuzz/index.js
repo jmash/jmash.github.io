@@ -53,17 +53,20 @@ export default class FizzBuzz extends Component {
             fbShowCodeActive: false
         }
 
-        this.fbRef = React.createRef();
+        this.frontCardRef = React.createRef();
+        this.backCardRef = React.createRef();
     }
 
     componentDidMount() {
         this.fizzbuzzService.start();
-        tl.pause();
+        console.log(this.frontCardRef.current);
+        console.log(this.backCardNode);
+        tl.set(this.backCardNode, {rotationY:-180});
 
         
         this.setState({
-            fbDisplayHeight: this.fbRef.current.offsetHeight,
-            fbDisplayWidth: this.fbRef.current.offsetWidth
+            fbDisplayHeight: this.frontCardRef.current.offsetHeight,
+            fbDisplayWidth: this.frontCardRef.current.offsetWidth
         });
 
         fizzbuzzSubj.subscribe({
@@ -77,6 +80,7 @@ export default class FizzBuzz extends Component {
 
     componentWillUnmount() {
         this.fizzbuzzService.stop();
+        tl.stop();
     }
 
     handleFBInputChange = (e) => {
@@ -91,13 +95,17 @@ export default class FizzBuzz extends Component {
         this.setState(prevState => ({
             fbShowCodeActive: !prevState.fbShowCodeActive
         }));
+
+        tl.to(this.frontCardRef.current, 0.5, {rotationY: 180})
+          .to(this.backCardNode, 0.5, {rotationY: 0}, 0);
+
     }
 
     render() {
         return (
             <Row>
                 <Col style={{perspective: 1100, transformStyle: "preserve-3d"}}>
-                    <Card style={{zIndex: 10, position:'absolute', minWidth: this.state.fbDisplayWidth }} ref={this.fbRef}>
+                    <Card style={{zIndex: 10, position:'absolute', minWidth: this.state.fbDisplayWidth }} ref={this.frontCardRef}>
                         <Card.Title className={cx(fizzbuzzStyles['fizzbuzzTitle'])}>
                             <div>
                                 Fizzbuzz
@@ -117,6 +125,7 @@ export default class FizzBuzz extends Component {
                         </Card.Body>
                     </Card >
                     <ShowCodePanel
+                        backCardRef={ bcref => this.backCardNode =  bcref }
                         showComp="FizzBuzz" 
                         displayHeight={ this.state.fbDisplayHeight }
                         displayWidth={ this.state.fbDisplayWidth }
@@ -128,5 +137,5 @@ export default class FizzBuzz extends Component {
         )
     }
 }
-
+//<Field inputRef={node => this.inputNode = node}
 
