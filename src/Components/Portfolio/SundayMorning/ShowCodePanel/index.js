@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Highlight from 'react-highlight.js';
-import javascriptLang from 'highlight.js/lib/languages/javascript';
 import cx from 'classnames';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import FizzBuzzRaw from '!!raw-loader!../FizzBuzz/index.js';
@@ -18,6 +17,7 @@ import showCodePanelStyles from './ShowCodePanel.module.css';
 
 const ShowCodePanel = (props) => {
     let showRawComp;
+    const { backCardRef } = props;
 
     switch(props.showComp) {
         case "FizzBuzz": showRawComp = FizzBuzzRaw; break;
@@ -29,7 +29,7 @@ const ShowCodePanel = (props) => {
     }
     
     return (
-        <Card style={{position: 'absolute', minWidth: props.displayWidth, width: props.displayWidth, height: props.displayHeight, margin: 0, padding: 0}}>
+        <Card ref={backCardRef} style={{position: 'absolute', minWidth: props.displayWidth, width: props.displayWidth, height: props.displayHeight, margin: 0, padding: 0}}>
             <Highlight style={{maxHeight: props.displayHeight}} className={cx(showCodePanelStyles['codeDisplay'])} language={'javascript'}>
                 { showRawComp }
             </Highlight>
