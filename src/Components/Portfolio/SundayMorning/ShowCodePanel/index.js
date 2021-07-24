@@ -29,7 +29,7 @@ const ShowCodePanel = (props) => {
     }
     
     return (
-        <Card ref={backCardRef} style={{position: 'absolute', minWidth: props.displayWidth, width: props.displayWidth, height: props.displayHeight, margin: 0, padding: 0}}>
+        <Card ref={backCardRef} className={'w-75'} style={{position: 'absolute', minWidth: props.displayWidth, width: props.displayWidth, height: props.displayHeight, margin: 0, padding: 0}}>
             <Highlight style={{maxHeight: props.displayHeight}} className={cx(showCodePanelStyles['codeDisplay'])} language={'javascript'}>
                 { showRawComp }
             </Highlight>
