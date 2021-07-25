@@ -85,7 +85,7 @@ export default class Palindrome extends Component {
     render() {
         return (
             <Row ref={this.palRef} className={cx(palindromeStyles['rowSpacing'])}>
-                <Col  className={cx(palindromeStyles['paddingor'])}>
+                <Col className={cx(palindromeStyles['paddingor'])}>
                     <Card className={cx(palindromeStyles['topRightor'])}>
                         <Card.Title className={cx(palindromeStyles['palindromeStyles'])}>
                         <div>
