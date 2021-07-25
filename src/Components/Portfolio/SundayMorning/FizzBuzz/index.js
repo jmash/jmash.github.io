@@ -111,7 +111,7 @@ export default class FizzBuzz extends Component {
                             <div>
                                 Fizzbuzz
                             </div>
-                            <ShowCodeButton onClick={this.handleShowCodeButtonClick} position='side' active={this.state.fbShowCodeActive} />
+                            <ShowCodeButton onClick={this.handleShowCodeButtonClick} active={this.state.fbShowCodeActive} />
                         </Card.Title>
                         <Card.Subtitle>The classic Fizzbuzz</Card.Subtitle>
                         <Card.Body>
