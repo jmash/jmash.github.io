@@ -1,38 +1,5 @@
-.orstyling {
-    background-color: transparent !important;
-    color: green;
-    border-color: transparent !important;
-    padding: 2px !important;
-    
-}
-
-.orstyling:focus {
-    outline: none !important;
-    border: none !important;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-}
-
-.orstyling .orstyling--active  {
-    color: lightgreen;
-}
-
-.orstyling .orstyling--hover {
-    color: lightseagreen;
-}
-
-.showcodearrow {
-    margin-left: 5px;
-}
-
-.side {
+.showCodeButton {
     position: absolute;
-    right: 0;
-    top: 0;
-}
-
-.bottom {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+    right:0;
+    top:0;
 }
