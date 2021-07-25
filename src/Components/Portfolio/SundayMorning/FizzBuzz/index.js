@@ -58,6 +58,7 @@ export default class FizzBuzz extends Component {
     }
 
     componentDidMount() {
+        
         this.fizzbuzzService.start();
         console.log(this.frontCardRef.current);
         console.log(this.backCardNode);
@@ -80,7 +81,6 @@ export default class FizzBuzz extends Component {
 
     componentWillUnmount() {
         this.fizzbuzzService.stop();
-        tl.stop();
     }
 
     handleFBInputChange = (e) => {
@@ -126,6 +126,7 @@ export default class FizzBuzz extends Component {
                         </Card.Body>
                     </Card >
                     <ShowCodePanel
+                    
                         backCardRef={ bcref => this.backCardNode =  bcref }
                         showComp="FizzBuzz" 
                         displayHeight={ this.state.fbDisplayHeight }
