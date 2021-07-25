@@ -96,8 +96,9 @@ export default class FizzBuzz extends Component {
             fbShowCodeActive: !prevState.fbShowCodeActive
         }));
 
-        tl.to(this.frontCardRef.current, 0.5, {rotationY: 180})
-          .to(this.backCardNode, 0.5, {rotationY: 0}, 0);
+        tl.to(this.frontCardRef.current, {rotationY: 180})
+          .to(this.backCardNode, {rotationY: 0}, 0)
+          .set(this.frontCardRef.current, {display:'none'});
 
     }
 
@@ -105,7 +106,7 @@ export default class FizzBuzz extends Component {
         return (
             <Row>
                 <Col style={{perspective: 1100, transformStyle: "preserve-3d"}}>
-                    <Card style={{zIndex: 10, position:'absolute', minWidth: this.state.fbDisplayWidth }} ref={this.frontCardRef}>
+                    <Card className={'w-75'} style={{zIndex: 10, position:'absolute', minWidth: this.state.fbDisplayWidth }} ref={this.frontCardRef}>
                         <Card.Title className={cx(fizzbuzzStyles['fizzbuzzTitle'])}>
                             <div>
                                 Fizzbuzz
