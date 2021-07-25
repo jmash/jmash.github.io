@@ -4,8 +4,6 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Cell from './Cell';
-import ShowCodeButton from '../../ShowCodeButton';
-import ShowCodePanel from '../../ShowCodePanel';
 import tictactoeStyles from './TicTacToe.module.css';
 import cx from 'classnames';
 import gsap from 'gsap';
@@ -23,8 +21,6 @@ export default class TicTacToe extends Component {
             tttDisplay: [['', '', ''], ['', '', ''], ['', '', '']],
             tttCurrent: tictactoeMachine.initialState,
             tttShowCodeActive: false,
-            tttDisplayHeight: 0,
-            tttDisplayWidth: 0,
         }
 
         this.tttRef = React.createRef();
@@ -34,12 +30,6 @@ export default class TicTacToe extends Component {
 
     componentDidMount() {
         this.tictactoeService.start();
-
-        this.setState({
-            tttDisplayHeight: this.tttRef.current.clientHeight,
-            tttDisplayWidth: this.tttRef.current.clientWidth,
-            tttShowCodeActive: false
-        });
     }
 
     componentWillUnmount() {
@@ -69,7 +59,7 @@ export default class TicTacToe extends Component {
             });
     }
 
-    handleStartClick = (event) => {
+    handleStartClick = () => {
         if(this.state.tttCurrent.matches('reset')) {
             this.tictactoeService.send({type: 'START_GAME'})
         } else {
@@ -125,132 +115,116 @@ export default class TicTacToe extends Component {
         }
   
         return(
-            <Row className={cx(tictactoeStyles['rowSpacing'])}>
-                <Col ref={this.tttRef} className={cx(tictactoeStyles['paddingor'])}>
-                    <Card className={cx(tictactoeStyles['topRightor'])}>
-                        <Card.Title>
-                            <div>
-                                TicTacToe
-                            </div>
-                            <ShowCodeButton onClick={this.handleShowCodeButtonClick} position='side' active={this.state.tttShowCodeActive} />
-                        </Card.Title>
-                        <Card.Subtitle>The Classic Game of TicTacToe!</Card.Subtitle>
-                        <Card.Header>{gameStatusText}</Card.Header>
-                        <Card.Body className={cx(tictactoeStyles['tttBoard'])}>
-                            <Row>
-                                <Col className={cx(tictactoeStyles['tttCol'])}>
-                                    <Cell
-                                        ref={(ref) => { this.cellRefs[0] = ref }} 
-                                        onClick={this.handleCellClick}
-                                        dataPos="0_0"
-                                        gridPos="topLeft"
-                                        cellDisplay={this.state.tttDisplay[0][0]} />
-                                </Col>
-                                <Col className={cx(tictactoeStyles['tttCol'])}>
-                                    <Cell
-                                        ref={(ref) => { this.cellRefs[1] = ref }} 
-                                        onClick={this.handleCellClick}
-                                        dataPos="0_1"
-                                        gridPos="top"
-                                        cellDisplay={this.state.tttDisplay[0][1]}/>
-                                </Col>
-                                <Col className={cx(tictactoeStyles['tttCol'])}>
-                                    <Cell
-                                        ref={(ref) => { this.cellRefs[2] = ref }}
-                                        onClick={this.handleCellClick}
-                                        dataPos="0_2"
-                                        gridPos="topRight"
-                                        cellDisplay={this.state.tttDisplay[0][2]}/>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col className={cx(tictactoeStyles['tttCol'])}>
-                                    <Cell
-                                        ref={(ref) => { this.cellRefs[3] = ref }}
-                                        onClick={this.handleCellClick}
-                                        dataPos="1_0"
-                                        gridPos="left"
-                                        cellDisplay={this.state.tttDisplay[1][0]}/>
-                                </Col>
-                                <Col className={cx(tictactoeStyles['tttCol'])}>
-                                    <Cell
-                                        ref={(ref) => { this.cellRefs[4] = ref }}
-                                        onClick={this.handleCellClick}
-                                        dataPos="1_1"
-                                        gridPos=""
-                                        cellDisplay={this.state.tttDisplay[1][1]}/>
-                                </Col>
-                                <Col className={cx(tictactoeStyles['tttCol'])}>
-                                    <Cell
-                                        ref={(ref) => { this.cellRefs[5] = ref }}
-                                        onClick={this.handleCellClick}
-                                        dataPos="1_2"
-                                        gridPos="right"
-                                        cellDisplay={this.state.tttDisplay[1][2]}/>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col className={cx(tictactoeStyles['tttCol'])}>
-                                    <Cell
-                                        ref={(ref) => { this.cellRefs[6] = ref }}
-                                        onClick={this.handleCellClick}
-                                        dataPos="2_0"
-                                        gridPos="bottomLeft"
-                                        cellDisplay={this.state.tttDisplay[2][0]}/>
-                                </Col>
-                                <Col className={cx(tictactoeStyles['tttCol'])}>
-                                    <Cell
-                                        ref={(ref) => { this.cellRefs[7] = ref }}                                       
-                                        onClick={this.handleCellClick}
-                                        dataPos="2_1"
-                                        gridPos="bottom"
-                                        cellDisplay={this.state.tttDisplay[2][1]}/>
-                                </Col>
-                                <Col className={cx(tictactoeStyles['tttCol'])}>
-                                    <Cell
-                                        ref={(ref) => { this.cellRefs[8] = ref }}
-                                        onClick={this.handleCellClick}
-                                        dataPos="2_2" 
-                                        gridPos="bottomRight"
-                                        cellDisplay={this.state.tttDisplay[2][2]}/>
-                                </Col>
-                            </Row>
-                        </Card.Body>
-                        <Card.Footer>
-                            <Row>
-                                <Col className={cx(tictactoeStyles['footerColCenter'])}>
-                                    {this.state.tttCurrent.matches('playerOneTurn') && <span className={cx(tictactoeStyles['turnActive'])}>
-                                        Player One
-                                    </span>
-                                    }
-                                    {!this.state.tttCurrent.matches('playerOneTurn') && <span>
-                                        Player One
-                                    </span>
-                                    }
-                                </Col>
-                                <Col className={cx(tictactoeStyles['footerColCenter'])}>
-                                    <Button onClick={this.handleStartClick}>{startButtonText}</Button>
-                                </Col>
-                                <Col className={cx(tictactoeStyles['footerColCenter'])}>
-                                    {this.state.tttCurrent.matches('playerTwoTurn') && <span className={cx(tictactoeStyles['turnActive'])}>
-                                        Player Two
-                                    </span>
-                                    }
-                                    {!this.state.tttCurrent.matches('playerTwoTurn') && <span>
-                                        Player Two
-                                    </span>
-                                    }
-                                </Col>
-                            </Row>
-                        </Card.Footer>
-                    </Card>
-                </Col>
-                <ShowCodePanel className={cx(tictactoeStyles['paddingor'])}
-                    showComp="TicTacToe" 
-                    panelHeight={ this.state.tttDisplayHeight }
-                    panelWidth={ this.state.tttDisplayWidth }
-                    active={ this.state.tttShowCodeActive }/>
-            </Row>
+            <>
+                <Card.Header>{gameStatusText}</Card.Header>
+                <Card.Body className={cx(tictactoeStyles['tttBoard'])}>
+                    <Row>
+                        <Col className={cx(tictactoeStyles['tttCol'])}>
+                            <Cell
+                                ref={(ref) => { this.cellRefs[0] = ref }} 
+                                onClick={this.handleCellClick}
+                                dataPos="0_0"
+                                gridPos="topLeft"
+                                cellDisplay={this.state.tttDisplay[0][0]} />
+                        </Col>
+                        <Col className={cx(tictactoeStyles['tttCol'])}>
+                            <Cell
+                                ref={(ref) => { this.cellRefs[1] = ref }} 
+                                onClick={this.handleCellClick}
+                                dataPos="0_1"
+                                gridPos="top"
+                                cellDisplay={this.state.tttDisplay[0][1]}/>
+                        </Col>
+                        <Col className={cx(tictactoeStyles['tttCol'])}>
+                            <Cell
+                                ref={(ref) => { this.cellRefs[2] = ref }}
+                                onClick={this.handleCellClick}
+                                dataPos="0_2"
+                                gridPos="topRight"
+                                cellDisplay={this.state.tttDisplay[0][2]}/>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className={cx(tictactoeStyles['tttCol'])}>
+                            <Cell
+                                ref={(ref) => { this.cellRefs[3] = ref }}
+                                onClick={this.handleCellClick}
+                                dataPos="1_0"
+                                gridPos="left"
+                                cellDisplay={this.state.tttDisplay[1][0]}/>
+                        </Col>
+                        <Col className={cx(tictactoeStyles['tttCol'])}>
+                            <Cell
+                                ref={(ref) => { this.cellRefs[4] = ref }}
+                                onClick={this.handleCellClick}
+                                dataPos="1_1"
+                                gridPos=""
+                                cellDisplay={this.state.tttDisplay[1][1]}/>
+                        </Col>
+                        <Col className={cx(tictactoeStyles['tttCol'])}>
+                            <Cell
+                                ref={(ref) => { this.cellRefs[5] = ref }}
+                                onClick={this.handleCellClick}
+                                dataPos="1_2"
+                                gridPos="right"
+                                cellDisplay={this.state.tttDisplay[1][2]}/>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className={cx(tictactoeStyles['tttCol'])}>
+                            <Cell
+                                ref={(ref) => { this.cellRefs[6] = ref }}
+                                onClick={this.handleCellClick}
+                                dataPos="2_0"
+                                gridPos="bottomLeft"
+                                cellDisplay={this.state.tttDisplay[2][0]}/>
+                        </Col>
+                        <Col className={cx(tictactoeStyles['tttCol'])}>
+                            <Cell
+                                ref={(ref) => { this.cellRefs[7] = ref }}                                       
+                                onClick={this.handleCellClick}
+                                dataPos="2_1"
+                                gridPos="bottom"
+                                cellDisplay={this.state.tttDisplay[2][1]}/>
+                        </Col>
+                        <Col className={cx(tictactoeStyles['tttCol'])}>
+                            <Cell
+                                ref={(ref) => { this.cellRefs[8] = ref }}
+                                onClick={this.handleCellClick}
+                                dataPos="2_2" 
+                                gridPos="bottomRight"
+                                cellDisplay={this.state.tttDisplay[2][2]}/>
+                        </Col>
+                    </Row>
+                </Card.Body>
+                <Card.Footer>
+                    <Row>
+                        <Col className={cx(tictactoeStyles['footerColCenter'])}>
+                            {this.state.tttCurrent.matches('playerOneTurn') && <span className={cx(tictactoeStyles['turnActive'])}>
+                                Player One
+                            </span>
+                            }
+                            {!this.state.tttCurrent.matches('playerOneTurn') && <span>
+                                Player One
+                            </span>
+                            }
+                        </Col>
+                        <Col className={cx(tictactoeStyles['footerColCenter'])}>
+                            <Button onClick={this.handleStartClick}>{startButtonText}</Button>
+                        </Col>
+                        <Col className={cx(tictactoeStyles['footerColCenter'])}>
+                            {this.state.tttCurrent.matches('playerTwoTurn') && <span className={cx(tictactoeStyles['turnActive'])}>
+                                Player Two
+                            </span>
+                            }
+                            {!this.state.tttCurrent.matches('playerTwoTurn') && <span>
+                                Player Two
+                            </span>
+                            }
+                        </Col>
+                    </Row>
+                </Card.Footer>
+            </>
         )
     }
 }

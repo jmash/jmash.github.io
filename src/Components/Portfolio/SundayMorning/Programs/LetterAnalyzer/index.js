@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import ShowCodePanel from '../../ShowCodePanel';
-import ShowCodeButton from '../../ShowCodeButton';
 import letterAnalyzerStyles from './LetterAnalyzer.module.css';
 import cx from 'classnames';
 import { interpret } from 'xstate';
@@ -89,13 +85,6 @@ export default class LetterAnalyzer extends Component {
 
         this.letterAnalyzerService.start();
 
-        this.setState({
-            laDisplayHeight: this.laRef.current.clientHeight,
-            laDisplayWidth: this.laRef.current.clientWidth
-        }, () => {
-            console.log(this.state.laDisplayHeight);
-        })
-
         letterAnalyzerSubj.subscribe({
             next: () => {
                 let letterBreakdown = {};
@@ -147,41 +136,21 @@ export default class LetterAnalyzer extends Component {
 
     render() {
         return (
-            <Row className={cx(letterAnalyzerStyles['rowSpacing'])}>
-                <Col className={cx(letterAnalyzerStyles['paddingor'])}>
-                    <Card ref={this.laRef} className={cx(letterAnalyzerStyles['topRightor'])}>
-                        <Card.Title className={cx(letterAnalyzerStyles['letterAnalyzerTitle'])}>
-                            <div>
-                                Letter Analzyer
-                            </div>
-                            <ShowCodeButton onClick={this.handleShowCodeButtonClick} position='side' active={this.state.laShowCodeActive} />
-                        </Card.Title>
-                        <Card.Subtitle>Enter some text and get a breakdown of how many of each letter was used</Card.Subtitle>
-                        <Card.Body>
-                            <Form.Group>
-                                <Form.Control className={cx(letterAnalyzerStyles['no-resize'])} as="textarea" rows={5} onChange={this.handleLAInputChange} />
-                                    <Form.Text>Limit of 10000 characters - {this.state.laCharCount}/{this.state.laCharMax} characters left</Form.Text>
-                                <Button 
-                                    disabled={this.state.laCurrent.matches('error') ||
-                                                this.state.laCurrent.matches('start') } 
-                                    onClick={() => letterAnalyzerSubj.next() }>
-                                        Generate Letter Analysis
-                                </Button>
-                            </Form.Group>
-                            <div className={cx(letterAnalyzerStyles['letterAnalyzer'])}>
-                                <canvas ref={this.canvasRef} id="letterAnalyzerChart" width="200" height="200"/>
-                            </div>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <ShowCodePanel className={cx(letterAnalyzerStyles['paddingor'])}
-                    showComp="LetterAnalyzer" 
-                    panelHeight={ this.state.laDisplayHeight }
-                    panelWidth={ this.state.laDisplayWidth }
-                    active={ this.state.laShowCodeActive }
-                />
-                
-            </Row>
+            <Card.Body>
+                <Form.Group>
+                    <Form.Control className={cx(letterAnalyzerStyles['no-resize'])} as="textarea" rows={5} onChange={this.handleLAInputChange} />
+                        <Form.Text>Limit of 10000 characters - {this.state.laCharCount}/{this.state.laCharMax} characters left</Form.Text>
+                    <Button 
+                        disabled={this.state.laCurrent.matches('error') ||
+                                    this.state.laCurrent.matches('start') } 
+                        onClick={() => letterAnalyzerSubj.next() }>
+                            Generate Letter Analysis
+                    </Button>
+                </Form.Group>
+                <div className={cx(letterAnalyzerStyles['letterAnalyzer'])}>
+                    <canvas ref={this.canvasRef} id="letterAnalyzerChart" width="200" height="200"/>
+                </div>
+            </Card.Body>
         )
     }
 }
