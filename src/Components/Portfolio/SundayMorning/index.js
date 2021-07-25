@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import ProgramCard from './ProgramCard';
 import Container from 'react-bootstrap/Container';
-import FizzBuzz from './FizzBuzz';
-import Palindrome from './Palindrome';
-import RandomQuote from './RandomQuote';
-import LetterAnalyzer from './LetterAnalyzer';
-import TicTacToe from './TicTacToe';
+import FizzBuzz from './Programs/FizzBuzz';
+import Palindrome from './Programs/Palindrome';
+import RandomQuote from './Programs/RandomQuote';
+import LetterAnalyzer from './Programs/LetterAnalyzer';
+import TicTacToe from './Programs/TicTacToe';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 

@@ -4,15 +4,15 @@ import Card from 'react-bootstrap/Card';
 import Highlight from 'react-highlight.js';
 import cx from 'classnames';
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import FizzBuzzRaw from '!!raw-loader!../FizzBuzz/index.js';
+import FizzBuzzRaw from '!!raw-loader!../Programs/FizzBuzz/index.js';
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import LetterAnalyzerRaw from '!!raw-loader!../LetterAnalyzer/index.js'
+import LetterAnalyzerRaw from '!!raw-loader!../Programs/LetterAnalyzer/index.js'
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import PalindromeRaw from '!!raw-loader!../Palindrome/index.js'
+import PalindromeRaw from '!!raw-loader!../Programs/Palindrome/index.js'
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import RandomQuoteRaw from '!!raw-loader!../RandomQuote/index.js'
+import RandomQuoteRaw from '!!raw-loader!../Programs/RandomQuote/index.js'
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import TicTacToeRaw from '!!raw-loader!../TicTacToe/index.js'
+import TicTacToeRaw from '!!raw-loader!../Programs/TicTacToe/index.js'
 import showCodePanelStyles from './ShowCodePanel.module.css';
 
 const ShowCodePanel = (props) => {
