@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
-import Col from 'react-bootstrap/Col';
+import React from 'react';
+import ShowCodeButton from '../ShowCodeButton';
 import Card from 'react-bootstrap/Card';
 import Highlight from 'react-highlight.js';
 import cx from 'classnames';
@@ -30,6 +30,7 @@ const ShowCodePanel = (props) => {
     
     return (
         <Card ref={backCardRef} className={'w-75'} style={{position: 'absolute', minWidth: props.displayWidth, width: props.displayWidth, height: props.displayHeight, margin: 0, padding: 0}}>
+            <ShowCodeButton />
             <Highlight style={{maxHeight: props.displayHeight}} className={cx(showCodePanelStyles['codeDisplay'])} language={'javascript'}>
                 { showRawComp }
             </Highlight>
@@ -39,15 +40,3 @@ const ShowCodePanel = (props) => {
 };
 
 export default ShowCodePanel;
-
-/*
-<Col className={cx(showCodePanelStyles['paddingor'])}>
-    <div ref={displayRef} style={{width: 0, height: props.panelHeight, margin: 0}} className={cx(showCodePanelStyles['panelDisplaySide'], "javascript")}>
-        <pre ref={preRef} style={{height: props.panelHeight, margin: 0}}>
-            <code>
-                <p className={cx(showCodePanelStyles['codeDisplay'])}>{ showRawComp }</p>
-            </code>
-        </pre>
-    </div>
-</Col>
-*/
