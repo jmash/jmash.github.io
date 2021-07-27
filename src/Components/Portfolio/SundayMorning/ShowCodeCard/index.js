@@ -13,7 +13,7 @@ import PalindromeRaw from '!!raw-loader!../Programs/Palindrome/index.js'
 import RandomQuoteRaw from '!!raw-loader!../Programs/RandomQuote/index.js'
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import TicTacToeRaw from '!!raw-loader!../Programs/TicTacToe/index.js'
-import showCodePanelStyles from './ShowCodePanel.module.css';
+import showCodeCardStyles from './ShowCodeCard.module.css';
 
 const ShowCodeCard = (props) => {
     let showRawComp;
