@@ -1,0 +1,9 @@
+.codeDisplay {
+    white-space: pre-wrap;
+    overflow-x: visible;
+    max-height: 324px;
+}
+
+.codeDisplay > code {
+    border-radius: .25rem;
+}
