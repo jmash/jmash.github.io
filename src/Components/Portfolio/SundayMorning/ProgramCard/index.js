@@ -1,19 +1,41 @@
 import React, { Component } from 'react';
+import Row from 'react-bootstrap/Row';
+import ShowCodeCard from '../ShowCodeCard';
 import Card from 'react-bootstrap/Card';
 
 export default class ProgramCard extends Component {
+    constructor() {
+        super();
+
+        this.pcRef = React.createRef();
+
+        this.state = {
+            pcDisplayWidth: 0,
+            pcDisplayHeight: 0,
+        }
+    }
+
+    componentDidMount() {
+        this.setState({
+            pcDisplayHeight: this.pcRef.current.offsetHeight,
+        });
+    }
+
     render() {
         return (
-            <Card className={'w-75 my-3'} >
-                <Card.Title className={'pl-2 pt-1'}>
-                        {this.props.programTitle}
-                </Card.Title>
-                
-                <Card.Subtitle className={'pl-3'}>{this.props.programSubtitle}</Card.Subtitle>
-                {this.props.program}
-                
-            </Card>
-            
+            <Row>
+                <Card style={{zIndex: 5}} ref={this.pcRef} className={'w-75 shadow-sm position-absolute'} >
+                    <Card.Title className={'pl-2 pt-1'}>
+                            {this.props.programTitle}
+                    </Card.Title>
+                    
+                    <Card.Subtitle className={'pl-3'}>{this.props.programSubtitle}</Card.Subtitle>
+                    {this.props.program}
+
+                    {this.state.pcDisplayHeight}
+                </Card>
+                <ShowCodeCard displayHeight={this.state.pcDisplayHeight} />
+            </Row>
         );
     }
 }
