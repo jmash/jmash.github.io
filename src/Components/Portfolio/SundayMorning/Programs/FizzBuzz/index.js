@@ -32,11 +32,13 @@ const fizzbuzzLogic = new FizzBuzzLogic();
 const fizzbuzzSubj = new Subject();
 
 export default class FizzBuzz extends Component {
+
     constructor() {
         super();
 
-        this.fizzbuzzService = interpret(fizzbuzzMachine).onTransition(fbCurrent =>
-            this.setState({ fbCurrent })
+        this.fizzbuzzService = interpret(fizzbuzzMachine).onTransition(fbCurrent => {
+                this.setState({ fbCurrent });
+            }
         );
 
         this.state = {
@@ -47,7 +49,7 @@ export default class FizzBuzz extends Component {
     }
 
     componentDidMount() {
-        this.fizzbuzzService.start();
+        fizzbuzzSubj.isStopped = false;
 
         fizzbuzzSubj.subscribe({
             next: () => {
@@ -56,18 +58,21 @@ export default class FizzBuzz extends Component {
                 this.setState({fbDisplay: fizzbuzzLogic.generateFB(parseInt(inputVal))});
             }
         });
+        
+        this.fizzbuzzService.start();
     }
 
     componentWillUnmount() {
         this.fizzbuzzService.stop();
+        fizzbuzzSubj.complete();
     }
 
     handleFBInputChange = (e) => {
-        this.setState({
-            fbInput: e.target.value
-        }, () => {
-            this.fizzbuzzService.send({ type: 'CHANGE', input: this.state.fbInput });
-        });
+            this.setState({
+                fbInput: e.target.value
+            }, () => {
+                this.fizzbuzzService.send({ type: 'CHANGE', input: this.state.fbInput });
+            });
     }
 
     handleShowCodeButtonClick = () => {
