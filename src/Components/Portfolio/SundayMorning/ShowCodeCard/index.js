@@ -2,7 +2,6 @@ import React from 'react';
 import ShowCodeButton from '../ShowCodeButton';
 import Card from 'react-bootstrap/Card';
 import Highlight from 'react-highlight.js';
-import cx from 'classnames';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import FizzBuzzRaw from '!!raw-loader!../Programs/FizzBuzz/index.js';
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -13,7 +12,6 @@ import PalindromeRaw from '!!raw-loader!../Programs/Palindrome/index.js'
 import RandomQuoteRaw from '!!raw-loader!../Programs/RandomQuote/index.js'
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import TicTacToeRaw from '!!raw-loader!../Programs/TicTacToe/index.js'
-import showCodeCardStyles from './ShowCodeCard.module.css';
 
 const ShowCodeCard = (props) => {
     let showRawComp;
