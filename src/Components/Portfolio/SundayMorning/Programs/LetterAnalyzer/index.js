@@ -81,6 +81,7 @@ export default class LetterAnalyzer extends Component {
     }
 
     componentDidMount() {
+        letterAnalyzerSubj.isStopped = false;
         let letterAnalyzerGraph = LetterAnalyzerLogic.createGraph(this.canvasRef.current, [], []);
 
         this.letterAnalyzerService.start();
@@ -116,6 +117,7 @@ export default class LetterAnalyzer extends Component {
 
     componentWillUnmount() {
         this.letterAnalyzerService.stop();
+        letterAnalyzerSubj.complete();
     }
 
     handleLAInputChange = (e) => {
