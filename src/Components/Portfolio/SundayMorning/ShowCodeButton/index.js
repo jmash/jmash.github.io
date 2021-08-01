@@ -18,7 +18,7 @@ const ShowCodeButton = (props) => {
     }, []);
 
     return (
-        <div className={cx(showCodeButtonStyles['showCodeButton'])}>
+        <div style={{right: 0}} className={'px-1 py-1 position-absolute'}>
             <Button onClick={function() { 
                     symbolAnimation.restart().play();
                     props.onClick();
