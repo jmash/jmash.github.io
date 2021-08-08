@@ -30,7 +30,7 @@ export default class ProgramCard extends Component {
             <Row style={{ transformStyle:'preserve-3d', perspective: 1100, minHeight: this.state.pcDisplayHeight }} className={cx(programCardStyles['containerCard'], 'mb-3 position-relative') }>
                 <Card style={{zIndex: 5}} ref={this.pcRef} className={'w-75 shadow-sm position-absolute'} >
                     <div>
-                        <ShowCodeButton onClick={ this.props.clickFront } />
+                        <ShowCodeButton icon={'code'} onClick={ this.props.clickFront } />
                         <Card.Title className={'pl-2 pt-1'}>
                             {this.props.programTitle}
                         </Card.Title>
