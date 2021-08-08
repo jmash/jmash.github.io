@@ -13,9 +13,8 @@ import RandomQuoteRaw from '!!raw-loader!../Programs/RandomQuote/index.js'
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import TicTacToeRaw from '!!raw-loader!../Programs/TicTacToe/index.js'
 
-const ShowCodeCard = (props) => {
+const ShowCodeCard = React.forwardRef((props, ref) => {
     let showRawComp;
-    const { backCardRef } = props;
 
     switch(props.showComp) {
         case "FizzBuzz": showRawComp = FizzBuzzRaw; break;
@@ -27,13 +26,13 @@ const ShowCodeCard = (props) => {
     }
     
     return (
-        <Card ref={backCardRef} style={{maxHeight: props.displayHeight}} className={'w-75 position-absolute'}>
-            <ShowCodeButton />
+        <Card ref={ref} style={{maxHeight: props.displayHeight}} className={'w-75 position-absolute'}>
+            <ShowCodeButton onClick={props.onClick} />
             <Highlight language={'javascript'}>
                 { showRawComp }
             </Highlight>
         </Card>
     );
-};
+});
 
 export default ShowCodeCard;
