@@ -3,8 +3,6 @@ import Button from 'react-bootstrap/Button';
 import gsap from 'gsap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
-import cx from 'classnames';
-import showCodeButtonStyles from './ShowCodeButton.module.css';
 
 const ShowCodeButton = (props) => {
     let symbolRef = useRef(null);
@@ -18,12 +16,12 @@ const ShowCodeButton = (props) => {
     }, []);
 
     return (
-        <div style={{right: 0}} className={'px-1 py-1 position-absolute'}>
+        <div style={{right: 0}} className={'mr-3 px-1 py-1 position-absolute'}>
             <Button onClick={function() { 
                     symbolAnimation.restart().play();
                     props.onClick();
                 }} 
-                className={'btn btn-light'}>
+                style={{borderColor:'green'}} className={'shadow-sm btn btn-light bg-transparent'}>
                 <div className={'rounded px-1'} ref={el => {symbolRef = el;}}>
                     <FontAwesomeIcon icon={faCode} color="green" />
                 </div>
