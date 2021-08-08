@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import gsap from 'gsap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCode } from '@fortawesome/free-solid-svg-icons';
+import { faCode, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const ShowCodeButton = (props) => {
     let symbolRef = useRef(null);
@@ -15,6 +15,20 @@ const ShowCodeButton = (props) => {
         );
     }, []);
 
+    let iconEl;
+    switch(props.icon) {
+        case('code'):
+            iconEl = <FontAwesomeIcon icon={faCode} color="green" />;
+            break;
+        case('back'):
+            iconEl = <FontAwesomeIcon icon={faArrowLeft} color="green" />;
+            break;
+        default:
+            iconEl = <FontAwesomeIcon icon={faCode} color="green" />;
+            break;
+
+    }
+
     return (
         <div style={{right: 0}} className={'mr-3 px-1 py-1 position-absolute'}>
             <Button onClick={function() { 
@@ -23,7 +37,7 @@ const ShowCodeButton = (props) => {
                 }} 
                 style={{borderColor:'green'}} className={'shadow-sm btn btn-light bg-transparent'}>
                 <div className={'rounded px-1'} ref={el => {symbolRef = el;}}>
-                    <FontAwesomeIcon icon={faCode} color="green" />
+                    {iconEl}
                 </div>
             </Button>
         </div>
