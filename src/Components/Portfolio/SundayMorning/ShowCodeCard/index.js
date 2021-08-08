@@ -27,7 +27,7 @@ const ShowCodeCard = React.forwardRef((props, ref) => {
     
     return (
         <Card ref={ref} style={{maxHeight: props.displayHeight}} className={'w-75 position-absolute'}>
-            <ShowCodeButton onClick={props.onClick} />
+            <ShowCodeButton icon={'back'} onClick={props.onClick} />
             <Highlight language={'javascript'}>
                 { showRawComp }
             </Highlight>
