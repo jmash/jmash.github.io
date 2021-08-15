@@ -83,7 +83,7 @@ const Clock = () => {
         updateClockFrame(p5);
     }
 
-    return <Sketch setup={setup} draw={draw} />;
+    return <Sketch className={'text-center mt-3'} setup={setup} draw={draw} />;
 }
 
 export default Clock;
