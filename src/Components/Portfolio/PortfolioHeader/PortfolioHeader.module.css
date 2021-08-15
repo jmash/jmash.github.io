@@ -1,12 +1,27 @@
 .portfolioHeaderNavItem {
     margin: 0 5px 0 5px;
+    position:relative;
     cursor: pointer;
     border: 1px solid grey;
     border-width: 1px;
     border-radius: 4px;
+    top: 0;
+    transition: top ease 1s;
+    transition: box-shadow 0.1s;
+}
+
+.portfolioHeaderNavItem:hover {
+    background-color: rgba(144,238,144,0.5);
+    box-shadow: -4px 4px 4px grey;
+    top: -2px;
 }
 
 .activePortfolioNavLink {
     font-weight: bold;
-    background: teal;
+    background: lightgreen;
+    border: 2px solid black;
+    box-shadow: -2px 2px 2px grey;
+    transition: background-color 500ms;
+    transition: box-shadow 200ms;
 }
+
