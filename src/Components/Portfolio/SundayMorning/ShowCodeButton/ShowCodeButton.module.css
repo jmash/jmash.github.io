@@ -1,5 +1,3 @@
-.showCodeButton {
-    position: absolute;
-    right:0;
-    top:0;
+.showCodeButton:hover {
+    background: rgba(0, 128, 0, 0.2) !important;
 }
