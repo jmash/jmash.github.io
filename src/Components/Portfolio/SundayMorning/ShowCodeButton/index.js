@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button';
 import gsap from 'gsap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import cx from 'classnames';
+import showCodeButtonStyles from './ShowCodeButton.module.css';
 
 const ShowCodeButton = (props) => {
     let symbolRef = useRef(null);
@@ -35,7 +37,7 @@ const ShowCodeButton = (props) => {
                     symbolAnimation.restart().play();
                     props.onClick();
                 }} 
-                style={{borderColor:'green'}} className={'shadow-sm btn btn-light bg-transparent'}>
+                style={{borderColor:'green'}} className={cx(showCodeButtonStyles['showCodeButton'], 'shadow-sm btn btn-light bg-transparent')}>
                 <div className={'rounded px-1'} ref={el => {symbolRef = el;}}>
                     {iconEl}
                 </div>
