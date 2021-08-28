@@ -1,5 +1,5 @@
 import React from 'react';
-import Nav from 'react-bootstrap/Nav';
+// import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { LinkContainer } from 'react-router-bootstrap';
 import cx from 'classnames';
@@ -8,21 +8,21 @@ import portfolioHeaderStyles from './PortfolioHeader.module.css';
 const PortfolioHeader = () => {
     return (
         <Navbar className={cx('nav-pills')}>
-            <div>
-                <LinkContainer activeClassName={cx(portfolioHeaderStyles['activePortfolioNavLink'])} className={cx('px-2', portfolioHeaderStyles['portfolioHeaderNavItem'])} to="/portfolio/sundaymorning">
-                    <Nav.Item>Sunday Morning</Nav.Item>
-                </LinkContainer>
-            </div>
-            <div>
-                <LinkContainer activeClassName={cx(portfolioHeaderStyles['activePortfolioNavLink'])} className={cx('px-2', portfolioHeaderStyles['portfolioHeaderNavItem'])} to="/portfolio/vierbindungen">
-                    <Nav.Item>Vierbindungen</Nav.Item>
-                </LinkContainer>
-            </div>
-            <div>
-                <LinkContainer activeClassName={cx(portfolioHeaderStyles['activePortfolioNavLink'])} className={cx('px-2', portfolioHeaderStyles['portfolioHeaderNavItem'])} to="/portfolio/clock">
-                    <Nav.Item>Clock</Nav.Item>
-                </LinkContainer>
-            </div>
+            <LinkContainer activeClassName={cx(portfolioHeaderStyles['activePortfolioNavItem'])} className={cx('px-2')} to="/portfolio/sundaymorning">
+                <div className={cx(portfolioHeaderStyles['portfolioHeaderNavItem'])}>
+                    <div className={cx(portfolioHeaderStyles['portfolioNavButton'])}>Sunday Morning</div>
+                </div>
+            </LinkContainer>
+            <LinkContainer activeClassName={cx(portfolioHeaderStyles['activePortfolioNavItem'])} className={cx('px-2')} to="/portfolio/vierbindungen">
+                <div className={cx(portfolioHeaderStyles['portfolioHeaderNavItem'])}>
+                    <div className={cx(portfolioHeaderStyles['portfolioNavButton'])}>Vierbindungen</div>
+                </div>
+            </LinkContainer>
+            <LinkContainer activeClassName={cx(portfolioHeaderStyles['activePortfolioNavItem'])} className={cx('px-2')} to="/portfolio/clock">
+                <div className={cx(portfolioHeaderStyles['portfolioHeaderNavItem'])}>
+                    <div className={cx(portfolioHeaderStyles['portfolioNavButton'])}>Clock</div>
+                </div>
+            </LinkContainer>
         </Navbar>
     );
 };
