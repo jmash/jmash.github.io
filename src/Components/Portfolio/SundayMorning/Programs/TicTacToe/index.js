@@ -119,70 +119,64 @@ export default class TicTacToe extends Component {
                 <Card.Header>{gameStatusText}</Card.Header>
                 <Card.Body>
                     <Row className={'justify-content-center'}>
-                        {/* <Col> */}
-                            <Cell
-                                ref={(ref) => { this.cellRefs[0] = ref }} 
-                                onClick={this.handleCellClick}
-                                dataPos="0_0"
-                                gridPos="topLeft"
-                                cellDisplay={this.state.tttDisplay[0][0]} />
-                        {/* </Col> */}
-                        {/* <Col> */}
-                            <Cell
-                                ref={(ref) => { this.cellRefs[1] = ref }} 
-                                onClick={this.handleCellClick}
-                                dataPos="0_1"
-                                gridPos="top"
-                                cellDisplay={this.state.tttDisplay[0][1]}/>
-                        {/* </Col> */}
-                        {/* <Col> */}
-                            <Cell
-                                ref={(ref) => { this.cellRefs[2] = ref }}
-                                onClick={this.handleCellClick}
-                                dataPos="0_2"
-                                gridPos="topRight"
-                                cellDisplay={this.state.tttDisplay[0][2]}/>
-                        {/* </Col> */}
+                        <Cell
+                            ref={(ref) => { this.cellRefs[0] = ref }} 
+                            onClick={this.handleCellClick}
+                            dataPos="0_0"
+                            gridPos="topLeft"
+                            cellDisplay={this.state.tttDisplay[0][0]} />
+                        <Cell
+                            ref={(ref) => { this.cellRefs[1] = ref }} 
+                            onClick={this.handleCellClick}
+                            dataPos="0_1"
+                            gridPos="top"
+                            cellDisplay={this.state.tttDisplay[0][1]}/>
+                        <Cell
+                            ref={(ref) => { this.cellRefs[2] = ref }}
+                            onClick={this.handleCellClick}
+                            dataPos="0_2"
+                            gridPos="topRight"
+                            cellDisplay={this.state.tttDisplay[0][2]}/>
                     </Row>
                     <Row className={'justify-content-center'} >
-                            <Cell
-                                ref={(ref) => { this.cellRefs[3] = ref }}
-                                onClick={this.handleCellClick}
-                                dataPos="1_0"
-                                gridPos="left"
-                                cellDisplay={this.state.tttDisplay[1][0]}/>
-                            <Cell
-                                ref={(ref) => { this.cellRefs[4] = ref }}
-                                onClick={this.handleCellClick}
-                                dataPos="1_1"
-                                gridPos=""
-                                cellDisplay={this.state.tttDisplay[1][1]}/>
-                            <Cell
-                                ref={(ref) => { this.cellRefs[5] = ref }}
-                                onClick={this.handleCellClick}
-                                dataPos="1_2"
-                                gridPos="right"
-                                cellDisplay={this.state.tttDisplay[1][2]}/>
+                        <Cell
+                            ref={(ref) => { this.cellRefs[3] = ref }}
+                            onClick={this.handleCellClick}
+                            dataPos="1_0"
+                            gridPos="left"
+                            cellDisplay={this.state.tttDisplay[1][0]}/>
+                        <Cell
+                            ref={(ref) => { this.cellRefs[4] = ref }}
+                            onClick={this.handleCellClick}
+                            dataPos="1_1"
+                            gridPos=""
+                            cellDisplay={this.state.tttDisplay[1][1]}/>
+                        <Cell
+                            ref={(ref) => { this.cellRefs[5] = ref }}
+                            onClick={this.handleCellClick}
+                            dataPos="1_2"
+                            gridPos="right"
+                            cellDisplay={this.state.tttDisplay[1][2]}/>
                     </Row>
                     <Row className={'justify-content-center'}>
-                            <Cell
-                                ref={(ref) => { this.cellRefs[6] = ref }}
-                                onClick={this.handleCellClick}
-                                dataPos="2_0"
-                                gridPos="bottomLeft"
-                                cellDisplay={this.state.tttDisplay[2][0]}/>
-                            <Cell
-                                ref={(ref) => { this.cellRefs[7] = ref }}                                       
-                                onClick={this.handleCellClick}
-                                dataPos="2_1"
-                                gridPos="bottom"
-                                cellDisplay={this.state.tttDisplay[2][1]}/>
-                            <Cell
-                                ref={(ref) => { this.cellRefs[8] = ref }}
-                                onClick={this.handleCellClick}
-                                dataPos="2_2" 
-                                gridPos="bottomRight"
-                                cellDisplay={this.state.tttDisplay[2][2]}/>
+                        <Cell
+                            ref={(ref) => { this.cellRefs[6] = ref }}
+                            onClick={this.handleCellClick}
+                            dataPos="2_0"
+                            gridPos="bottomLeft"
+                            cellDisplay={this.state.tttDisplay[2][0]}/>
+                        <Cell
+                            ref={(ref) => { this.cellRefs[7] = ref }}                                       
+                            onClick={this.handleCellClick}
+                            dataPos="2_1"
+                            gridPos="bottom"
+                            cellDisplay={this.state.tttDisplay[2][1]}/>
+                        <Cell
+                            ref={(ref) => { this.cellRefs[8] = ref }}
+                            onClick={this.handleCellClick}
+                            dataPos="2_2" 
+                            gridPos="bottomRight"
+                            cellDisplay={this.state.tttDisplay[2][2]}/>
                     </Row>
                 </Card.Body>
                 <Card.Footer>
