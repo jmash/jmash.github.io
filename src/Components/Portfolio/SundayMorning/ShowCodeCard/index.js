@@ -16,19 +16,19 @@ import TicTacToeRaw from '!!raw-loader!../Programs/TicTacToe/index.js'
 const ShowCodeCard = React.forwardRef((props, ref) => {
     let showRawComp;
 
-    switch(props.showComp) {
+    switch(props.programTitle) {
         case "FizzBuzz": showRawComp = FizzBuzzRaw; break;
-        case "Palindrome": showRawComp = PalindromeRaw; break;
-        case "LetterAnalyzer": showRawComp = LetterAnalyzerRaw; break;
-        case "RandomQuote": showRawComp = RandomQuoteRaw; break;
+        case "Palindrome Checker": showRawComp = PalindromeRaw; break;
+        case "Random Quote Machine": showRawComp = RandomQuoteRaw; break;
+        case "Letter Analyzer": showRawComp = LetterAnalyzerRaw; break;
         case "TicTacToe": showRawComp = TicTacToeRaw; break;
         default: showRawComp = FizzBuzzRaw; break;
     }
-    
+
     return (
-        <Card ref={ref} style={{maxHeight: props.displayHeight}} className={'w-100 position-absolute'}>
+        <Card ref={props.containerRef} style={{maxHeight: props.displayHeight}} className={'w-100 position-absolute'}>
             <ShowCodeButton icon={'back'} onClick={props.onClick} />
-            <Highlight language={'javascript'}>
+            <Highlight ref={props.preRef} language={'javascript'}>
                 { showRawComp }
             </Highlight>
         </Card>
