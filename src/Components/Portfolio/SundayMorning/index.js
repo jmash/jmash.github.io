@@ -36,11 +36,13 @@ class SundayMorning extends Component {
         for(let i = 0; i < this.state.programCount; i++) {
             let frontCard = this.state.refArray[i].current.pcRef.current;
             let backCard = this.state.refArray[i].current.scRef.current;
+            let containerCard = this.state.refArray[i].current.containerRef.current;
             this.state.timelineArray[i].restart();
             this.state.timelineArray[i].pause();
-            this.state.timelineArray[i].set(backCard, {rotationY:-180});
-            this.state.timelineArray[i].to(frontCard, 1, {rotationY:180})
+            this.state.timelineArray[i].set(backCard, {rotationY:-180, height: 500});
+            this.state.timelineArray[i].to(frontCard, 1, {rotationY:180, height: 500})
             .to(backCard, 1, {rotationY:0}, 0)
+            .to(containerCard, 1, {height: 500}, 0)
             .set(frontCard, {visibility:'hidden'});
         }
     }
@@ -84,7 +86,7 @@ class SundayMorning extends Component {
                     <ProgramCard key={4} refIndex={3} ref={this.state.refArray[3]} 
                         clickFront={() => this.flipCardToBack(this.state.refArray[3].current.props.refIndex)} 
                         clickBack={() => this.flipCardToFront(this.state.refArray[3].current.props.refIndex)} 
-                        program={<LetterAnalyzer />} programTitle={'Letter Analzyer'} 
+                        program={<LetterAnalyzer />} programTitle={'Letter Analyzer'} 
                         programSubtitle={'Enter some text and get a breakdown of how many of each letter was used'} />
                     <ProgramCard key={5} refIndex={4} ref={this.state.refArray[4]} 
                         clickFront={() => this.flipCardToBack(this.state.refArray[4].current.props.refIndex)} 
