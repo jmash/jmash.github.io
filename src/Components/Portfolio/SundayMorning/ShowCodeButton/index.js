@@ -32,7 +32,7 @@ const ShowCodeButton = (props) => {
     }
 
     return (
-        <div style={{right: 0}} className={'mr-3 px-1 py-1 position-absolute'}>
+        <div style={{right: 0}} className={'px-1 py-1'}>
             <Button onClick={function() { 
                     symbolAnimation.restart().play();
                     props.onClick();
