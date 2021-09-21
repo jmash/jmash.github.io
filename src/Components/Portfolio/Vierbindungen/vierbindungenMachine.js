@@ -7,137 +7,122 @@ import { Machine } from 'xstate';
  */
 const checkVictory = (_, event) => {
     const grid = event.gameGrid
+    const rowMax = 6;
+    const colMax = 7;
 
-    // ---------------- Check Horizontals --------------------
-    // limit hardcoded as 42 because 7*6=42; the dimensions never change.
-    let victoryCount = 0; // number of adjacent discs of same color per row
-    for(let i = 0; i < 42; i++) {
-      // every seventh disc, drop to next row and reset count.
-      if(i % 7 === 0) victoryCount = 0;
-      // if the grid contains something
-      if(grid[i]) {
-        // and if there are two adjacent, like discs horizontally
-        // (it also has to check and make sure the next disc isn't on the next line)
-        if((grid[i] === grid[i+1]) && ((i+1) % 7 !== 0)) { 
-          victoryCount++;// increase the count of adjacent discs
-          if(victoryCount === 3) return true; // 1 means two adjacent discs, so 3 means four adjacent
-        } 
-        else victoryCount = 0; // if there is a disc of another color inbetween, reset to 0
-      } else victoryCount = 0; // if there is a gap, reset adjacent disc count to 0
-    }
+    function checkHorizontals() {
+      let victoryCount = 0;
+      const checkLength = 4;
+      
+      for(let i = 0; i < rowMax; i++) {
+        for(let j = 0; j < colMax - (checkLength - 1); j++) {
+          victoryCount = 0;
+          let compCell = grid[i*colMax+j];
+          if(compCell) {
+            for(let k = 0; k < checkLength; k++) {
+              if((grid[i*colMax + (j + k)] === grid[i*colMax + ((j + k) + 1)] && 
+                  grid[i*colMax + (j + k)] === compCell)) {
+                victoryCount++;
+              }
 
-    // ---------------- Check Verticals --------------------
-    victoryCount = 0; // reset adjacent disc count
-    for(let i = 0; i < 7; i++) {
-      let j = i; // column position
-      // the limit is set to 42+7 [one row ahead] - (7-i)[to correct for the column position]
-      // this is done because the column counter increments by 7 each time, so in order to account
-      // for the bottom row, the limit must be increased by one row ahead.
-      while(j < 49-(7-i)) {
-        // if the grid contains something
-        if(grid[j]) {
-          // and if there are two adjacent, like discs vertically
-          if(grid[j] === grid[j+7]) { 
-            victoryCount++; // increase the count of adjacent discs
-            if(victoryCount === 3) return true; // 1 means two adjacent discs, so 3 means four adjacent
-          } else victoryCount = 0; // if there is a disc of another color inbetween, reset to 0
-        } else victoryCount = 0; // if there is a gap, reset adjacent disc count to 0
-        j += 7; // jump counter to next row
+              if(victoryCount === 3) {
+                return true;
+              }
+            }
+          }
+        }
       }
+      return false;
+    }
+    
+
+    function checkVerticals() {
+      let victoryCount = 0;
+      const checkLength = 4;
+
+      for(let i = 0; i < colMax; i++) {
+        for(let j = 0; j < (rowMax-(checkLength-1)); j++) {
+          victoryCount = 0;
+          let compCell = grid[i+j*colMax];
+          if(compCell) {
+            for(let k = 0; k < checkLength; k++) {
+              if(grid[i + (j + k)*colMax] === grid[i + (j + k + 1)*colMax] && 
+                grid[i + (j + k)*colMax] === compCell) {
+                victoryCount++;
+
+                if(victoryCount === 3) {
+                  return true;
+                }
+              }
+            }
+          }
+        }
+      }
+      return false;
+    }
+    
+
+
+    function checkBackwardDiagonals() {
+      let victoryCount = 0;
+      const checkLength = 4;
+      const rowOffset = rowMax - checkLength;
+
+      for(let i = colMax*rowOffset; i >= 0; i -= colMax) {
+        for(let k = 0; k < checkLength; k++) {
+          victoryCount = 0;
+          let compCell = grid[i + k];
+          if(compCell) {
+            for(let j = i + k; j < i + checkLength*(colMax-1); j += colMax+1) {
+              if(grid[j] === grid[j + (colMax + 1)] && grid[j + (colMax + 1)] === compCell){
+                  victoryCount++;
+              }
+              
+              if(victoryCount === 3) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+      return false;
     }
 
-    // ---------------- Check Backward Diagonals (\) --------------------
-  victoryCount = 0; // reset adjacent disc count
-  // Check the diagonals that start at row 1 up to row 3. Rows 4-6 are pointless to check because
-  // they don't have four possible spaces for discs anyway.
-  for(let i = 0; i < 15; i += 7) {
-    let j = i; // column position
-    while(j < 42) {
-      // if the grid contains something
-      if(grid[j]) {
-        // and if there are two adjacent, like discs diagonally. (worth noting, it's adding 8 because
-        // getting to the same column on the row would be an increase of 7, so an increase of 8 would get
-        // to the next row but one column over.)
-        if(grid[j] === grid[j+8]) {
-          victoryCount++; // increase the count of adjacent discs
-          if(victoryCount === 3) return true; // 1 means two adjacent discs, so 3 means four adjacent
-        } else victoryCount = 0; // if there is a disc of another color inbetween, reset to 0
-      } else victoryCount = 0; // if there is a gap, reset adjacent disc count to 0
-      j += 8; // jump counter to next row, one column over
+    
+    function checkForwardDiagonals() {
+      let victoryCount = 0;
+      const checkLength = 4;
+      const rowOffset = rowMax - checkLength;
+      const colOffset = colMax - checkLength;
+
+      for(let i = colMax*rowOffset+colOffset; i >= 0; i -= colMax) {
+        for(let k = 0; k < checkLength; k++) {
+          victoryCount = 0;
+          let compCell = grid[i + k];
+          if(compCell) {
+            for(let j = i + k; j < i + checkLength*(colMax-colOffset); j += colMax-1) {
+              if(grid[j] === grid[j + (colMax - 1)] && grid[j + (colMax - 1)] === compCell){
+                  victoryCount++;
+              }
+              
+              if(victoryCount === 3) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+      return false;
     }
-  }
-  // Check the backward diagonals that start at column 1 and go up to column 3. Columns 4-6 are pointless
-  // to check.
-  for(let i = 1; i < 4; i++) {
-    let j = i; // column position
-    // The limit for the loop is structured specifically for column 3, where stopping at 42 would cause
-    // the diagonal check to bleed over into the left hand side of the board after the 4th row.
-    // To account for this, 1 is subtracted from the column position (to correct for zero-indexing), then
-    // the amount is multiplied by 7 (the width of a row), and that number is then subtracted from 42.
-    // It's the same as subtracting n columns worth of rows from the total number of spaces. 
-    while(j < 42-(i-1)*7) {
-      // if the grid contains something
-      if(grid[j]) {
-        if(grid[j] === grid[j+8]) {
-          victoryCount++; // increase the count of adjacent discs
-          if(victoryCount === 3) return true; // 1 means two adjacent discs, so 3 means four adjacent
-        } else victoryCount = 0; // if there is a disc of another color inbetween, reset to 0
-      } else victoryCount = 0; // if there is a gap, reset adjacent disc count to 0
-      j += 8; // jump counter to next row, one column over
-    }
-  }
-  // ---------------- Check Forward Diagonals (/) --------------------
-  victoryCount = 0; // reset adjacent disc count
-  // Check the forward diagonals starting from column 4 up to column 7. Column 1-3 diagonals are pointless
-  // to check because they don't contain at least four spaces.
-  for(let i = 3; i < 7; i++) {
-    let j = i;
-    // this looks very bizarre, but what's happening is that, in order to prevent the diagonal count
-    // from bleeding into the right side of the board, it has to be stopped just prior to that.
-    // This takes the column's position relative to the right side of the board (hence the subtraction
-    // from the column position), multiplies that value by 7, then adds one to make sure the limit is
-    // correct. It then subtracts that value from 42. It's the same as removing n-1 columns worth of
-    // rows from the bottom of the grid.
-    while(j < 42-((6-i)*7+1)) {
-      // if the grid contains something
-      if(grid[j]) {
-        // and if there are two adjacent, like discs diagonally. (it's adding 6 because
-        // getting to the same column on the row would be an increase of 7, so an increase of 6 would get
-        // to the next row but one column behind.)
-        if(grid[j] === grid[j+6]) {
-          victoryCount++; // increase the count of adjacent discs
-          if(victoryCount === 3) return true; // 1 means two adjacent discs, so 3 means four adjacent
-        } else victoryCount = 0; // if there is a disc of another color inbetween, reset to 0
-      } else victoryCount = 0; // if there is a gap, reset adjacent disc count to 0
-      j += 6; // jump counter to next row, one column behind
-    }
-  }
-  // Check the forward diagonals on the first 3 rows, starting from the right side of the board.
-  for(let i = 13; i < 21; i += 7) {
-    let j = i;
-    // it's okay to go all the way down, the numbers will never bleed over.
-    while(j < 42) {
-      // if the grid contains something
-      if(grid[j]) {
-        // and if they're alike diagonally
-        if(grid[j] === grid[j+6]) {
-          victoryCount++; // increase the count of adjacent discs
-          if(victoryCount === 3) return true; // 1 means two adjacent discs, so 3 means four adjacent
-        } else victoryCount = 0; // if there is a disc of another color inbetween, reset to 0
-      } else victoryCount = 0; // if there is a gap, reset adjacent disc count to 0
-      j += 6;
-    }
-  }
-  return false;
+
+    return(checkHorizontals() || checkVerticals() || checkBackwardDiagonals() || checkForwardDiagonals());
 }
 
-// guard to see if it's player one's turn
 const isPlayerOneTurn = (context) => {
   if(context.playerTurn === 0) return true;
   return false;
 }
 
-// guard to see if it's player two's turn
 const isPlayerTwoTurn = (context) => {
   if(context.playerTurn === 1) return true;
   return false;
