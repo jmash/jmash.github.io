@@ -64,7 +64,6 @@ export const Vierbindungen = () => {
      */
     useEffect(() => {
         const subscription = v4Service.subscribe(state => {
-            // console.log(state.context.playerTurn);
         });
 
         return subscription.unsubscribe;
@@ -242,16 +241,13 @@ export const Vierbindungen = () => {
         <div style={{display: "flex", justifyContent: "center", marginTop:"50px"}}>
             <div ref={ gameGridRef } style={{width: "350px", display: "flex", flexWrap: "wrap"}}>
                 { grid.map((cell, i) => {
-                    // the modulus (%) is giving me the remainder of the division by 7.
-                    // since the width of the rows never changes, I can always know the
-                    // x value of the cell I clicked by finding the remainder of the index's
-                    // division by 7 (the length of the row).
                     return <V4Cell 
                                 color={cell} 
                                 onClick={ () => handleCellClick(i % 7, Math.floor(findYPos(i % 7) / 7)) }
                                 onMouseEnter={ () => handleCellHover(i % 7) }
                                 onMouseLeave={ () => handleCellLeave(i % 7) } 
-                                key={i} 
+                                key={i}
+                                i={i}
                             />
                 })}
 
