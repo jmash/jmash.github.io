@@ -1,10 +1,5 @@
 import { Machine } from 'xstate';
 
-/**
- * @desc Checks the victory condition for the game.
- * @param {Object} context 
- * @param {Object} event
- */
 const checkVictory = (_, event) => {
     const grid = event.gameGrid
     const rowMax = 6;
@@ -34,7 +29,6 @@ const checkVictory = (_, event) => {
       }
       return false;
     }
-    
 
     function checkVerticals() {
       let victoryCount = 0;
@@ -61,8 +55,6 @@ const checkVictory = (_, event) => {
       return false;
     }
     
-
-
     function checkBackwardDiagonals() {
       let victoryCount = 0;
       const checkLength = 4;
@@ -88,7 +80,6 @@ const checkVictory = (_, event) => {
       return false;
     }
 
-    
     function checkForwardDiagonals() {
       let victoryCount = 0;
       const checkLength = 4;
@@ -119,13 +110,11 @@ const checkVictory = (_, event) => {
 }
 
 const isPlayerOneTurn = (context) => {
-  if(context.playerTurn === 0) return true;
-  return false;
+  return context.playerTurn === 0;
 }
 
 const isPlayerTwoTurn = (context) => {
-  if(context.playerTurn === 1) return true;
-  return false;
+  return context.playerTurn === 1;
 }
 
 export const V4Machine =
