@@ -27,6 +27,7 @@ export default class ProgramCard extends Component {
         this.setState({
             pcDisplayHeight: this.pcRef.current.offsetHeight,
         });
+        console.log(this.preRef);
     }
 
     render() {
@@ -49,7 +50,7 @@ export default class ProgramCard extends Component {
                     <Card.Subtitle className={'pl-3'}>{this.props.programSubtitle}</Card.Subtitle>
                     {this.props.program}
                 </Card>
-                <ShowCodeCard programTitle={this.props.programTitle} onClick={this.props.clickBack} ref={ this.scRef } displayHeight={this.state.pcDisplayHeight} />
+                <ShowCodeCard refs={{'scRef': this.scRef, 'preRef': this.preRef}} programTitle={this.props.programTitle} onClick={this.props.clickBack} ref={ this.scRef } displayHeight={this.state.pcDisplayHeight} />
             </Row>
         );
     }
