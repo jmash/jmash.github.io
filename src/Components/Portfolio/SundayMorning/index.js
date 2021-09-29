@@ -41,6 +41,7 @@ class SundayMorning extends Component {
             this.state.timelineArray[i].restart();
             this.state.timelineArray[i].pause();
             this.state.timelineArray[i].set(backCard, {rotationY:-180, height: 500});
+            this.state.timelineArray[i].set(backCard, {visibility:'visible'});
             this.state.timelineArray[i].to(frontCard, 1, {rotationY:180, height: 500})
             .to(backCard, 1, {rotationY:0}, 0)
             .to(preCode, 1, {height: 500, minHeight:500}, 0)
