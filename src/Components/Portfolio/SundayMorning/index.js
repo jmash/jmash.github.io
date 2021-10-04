@@ -40,12 +40,12 @@ class SundayMorning extends Component {
             let preCode = this.state.refArray[i].current.preRef.current;
             this.state.timelineArray[i].restart();
             this.state.timelineArray[i].pause();
-            this.state.timelineArray[i].set(backCard, {rotationY:-180, height: 500});
-            this.state.timelineArray[i].set(backCard, {visibility:'visible'});
-            this.state.timelineArray[i].to(frontCard, 1, {rotationY:180, height: 500})
-            .to(backCard, 1, {rotationY:0}, 0)
-            .to(preCode, 1, {height: 500, minHeight: 500}, 0)
-            .to(containerCard, 1, {height: 500}, 0)
+            this.state.timelineArray[i].set(backCard, {rotationY:-180, visibility:'visible'});
+            this.state.timelineArray[i].to(frontCard, {duration: 1, rotationY:180, height: 500, minHeight: 500})
+            .to(backCard, {duration: 1, rotationY:0}, 0)
+            .to(preCode, {duration: 1, height: 500, minHeight: 500}, 0)
+            .to(frontCard, {duration: 1, height: 500, minHeight:500}, 0)
+            .to(containerCard, {duration: 1, height: 500, minHeight: 500}, 0)
             .set(frontCard, {visibility:'hidden'});
         }
     }

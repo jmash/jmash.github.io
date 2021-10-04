@@ -27,7 +27,6 @@ export default class ProgramCard extends Component {
         this.setState({
             pcDisplayHeight: this.pcRef.current.offsetHeight,
         });
-        console.log(this.preRef);
     }
 
     render() {

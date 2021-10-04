@@ -26,15 +26,11 @@ const ShowCodeCard = React.forwardRef((props, ref) => {
     }
 
     return (
-        <Card ref={props.refs.scRef} style={{backFaceVisibility:'hidden', maxHeight: props.displayHeight}} className={'w-100 position-absolute'}>
-            
+        <Card ref={props.refs.scRef} style={{backFaceVisibility:'hidden', visibility:'hidden', rotationY:-180, maxHeight: props.displayHeight}} className={'w-100 position-absolute'}>
             <ShowCodeButton icon={'back'} onClick={props.onClick} />
-            <div ref={props.refs.preRef} style={{overflow:'hidden', minHeight: props.displayHeight - 50, background:'red'}}>
-
-                <Highlight language={'javascript'}>
-                    { showRawComp }
-                </Highlight>
-            </div>
+            <Highlight language={'javascript'}>
+                { showRawComp }
+            </Highlight>
         </Card>
     );
 });
