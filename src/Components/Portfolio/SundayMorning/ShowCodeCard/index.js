@@ -1,7 +1,8 @@
 import React from 'react';
 import ShowCodeButton from '../ShowCodeButton';
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Card from 'react-bootstrap/Card';
-import Highlight from 'react-highlight.js';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import FizzBuzzRaw from '!!raw-loader!../Programs/FizzBuzz/index.js';
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -28,9 +29,9 @@ const ShowCodeCard = React.forwardRef((props, ref) => {
     return (
         <Card ref={props.refs.scRef} style={{backFaceVisibility:'hidden', visibility:'hidden', rotationY:-180, maxHeight: props.displayHeight}} className={'w-100 position-absolute'}>
             <ShowCodeButton icon={'back'} onClick={props.onClick} />
-            <Highlight language={'javascript'}>
+            <SyntaxHighlighter showLineNumbers={true} language={'javascript'} style={dark}>
                 { showRawComp }
-            </Highlight>
+            </SyntaxHighlighter>
         </Card>
     );
 });

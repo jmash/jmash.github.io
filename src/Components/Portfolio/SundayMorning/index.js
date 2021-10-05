@@ -37,7 +37,8 @@ class SundayMorning extends Component {
             let frontCard = this.state.refArray[i].current.pcRef.current;
             let backCard = this.state.refArray[i].current.scRef.current;
             let containerCard = this.state.refArray[i].current.containerRef.current;
-            let preCode = this.state.refArray[i].current.preRef.current;
+            let preCode = backCard;
+            console.log(preCode);
             this.state.timelineArray[i].restart();
             this.state.timelineArray[i].pause();
             this.state.timelineArray[i].set(backCard, {rotationY:-180, visibility:'visible'});
