@@ -16,7 +16,6 @@ const V4Cell = (props) => {
              onClick={props.onClick} 
              className={cx(v4Styles['cell'], "mx-0", "px-0")}
             >
-            <span style={{position:'absolute'}}>{props.i}</span>
             <svg width="48" height="48" xmlns="http://www.w3.org/2000/svg" version="1.1">
                 <defs>
                     <mask id="hollow">
