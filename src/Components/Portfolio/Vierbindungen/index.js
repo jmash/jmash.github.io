@@ -247,7 +247,6 @@ export const Vierbindungen = () => {
                                 onMouseEnter={ () => handleCellHover(i % 7) }
                                 onMouseLeave={ () => handleCellLeave(i % 7) } 
                                 key={i}
-                                i={i}
                             />
                 })}
 
@@ -264,7 +263,6 @@ export const Vierbindungen = () => {
                         Player 2
                     </div>
                 </div>
-                
             </div>
         </div>
     );
