@@ -44,10 +44,10 @@ class SundayMorning extends Component {
             this.state.timelineArray[i].set(backCard, {rotationY:-180, visibility:'visible'});
             this.state.timelineArray[i].to(frontCard, {duration: 1, rotationY:180, height: 500, minHeight: 500})
             .to(backCard, {duration: 1, rotationY:0}, 0)
-            .to(preCode, {duration: 1, height: 500, minHeight: 500}, 0)
+            .to(preCode, {duration: 0.5, height: 500, minHeight: 500}, 0)
             .to(frontCard, {duration: 1, height: 500, minHeight:500}, 0)
             .to(containerCard, {duration: 1, height: 500, minHeight: 500}, 0)
-            .set(frontCard, {visibility:'hidden'});
+            .set(frontCard, {visibility:'hidden'}, 0.5);
         }
     }
 
