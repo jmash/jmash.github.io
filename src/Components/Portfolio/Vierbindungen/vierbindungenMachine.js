@@ -1,4 +1,29 @@
-import { Machine } from 'xstate';
+import { Machine, assign } from 'xstate';
+
+const switchToPlayerOne = assign({
+  playerTurn: (context) => context.playerTurn = 0,
+});
+
+const switchToPlayerTwo = assign({
+  playerTurn: (context) => context.playerTurn = 1,
+});
+
+const switchToPlayerOneDiscColor = assign({
+  ghostDiscColor: (context) => context.ghostDiscColor = "blue"
+});
+
+const switchToPlayerTwoDiscColor = assign({
+  ghostDiscColor: (context) => context.ghostDiscColor = "red"
+});
+
+const resetPlayers = assign({
+  playerTurn: (context) => context.playerTurn = 0,
+  ghostDiscColor: (context) => context.ghostDiscColor = "red"
+});
+
+const logIt = (context) => {
+  console.log(context);
+}
 
 const checkVictory = (_, event) => {
     const grid = event.gameGrid
@@ -105,7 +130,7 @@ const checkVictory = (_, event) => {
       }
       return false;
     }
-
+    console.log(checkHorizontals() || checkVerticals() || checkBackwardDiagonals() || checkForwardDiagonals());
     return(checkHorizontals() || checkVerticals() || checkBackwardDiagonals() || checkForwardDiagonals());
 }
 
@@ -149,7 +174,7 @@ export const V4Machine =
             },
             {
               target: 'playerTwoTurn',
-              actions: 'switchPlayers'
+              actions: ['switchToPlayerTwo', 'switchToPlayerTwoDiscColor'] 
             }
           ],
         }
@@ -169,7 +194,7 @@ export const V4Machine =
             },
             {
               target: 'playerOneTurn',
-              actions: 'switchPlayers'
+              actions: ['switchToPlayerOne', 'switchToPlayerOneDiscColor'] 
             }
           ]
         }
@@ -197,10 +222,12 @@ export const V4Machine =
           FINISH: [
             {
               target: 'playerOneTurn',
+              actions: ['switchToPlayerOne', 'switchToPlayerOneDiscColor'],
               cond: isPlayerOneTurn
             },
             {
               target: 'playerTwoTurn',
+              actions: ['switchToPlayerTwo', 'switchToPlayerTwoDiscColor'], 
               cond: isPlayerTwoTurn
             }
           ]
@@ -209,21 +236,12 @@ export const V4Machine =
     },
   }, 
   {
-  actions: 
-    {
-      switchPlayers: (context) => {
-        if(context.playerTurn === 0) {
-          context.playerTurn = 1;
-          context.ghostDiscColor = "blue";
-        }
-        else {
-          context.playerTurn = 0;
-          context.ghostDiscColor = "red";
-        }
-      },
-      resetPlayers: (context) => {
-        context.playerTurn = 0;
-        context.ghostDiscColor = "red";
-      }
+  actions: {
+      switchToPlayerOne, 
+      switchToPlayerTwo,
+      switchToPlayerOneDiscColor,
+      switchToPlayerTwoDiscColor,
+      resetPlayers,
+      logIt
     }
   });

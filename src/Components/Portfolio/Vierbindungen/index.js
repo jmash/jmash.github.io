@@ -6,7 +6,7 @@ import { useMachine } from '@xstate/react';
 import V4Cell from './V4Cell';
 import V4Disc from './V4Disc';
 import gsap from 'gsap';
-import { V4Machine } from './vierbindungenMachine.js';
+import { V4Machine } from './vierbindungenMachine_test.js';
 
 
 export const Vierbindungen = () => {
@@ -64,6 +64,7 @@ export const Vierbindungen = () => {
      */
     useEffect(() => {
         const subscription = v4Service.subscribe(state => {
+            console.log(state);
         });
 
         return subscription.unsubscribe;
