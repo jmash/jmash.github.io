@@ -26,71 +26,60 @@ export const Vierbindungen = () => {
      * @return void
      */
     function handleStartClick() {
-        switch(v4Current.value) {
+        let currentVal;
+
+        if(typeof v4Current.value == 'string') {
+            currentVal = v4Current.value;
+        } else {
+            currentVal = Object.keys(v4Current.value)[0];
+        }
+
+        switch(currentVal) {
             case 'gameOff':
                 v4Send('START');
                 break;
-            case 'playerOneTurn':
-                resetGrid();
-                v4Send('OFF');
-                break;
-            case 'playerTwoTurn':
-                resetGrid();
-                v4Send('OFF');
-                break;
-            case 'playerOneVictory':
-                gsap.timeline()
-                    .to(player1Text.current, {color:"lightgrey", duration: 1.0})
-                    .to(player1WinHalo.current, {scale: 0, opacity: 0}, "-=1");
-                resetGrid();
+            case 'gameOn':
+                console.log("this should reset the grid");
                 v4Send('RESET');
-                break;
-            case 'playerTwoVictory':
-                gsap.timeline()
-                    .to(player2Text.current, {color:"lightgrey", duration: 1.0})
-                    .to(player2WinHalo.current, {scale: 0, opacity: 0}, "-=1");
                 resetGrid();
-                v4Send('RESET');
                 break;
             default:
                 break;
         }
     }
 
-   
-
     /**
      * @desc Hook that logs most recent state (temporary)
      */
     useEffect(() => {
         const subscription = v4Service.subscribe(state => {
-            console.log(state);
+            console.log(state, v4Current);
         });
 
         return subscription.unsubscribe;
-    }, [v4Service]);
+    }, [v4Service, v4Current]);
 
     /**
      * @desc Hook that updates player turn text animations
      */
     useEffect(() => {
-        if(v4Current.matches('playerOneTurn')) {
+        if(v4Current.matches('gameOn.playerOneTurn')) {
             gsap.to(player1Text.current, {y: -10, color:"black"});
             gsap.to(player2Text.current, {y: 0, color:"lightgrey"});
         } else
-        if(v4Current.matches('playerTwoTurn')) {
+        if(v4Current.matches('gameOn.playerTwoTurn')) {
             gsap.to(player1Text.current, {y: 0, color:"lightgrey"});
             gsap.to(player2Text.current, {y: -10, color:"black"});
         } else {
             gsap.to(player1Text.current, {y: 0, color:"lightgrey"});
             gsap.to(player2Text.current, {y: 0, color:"lightgrey"});
         }
-        if(v4Current.matches('playerOneVictory')) {
+        if(v4Current.matches('gameOn.playerOneVictory')) {
             gsap.timeline()
                 .to(player1Text.current, {color:"black", duration: 1.0})
                 .to(player1WinHalo.current, {ease: "bounce.out", scale: 1.2, opacity: .8}, "-=1");
         }
-        if(v4Current.matches('playerTwoVictory')) {
+        if(v4Current.matches('gameOn.playerTwoVictory')) {
             gsap.timeline()
                 .to(player2Text.current, {color:"black", duration: 1.0})
                 .to(player2WinHalo.current, {ease: "bounce.out", scale: 1.2, opacity: .8}, "-=1");
@@ -122,9 +111,9 @@ export const Vierbindungen = () => {
      */
     function handleCellClick(cellXVal, cellYVal) {
         // the game has to actually be in progress for anything to happen.
-        if(v4Current.matches("playerOneTurn") || v4Current.matches("playerTwoTurn")){
+        if(v4Current.matches("gameOn.playerOneTurn") || v4Current.matches("gameOn.playerTwoTurn")){
             // send the signal to start the animation
-            v4Send({type: 'START_ANIM'});
+            v4Send({type: 'PLAYER_ACTION'});
             gsap.to(ghostDiscRef.current, {
                 // set the end position of the drop to 5-(y position) cells from the bottom
                 y: 305 - (5-cellYVal)*50,
@@ -156,16 +145,19 @@ export const Vierbindungen = () => {
      */
     function lockInCell(cellXVal) {
         // check that the game is not off or finished first before letting the click do anything.
+        console.log("in lockInCell");
+        console.log(v4Current);
+
         if(!v4Current.matches('gameOff')  
-        && !v4Current.matches('playerOneVictory') 
-        && !v4Current.matches('playerTwoVictory')) {
+        && !v4Current.matches('gameOn.playerOneVictory') 
+        && !v4Current.matches('gameOn.playerTwoVictory')) {
             // the checked cell is the earliest empty cell that can be found vertically
             let checkedCell = findYPos(cellXVal);
             // prep the new grid to replace the previous one
             const newGrid = grid.map((cell, index) => {
                 if (index === checkedCell) {
-                    if(v4Current.matches('playerOneTurn')) return "red";
-                    else if(v4Current.matches('playerTwoTurn')) return "blue";
+                    if(v4Current.matches('gameOn.playerOneTurn')) return "red";
+                    else if(v4Current.matches('gameOn.playerTwoTurn')) return "blue";
                 }
                 return cell;
             });
@@ -201,19 +193,18 @@ export const Vierbindungen = () => {
      * @return void
      */
     function handleCellHover(cellXVal) {
-        switch(v4Current.value) {
-            case 'playerOneTurn':
-                ghostDiscRef.current.style.visibility = "visible";
-                break;
-            case 'playerTwoTurn':
-                ghostDiscRef.current.style.visibility = "visible";
-                break;
-            case 'discDropAnim':
-                ghostDiscRef.current.style.visibility = "visible";
-                break;
-            default:
-                ghostDiscRef.current.style.visibility = "hidden";
+        let currentVal;
+        if(typeof v4Current.value == 'string') {
+            currentVal = v4Current.value;
+        } else {
+            currentVal = Object.keys(v4Current.value)[0];
         }
+        if((currentVal === 'gameOn') ||(currentVal === 'dropDiscAnim')) {
+            ghostDiscRef.current.style.visibility = "visible";
+        } else {
+            ghostDiscRef.current.style.visibility = "hidden";
+        }
+            
         
         setHoveredCol(cellXVal);
     }
@@ -232,6 +223,7 @@ export const Vierbindungen = () => {
      * @return void
      */
     function resetGrid() {
+        console.log("resetting grid?");
         // I love that I can just do this. Thanks Linsy! :D <3
         setGrid(defaultGridState);
     }
