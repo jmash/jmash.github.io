@@ -65,6 +65,7 @@ export default class TicTacToe extends Component {
         } else {
             this.tictactoeService.send({type: 'RESET'})
             this.resetAnim();
+            console.log(this.cellRefs);
         }
     }
 
