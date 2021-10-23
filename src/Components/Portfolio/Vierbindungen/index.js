@@ -26,20 +26,13 @@ export const Vierbindungen = () => {
      * @return void
      */
     function handleStartClick() {
-        let currentVal;
+        const gameState = v4Current.toStrings()[0];
 
-        if(typeof v4Current.value == 'string') {
-            currentVal = v4Current.value;
-        } else {
-            currentVal = Object.keys(v4Current.value)[0];
-        }
-
-        switch(currentVal) {
+        switch(gameState) {
             case 'gameOff':
                 v4Send('START');
                 break;
             case 'gameOn':
-                console.log("this should reset the grid");
                 v4Send('RESET');
                 resetGrid();
                 break;
@@ -63,26 +56,32 @@ export const Vierbindungen = () => {
      * @desc Hook that updates player turn text animations
      */
     useEffect(() => {
-        if(v4Current.matches('gameOn.playerOneTurn')) {
+        if(v4Current.matches("gameOn.playerOneTurn")) {
             gsap.to(player1Text.current, {y: -10, color:"black"});
             gsap.to(player2Text.current, {y: 0, color:"lightgrey"});
         } else
-        if(v4Current.matches('gameOn.playerTwoTurn')) {
+        if(v4Current.matches("gameOn.playerTwoTurn")) {
             gsap.to(player1Text.current, {y: 0, color:"lightgrey"});
             gsap.to(player2Text.current, {y: -10, color:"black"});
         } else {
             gsap.to(player1Text.current, {y: 0, color:"lightgrey"});
             gsap.to(player2Text.current, {y: 0, color:"lightgrey"});
         }
-        if(v4Current.matches('gameOn.playerOneVictory')) {
+        if(v4Current.matches("gameOn.playerOneVictory")) {
             gsap.timeline()
                 .to(player1Text.current, {color:"black", duration: 1.0})
                 .to(player1WinHalo.current, {ease: "bounce.out", scale: 1.2, opacity: .8}, "-=1");
         }
-        if(v4Current.matches('gameOn.playerTwoVictory')) {
+        if(v4Current.matches("gameOn.playerTwoVictory")) {
             gsap.timeline()
                 .to(player2Text.current, {color:"black", duration: 1.0})
                 .to(player2WinHalo.current, {ease: "bounce.out", scale: 1.2, opacity: .8}, "-=1");
+        }
+        if(v4Current.matches("gameOff")) {
+            gsap.timeline()
+                .to(player1WinHalo.current, {ease: "bounce.out", scale: 0, opacity: 0});
+            gsap.timeline()
+                .to(player2WinHalo.current, {ease: "bounce.out", scale: 0, opacity: 0});
         }
     }, [v4Current]);
 
@@ -90,7 +89,7 @@ export const Vierbindungen = () => {
      * @desc Hook to track when the hovered column value changes
      */
     useEffect(() => {
-        if(!v4Current.matches('discDropAnim')) {
+        if(!v4Current.matches("dropDiscAnim")) {
             const gameGridLeft = gameGridRef.current.getBoundingClientRect().x + 5;
             const gameGridTop = gameGridRef.current.getBoundingClientRect().y;
             const gameCellWidth = 50;
@@ -145,19 +144,17 @@ export const Vierbindungen = () => {
      */
     function lockInCell(cellXVal) {
         // check that the game is not off or finished first before letting the click do anything.
-        console.log("in lockInCell");
-        console.log(v4Current);
 
-        if(!v4Current.matches('gameOff')  
-        && !v4Current.matches('gameOn.playerOneVictory') 
-        && !v4Current.matches('gameOn.playerTwoVictory')) {
+        if(!v4Current.matches("gameOff")  
+        && !v4Current.matches("gameOn.playerOneVictory") 
+        && !v4Current.matches("gameOn.playerTwoVictory")) {
             // the checked cell is the earliest empty cell that can be found vertically
             let checkedCell = findYPos(cellXVal);
             // prep the new grid to replace the previous one
             const newGrid = grid.map((cell, index) => {
                 if (index === checkedCell) {
-                    if(v4Current.matches('gameOn.playerOneTurn')) return "red";
-                    else if(v4Current.matches('gameOn.playerTwoTurn')) return "blue";
+                    if(v4Current.matches("gameOn.playerOneTurn")) return "red";
+                    else if(v4Current.matches("gameOn.playerTwoTurn")) return "blue";
                 }
                 return cell;
             });
@@ -193,18 +190,11 @@ export const Vierbindungen = () => {
      * @return void
      */
     function handleCellHover(cellXVal) {
-        let currentVal;
-        if(typeof v4Current.value == 'string') {
-            currentVal = v4Current.value;
-        } else {
-            currentVal = Object.keys(v4Current.value)[0];
-        }
-        if((currentVal === 'gameOn') ||(currentVal === 'dropDiscAnim')) {
+        if(v4Current.matches("gameOn") || v4Current.matches("dropDiscAnim")) {
             ghostDiscRef.current.style.visibility = "visible";
         } else {
             ghostDiscRef.current.style.visibility = "hidden";
         }
-            
         
         setHoveredCol(cellXVal);
     }
@@ -223,7 +213,6 @@ export const Vierbindungen = () => {
      * @return void
      */
     function resetGrid() {
-        console.log("resetting grid?");
         // I love that I can just do this. Thanks Linsy! :D <3
         setGrid(defaultGridState);
     }
