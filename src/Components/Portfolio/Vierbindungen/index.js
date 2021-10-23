@@ -6,7 +6,7 @@ import { useMachine } from '@xstate/react';
 import V4Cell from './V4Cell';
 import V4Disc from './V4Disc';
 import gsap from 'gsap';
-import { V4Machine } from './vierbindungenMachine_test.js';
+import { V4Machine } from './vierbindungenMachine.js';
 
 
 export const Vierbindungen = () => {
