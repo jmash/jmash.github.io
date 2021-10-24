@@ -142,7 +142,7 @@ export default class LetterAnalyzer extends Component {
                 <Form.Group>
                     <Form.Control className={cx(letterAnalyzerStyles['no-resize'])} as="textarea" rows={5} onChange={this.handleLAInputChange} />
                         <Form.Text>Limit of 10000 characters - {this.state.laCharCount}/{this.state.laCharMax} characters left</Form.Text>
-                    <Button 
+                    <Button className="my-1"
                         disabled={this.state.laCurrent.matches('error') ||
                                     this.state.laCurrent.matches('start') } 
                         onClick={() => letterAnalyzerSubj.next() }>

@@ -13,7 +13,7 @@ const MainScreen = () => {
         <div>
             <Switch>
                 <Route exact path="/">
-                    <Redirect to="/portfolio" />
+                    <Redirect to="/portfolio/sundaymorning" />
                 </Route>
                 <Route path="/about">
                     <About />

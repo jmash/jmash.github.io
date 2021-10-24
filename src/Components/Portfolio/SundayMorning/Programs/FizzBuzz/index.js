@@ -89,7 +89,7 @@ export default class FizzBuzz extends Component {
                     <Form.Control type="text" placeholder="15" onChange={this.handleFBInputChange}></Form.Control>
                     { this.state.fbCurrent.matches('execAllowed') && <Form.Text>Default 15</Form.Text> }
                     { this.state.fbCurrent.matches('execDisallowed') && <Form.Text className={cx(fizzbuzzStyles['input-error'])}>Input must be a number between 1 and 9999</Form.Text> }
-                    <Button disabled={this.state.fbCurrent.matches('execDisallowed')} onClick={() => fizzbuzzSubj.next() } variant="primary">Activate the Buzz</Button>
+                    <Button className="my-1" disabled={this.state.fbCurrent.matches('execDisallowed')} onClick={() => fizzbuzzSubj.next() } variant="primary">Activate the Buzz</Button>
                     <Form.Control className={cx(fizzbuzzStyles['no-resize'])} readOnly value={this.state.fbDisplay} as="textarea" rows={3} />
                 </Form.Group>
             </Card.Body>   

@@ -3,13 +3,14 @@ import SundayMorning from './SundayMorning';
 import Vierbindungen from './Vierbindungen';
 import PortfolioHeader from './PortfolioHeader';
 import Clock from './Clock';
+import TADHack2021 from './TADHack2021';
 import { 
     BrowserRouter as Router,
     Switch,
     Route,
+    Redirect,
     useRouteMatch
 } from 'react-router-dom';
-import TADHack2021 from './TADHack2021';
 
 const Portfolio = () => {
     let { path } = useRouteMatch();
@@ -17,6 +18,9 @@ const Portfolio = () => {
         <Router>
             <PortfolioHeader />
             <Switch>
+            <Route exact path="/">
+                    <Redirect to={`${path}/sundaymorning`} />
+                </Route>
                 <Route path={`${path}/sundaymorning`}>
                     <SundayMorning />
                 </Route>

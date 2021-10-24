@@ -78,7 +78,7 @@ export default class RandomQuote extends Component {
         return(
             <Card.Body>
                 <Form.Group>
-                    <Button disabled={this.state.rqCurrent.matches('loading')} onClick={() => randomQuoteSubj.next()}>{this.state.rqCurrent.matches('loading') ? 'Loading' : 'Click for Quote'}</Button>
+                    <Button className="my-1" disabled={this.state.rqCurrent.matches('loading')} onClick={() => randomQuoteSubj.next()}>{this.state.rqCurrent.matches('loading') ? 'Loading' : 'Click for Quote'}</Button>
                     <Form.Control className={cx(randomquoteStyles['no-resize'])} readOnly value={this.state.rqDisplayFull} as="textarea" rows={3} />
                 </Form.Group>
             </Card.Body>
