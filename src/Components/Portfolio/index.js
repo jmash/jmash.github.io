@@ -9,6 +9,7 @@ import {
     Route,
     useRouteMatch
 } from 'react-router-dom';
+import TADHack2021 from './TADHack2021';
 
 const Portfolio = () => {
     let { path } = useRouteMatch();
@@ -24,6 +25,9 @@ const Portfolio = () => {
                 </Route>
                 <Route path={`${path}/clock`}>
                     <Clock />
+                </Route>
+                <Route path={`${path}/TADHack2021`}>
+                    <TADHack2021 />
                 </Route>
             </Switch>
         </Router>
