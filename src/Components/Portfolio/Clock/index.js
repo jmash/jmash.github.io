@@ -1,5 +1,7 @@
 import React from 'react';
 import Sketch from 'react-p5';
+import clockStyles from './Clock.module.css';
+import cx from 'classnames';
 
 const Clock = () => {
     const maxWidth = 400;
@@ -79,11 +81,11 @@ const Clock = () => {
     }
 
     const draw = (p5) => {
-        p5.background(220);
+        p5.background(255);
         updateClockFrame(p5);
     }
 
-    return <Sketch className={'text-center mt-3'} setup={setup} draw={draw} />;
+    return <Sketch className={cx(clockStyles['clock'], 'text-center mt-3') } setup={setup} draw={draw} />;
 }
 
 export default Clock;
