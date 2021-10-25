@@ -12,15 +12,19 @@ const Contact = () => {
         <Container className={'mx-sm-auto'}>
             <Jumbotron className={cx('justify-content-center', 'mx-auto','col-xs-12','mt-4')}>
                 <Container>
-                    <h1 className={cx('display-6')}>Jared M Ashcraft</h1>
-                    <h3 className={cx('lead')}>Developer</h3>
+                    <h1 className={'display-6'}>Jared M Ashcraft</h1>
+                    <h3 className={'lead'}>Developer</h3>
                     <hr />
-                    <Row>
-                        <FontAwesomeIcon className={'ml-3 mr-2 fa-2x'} icon= { faEnvelope } />
+                    <Row className={'border-bottom'}>
+                        <div className={'border-bottom border-right ml-3 mr-2 fa-1x justify-content-center'}>
+                            <FontAwesomeIcon className={'mr-2'} icon= { faEnvelope } />
+                        </div>
                         <Obfuscate email="jaredmashcraft@gmail.com" />
                     </Row>
                     <Row>
-                        <FontAwesomeIcon className={'ml-3 mr-2 fa-2x'} icon={ faPhone } />
+                        <div className={'border-right ml-3 mr-2 fa-1x justify-content-center'}>
+                            <FontAwesomeIcon className={'mr-2'} icon={ faPhone } />
+                        </div>
                         <Obfuscate tel="407-632-2207" />
                     </Row>
                 </Container>
