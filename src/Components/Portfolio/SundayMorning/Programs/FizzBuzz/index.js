@@ -85,8 +85,8 @@ export default class FizzBuzz extends Component {
         return (
             <Card.Body>
                 <Form.Group>
-                    <Form.Label>Enter Limit (min 1, max 9999)</Form.Label>
-                    <Form.Control type="text" placeholder="15" onChange={this.handleFBInputChange}></Form.Control>
+                    <Form.Label aria-label="Enter FizzBuzz Limit (minimum 1, maximum 9999)" htmlFor="fizzbuzz">Enter Limit (min 1, max 9999)</Form.Label>
+                    <Form.Control aria-label="Enter FizzBuzz Limit (minimum 1, maximum 9999)" name="fizzbuzz" type="text" placeholder="15" onChange={this.handleFBInputChange}></Form.Control>
                     { this.state.fbCurrent.matches('execAllowed') && <Form.Text>Default 15</Form.Text> }
                     { this.state.fbCurrent.matches('execDisallowed') && <Form.Text className={cx(fizzbuzzStyles['input-error'])}>Input must be a number between 1 and 9999</Form.Text> }
                     <Button className="my-1" disabled={this.state.fbCurrent.matches('execDisallowed')} onClick={() => fizzbuzzSubj.next() } variant="primary">Activate the Buzz</Button>
