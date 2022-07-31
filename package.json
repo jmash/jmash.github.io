@@ -29,6 +29,7 @@
     "react-scripts": "^4.0.3",
     "react-syntax-highlighter": "^15.4.4",
     "rxjs": "^6.5.4",
+    "websocket": "^1.0.34",
     "xstate": "^4.8.0"
   },
   "scripts": {
