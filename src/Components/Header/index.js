@@ -17,7 +17,7 @@ const Header = () => {
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className={cx('ml-auto')}>
+                <Nav className={cx('mr-auto ml-2')}>
                     <Nav.Link className={cx('text-center')}>
                         <LinkContainer to="/about">
                             <span>About</span>
@@ -34,7 +34,7 @@ const Header = () => {
                         </LinkContainer>  
                     </Nav.Link>
                 </Nav>
-                <Nav className={cx('mr-auto', 'px-md-4', 'flex-row', 'justify-content-center')}>
+                <Nav className={cx('ml-auto', 'px-md-4', 'flex-row', 'justify-content-center')}>
                     <Nav.Link title="Link to Jared Ashcraft's Twitter Feed" href="https://twitter.com/jaredmashcraft">
                             <FontAwesomeIcon className={ cx('mx-2', faStyles['fa-2x']) } icon={ faTwitter } />
                     </Nav.Link>
