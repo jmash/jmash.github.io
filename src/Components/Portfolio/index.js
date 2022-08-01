@@ -3,7 +3,6 @@ import SundayMorning from './SundayMorning';
 import Vierbindungen from './Vierbindungen';
 import PortfolioHeader from './PortfolioHeader';
 import Clock from './Clock';
-import TADHack2021 from './TADHack2021';
 import { 
     BrowserRouter as Router,
     Switch,
@@ -18,7 +17,7 @@ const Portfolio = () => {
         <Router>
             <PortfolioHeader />
             <Switch>
-            <Route exact path="/">
+                <Route exact path="/">
                     <Redirect to={`${path}/sundaymorning`} />
                 </Route>
                 <Route path={`${path}/sundaymorning`}>
@@ -29,9 +28,6 @@ const Portfolio = () => {
                 </Route>
                 <Route path={`${path}/clock`}>
                     <Clock />
-                </Route>
-                <Route path={`${path}/TADHack2021`}>
-                    <TADHack2021 />
                 </Route>
             </Switch>
         </Router>

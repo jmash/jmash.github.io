@@ -22,11 +22,6 @@ const PortfolioHeader = () => {
                     <div className={cx(portfolioHeaderStyles['portfolioNavButton'])}>Clock</div>
                 </div>
             </LinkContainer>
-            <LinkContainer activeClassName={cx(portfolioHeaderStyles['activePortfolioNavItem'])} className={cx('px-2')} to="/portfolio/tadhack2021">
-                <div className={cx(portfolioHeaderStyles['portfolioHeaderNavItem'])}>
-                    <div className={cx(portfolioHeaderStyles['portfolioNavButton'])}>TADHack2021</div>
-                </div>
-            </LinkContainer>
         </Navbar>
     );
 };
